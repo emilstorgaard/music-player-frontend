@@ -1,14 +1,21 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
     import SongList from '$lib/components/SongList.svelte';
 
-    // Sample songs data - an array of song names
-    const songs = [
-        'Sweater Weather.mp3',
-        'BIRDS OF A FEATHER.mp3',
-        'Die With a Smile.mp3',
-        'Espresso.mp3',
-        'Mockingbird.mp3',
-    ];
+    let songs: string[] = []; // Reactive variable to store songs
+
+    // Fetch songs from the API
+    onMount(async () => {
+        try {
+            const response = await fetch('https://music.emilstorgaard.dk/api/Songs/shuffle'); // Replace with your API endpoint
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            songs = await response.json(); // Assuming the response is an array of song names
+        } catch (error) {
+            console.error('Error fetching songs:', error);
+        }
+    });
 </script>
 
 <main class="p-4 max-w-screen-md mx-auto">
