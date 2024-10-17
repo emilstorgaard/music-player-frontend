@@ -1,5 +1,5 @@
 <script>
-	import { enhance } from "$app/forms"
+	import { enhance } from "$app/forms";
 
 	export let title = 'title';
 
@@ -11,27 +11,27 @@
 </script>
 
 <header class="mb-10">
-	<nav class="flex justify-between items-center py-2 px-6 bg-white text-gray-800 shadow-md">
+	<nav class="flex justify-between items-center py-4 px-6 bg-gray-900 text-white shadow-md">
 		<a href="/" class="flex items-center space-x-3">
 			<img src="/favicon.png" alt="logo" class="h-8 w-auto" />
-			<span class="text-lg font-semibold">{title}</span>
+			<span class="text-xl font-bold">{title}</span>
 		</a>
 
 		<div class="hidden lg:flex items-center space-x-6">
-			<a href="/" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">About</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">Profile</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">Admin</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">Signup</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">Log in</a>
+			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">About</a>
+			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Profile</a>
+			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Admin</a>
+			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Signup</a>
+			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Log in</a>
 			<form action="/" method="POST" use:enhance>
-				<button type="submit" class="py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-200">Log ud</button>
+				<button type="submit" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Log ud</button>
 			</form>
 		</div>
 		<button
 			on:click={toggleMenu}
 			data-collapse-toggle="mobile-menu-2"
 			type="button"
-			class="inline-flex items-center p-2 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+			class="inline-flex items-center p-2 text-gray-300 rounded-lg lg:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
 			aria-controls="mobile-menu-2"
 			aria-expanded={isMenuOpen}
 		>
@@ -51,12 +51,12 @@
 
 	<div class="{isMenuOpen ? '' : 'hidden'} lg:hidden" role="dialog" aria-modal="true">
 		<div class="fixed inset-0 z-10 bg-black bg-opacity-50" on:click={toggleMenu}></div>
-		<div class="fixed inset-y-0 right-0 z-20 w-full max-w-xs overflow-y-auto bg-white shadow-lg px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+		<div class="fixed inset-y-0 right-0 z-20 w-full max-w-xs overflow-y-auto bg-gray-800 shadow-lg px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
 			<div class="flex items-center justify-between">
 				<a href="/" class="-m-1.5 p-1.5">
 					<img class="h-8 w-auto" src="/favicon.png" alt="" />
 				</a>
-				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-gray-300">
 					<svg
 						class="w-6 h-6"
 						fill="currentColor"
@@ -75,28 +75,28 @@
 			<div class="mt-6 flow-root">
 				<div class="-my-6 divide-y divide-gray-500/10">
 					<div class="space-y-4 py-6">
-							<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition duration-200">
-								About
-							</a>
-	
-							<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition duration-200">
-								Profile
-							</a>
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
+							About
+						</a>
 
-							<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition duration-200">
-								Admin
-							</a>
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
+							Profile
+						</a>
+
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
+							Admin
+						</a>
 					</div>
 
 					<div class="space-y-4 py-6">
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-200">
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
 							Signup
 						</a>
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-green-500 rounded hover:bg-green-600 transition duration-200">
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-green-600 rounded hover:bg-green-700 transition duration-200">
 							Log in
 						</a>
 						<form action="/" method="POST" use:enhance>
-							<button type="submit" class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-500 rounded hover:bg-red-600 transition duration-200">
+							<button type="submit" class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
 								Log ud
 							</button>
 						</form>
