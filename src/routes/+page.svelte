@@ -19,6 +19,5 @@
 </script>
 
 <main class="p-4 max-w-screen-md mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Songs</h1>
     <SongList {songs} />
 </main>
