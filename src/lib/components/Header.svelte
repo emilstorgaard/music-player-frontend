@@ -13,7 +13,7 @@
 <header class="mb-10">
 	<nav class="flex justify-between items-center py-4 px-6 bg-gray-900 text-white shadow-md">
 		<a href="/" class="flex items-center space-x-3">
-			<img src="/favicon.png" alt="logo" class="h-8 w-auto" />
+			<img src="/favicon.ico" alt="logo" class="h-8 w-auto" />
 			<span class="text-xl font-bold">{title}</span>
 		</a>
 
@@ -54,7 +54,7 @@
 		<div class="fixed inset-y-0 right-0 z-20 w-full max-w-xs overflow-y-auto bg-gray-800 shadow-lg px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
 			<div class="flex items-center justify-between">
 				<a href="/" class="-m-1.5 p-1.5">
-					<img class="h-8 w-auto" src="/favicon.png" alt="" />
+					<img class="h-8 w-auto" src="/favicon.ico" alt="" />
 				</a>
 				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-gray-300">
 					<svg
