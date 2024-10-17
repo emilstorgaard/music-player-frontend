@@ -7,6 +7,7 @@
     let isPaused: boolean = false; // Flag to check if playback is paused
     let currentTime: number = 0; // Current time of the song
     let duration: number = 0; // Duration of the song
+    let currentSongName: string | null = null; // Name of the currently playing song
 
     const playSong = async (song: string) => {
         if (audio) {
@@ -31,6 +32,7 @@
             audio.onended = playNextSong; // Automatically play the next song
             await audio.play();
             isPaused = false; // Reset pause flag
+            currentSongName = song; // Set the current song name
         } catch (error) {
             console.error('Error fetching song:', error);
         }
@@ -45,6 +47,7 @@
         isPaused = false;
         currentTime = 0;
         duration = 0;
+        currentSongName = null; // Clear the current song name
     };
 
     const playNextSong = () => {
@@ -151,11 +154,12 @@
             class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
     </div>
 
-    <!-- Time Counter -->
-    <div class="mb-4">
+    <!-- Time Counter and Current Song Name -->
+    <div class="mb-4 flex justify-between items-center">
         <span class="text-sm text-gray-400">
             {formatTime(currentTime)} / {formatTime(duration)}
         </span>
+        <span class="text-sm text-gray-400">{currentSongName || "No song playing"}</span> <!-- Display current song name -->
     </div>
 
     <!-- Volume Control -->
