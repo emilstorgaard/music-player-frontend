@@ -126,7 +126,7 @@
     };
 </script>
 
-<div class="bg-gray-900 text-white rounded-lg p-6 shadow-lg max-w-screen-md">
+<div class="bg-gray-900 text-white rounded-lg p-6 shadow-lg max-w-auto">
     <!-- Control Panel -->
     <div class="flex justify-center items-center space-x-4 mb-6">
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={shuffleSongs} title="Shuffle">

@@ -18,6 +18,6 @@
     });
 </script>
 
-<main class="max-w-screen-md mx-auto">
+<main class="max-w-screen-sm mx-auto p-4 sm:p-6">
     <SongList {songs} />
 </main>
