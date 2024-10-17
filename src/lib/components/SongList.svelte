@@ -130,16 +130,16 @@
     <!-- Control Panel -->
     <div class="flex justify-center items-center space-x-4 mb-6">
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={shuffleSongs} title="Shuffle">
-            🔀
+            <img src="/shuffle.png" alt="Shuffle" class="h-4 w-4" /> <!-- Smaller size -->
         </button>
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={playPreviousSong} title="Previous" disabled={currentSongIndex === null || currentSongIndex === 0}>
-            ⏮️
+            <img src="/previous.png" alt="Previous" class="h-4 w-4" /> <!-- Smaller size -->
         </button>
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={togglePauseContinue} title={isPaused ? 'Continue' : 'Pause'} disabled={audio === null}>
-            {isPaused ? '▶️' : '⏸️'}
+            <img src={isPaused ? '/play.png' : '/pause.png'} alt={isPaused ? 'Play' : 'Pause'} class="h-4 w-4" /> <!-- Smaller size -->
         </button>
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={playNextSong} title="Next" disabled={currentSongIndex === null || currentSongIndex >= songs.length - 1}>
-            ⏭️
+            <img src="/next.png" alt="Next" class="h-4 w-4" /> <!-- Smaller size -->
         </button>
     </div>
 
@@ -181,21 +181,25 @@
     <!-- Song List -->
     <ul>
         {#each songs as song, index}
-            <li class="flex justify-between items-center py-2 border-b border-gray-600">
-                <span class="font-semibold">{song}</span>
-                <button 
-                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400 flex items-center"
-                    on:click={() => {
-                        if (currentSongIndex === index && audio) {
-                            stopSong();
-                        } else {
-                            currentSongIndex = index;
-                            playSong(song);
-                        }
-                    }}>
-                    {currentSongIndex === index && audio && !audio.paused ? '⏹️' : '▶️'}
-                </button>
-            </li>
+        <li class="flex justify-between items-center py-2 border-b border-gray-600">
+            <span class="font-semibold">{song}</span>
+            <button 
+                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400 flex items-center"
+                on:click={() => {
+                    if (currentSongIndex === index && audio) {
+                        stopSong();
+                    } else {
+                        currentSongIndex = index;
+                        playSong(song);
+                    }
+                }}>
+                <img 
+                    src={currentSongIndex === index && audio && !audio.paused ? '/pause.png' : '/play.png'} 
+                    alt={currentSongIndex === index && audio && !audio.paused ? 'Pause' : 'Play'} 
+                    class="h-4 w-4"
+                />
+            </button>
+        </li>
         {/each}
     </ul>
 </div>
