@@ -1,5 +1,17 @@
 <script lang="ts">
+    import SongUploadModal from '$lib/components/SongUploadModal.svelte';
+
     export let songs: string[] = [];
+
+    let showModal = false;
+  
+    function openModal() {
+      showModal = true;
+    }
+  
+    function closeModal() {
+      showModal = false;
+    }
 
     let audio: HTMLAudioElement | null = null;
     let currentSongIndex: number | null = null;
@@ -128,6 +140,10 @@
 
 <div class="bg-gray-900 text-white rounded-lg p-6 shadow-lg max-w-auto">
     <!-- Control Panel -->
+    <!-- Upload Song Button -->
+    <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={openModal} title="UploadSong">
+        <img src="/uploadSong.png" alt="UploadSong" class="h-4 w-4" /> <!-- Smaller size -->
+    </button>
     <div class="flex justify-center items-center space-x-4 mb-6">
         <button class="bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={shuffleSongs} title="Shuffle">
             <img src="/shuffle.png" alt="Shuffle" class="h-4 w-4" /> <!-- Smaller size -->
@@ -202,6 +218,12 @@
         </li>
         {/each}
     </ul>
+
+    
+        {#if showModal}
+            <SongUploadModal on:close={closeModal} />
+        {/if}
+      
 </div>
 
 <style>
