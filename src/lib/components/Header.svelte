@@ -18,6 +18,7 @@
 		</a>
 
 		<div class="hidden lg:flex items-center space-x-6">
+			<a href="/Playlists" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Playlists</a>
 			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Profile</a>
 			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Admin</a>
 			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Signup</a>
@@ -74,6 +75,11 @@
 			<div class="mt-6 flow-root">
 				<div class="-my-6 divide-y divide-gray-500/10">
 					<div class="space-y-4 py-6">
+						<a href="/Playlists" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
+							Playlists
+						</a>
+
+
 						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
 							Profile
 						</a>

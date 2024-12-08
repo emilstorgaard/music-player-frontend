@@ -1,3 +1,5 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // TODO: est for dev only ignore self signed certificate
+
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
