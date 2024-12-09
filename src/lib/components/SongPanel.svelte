@@ -22,13 +22,17 @@
             </button>
         </div>
 
-        <div class="flex items-center justify-between w-full">
-            <span class="text-sm text-gray-400 p-4 mr-auto">{$currentSongName || "No song playing"}</span> <!-- this is now aligned to the right -->
+        <div class="flex flex-col sm:flex-row items-center justify-between w-full">
+            <span class="text-sm text-gray-400 p-4 sm:mr-auto">
+                {$currentSongName || "No song playing"}
+            </span>
         
-            <div class="flex w-1/2">
-                <span class="text-sm text-gray-400 p-4">{formatTime($currentTime)}</span> <!-- positioned before the input range -->
+            <div class="flex sm:flex-row w-3/4 items-center">
+                <span class="text-sm text-gray-400 p-4">
+                    {formatTime($currentTime)}
+                </span>
         
-                <div class="p-4 flex-grow">
+                <div class="p-4 flex-grow w-full">
                     <input 
                         type="range" 
                         min="0" 
@@ -37,13 +41,17 @@
                         on:input={(e) => seekSong(e.target.value)}
                         class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
                 </div>
-            
-                <span class="text-sm text-gray-400 p-4">{formatTime($duration)}</span> <!-- positioned after the input range -->
+        
+                <span class="text-sm text-gray-400 p-4">
+                    {formatTime($duration)}
+                </span>
             </div>
-
-            <div class="p-4 ml-auto">
-                <div class="mb-6">
-                    <label for="volume" class="block text-sm font-medium text-gray-400 mb-2">Volume: {($volume * 100).toFixed(0)}%</label>
+        
+            <div class="flex sm:flex-row w-3/4 items-center">
+                    <span class="text-sm text-gray-400 p-4">
+                        Volume: {($volume * 100).toFixed(0)}%
+                    </span>
+            
                     <input 
                         id="volume" 
                         type="range" 
@@ -53,7 +61,7 @@
                         value={$volume}
                         on:input={(e) => adjustVolume(parseFloat(e.target.value))}
                         class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
-                    </div>
+
                 </div>
         </div>
 </div>
