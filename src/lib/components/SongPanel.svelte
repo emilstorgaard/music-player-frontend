@@ -2,7 +2,7 @@
     import { currentSongIndex, toggleShuffle, isShuffleEnabled, shuffleSongs, playPreviousSong, togglePauseContinue, isPaused, playNextSong, playlistSongs, currentSongName, formatTime, currentTime, duration, seekSong, volume, adjustVolume, playSong} from '$lib/utils/audioStore';
 </script>
 
-<div class="bg-gray-900 text-white rounded-lg pt-6 flex flex-col items-center mb-16 w-full">
+<div class="bg-gray-900 text-white rounded-lg pt-6 flex flex-col items-center fixed bottom-16 w-full">
         <!-- Control Panel -->
         <div class="flex justify-center items-center space-x-4">
             <button class="{$isShuffleEnabled ? 'border-4' : ''} bg-green-500 p-3 rounded-full hover:bg-green-400" on:click={toggleShuffle} title="Shuffle">

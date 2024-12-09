@@ -10,7 +10,7 @@
 </svelte:head>
 
 <Header title="Music Player" />
-<main class="mb-24">
+<main class="mb-64">
 	<slot />
 </main>
 
