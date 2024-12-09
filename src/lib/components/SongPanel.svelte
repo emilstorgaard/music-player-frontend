@@ -22,17 +22,17 @@
             </button>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center justify-between w-full">
-            <span class="text-sm text-gray-400 p-4 sm:mr-auto">
+        <div class="flex flex-col sm:flex-row items-center justify-between w-full p-4">
+            <span class="text-sm text-gray-400 sm:mr-auto">
                 {$currentSongName || "No song playing"}
             </span>
         
-            <div class="flex sm:flex-row w-3/4 items-center">
-                <span class="text-sm text-gray-400 p-4">
+            <div class="flex sm:flex-row md:w-1/2 items-center">
+                <span class="text-sm text-gray-400 pr-1">
                     {formatTime($currentTime)}
                 </span>
         
-                <div class="p-4 flex-grow w-full">
+                <div class="flex-grow w-full">
                     <input 
                         type="range" 
                         min="0" 
@@ -42,16 +42,17 @@
                         class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
                 </div>
         
-                <span class="text-sm text-gray-400 p-4">
+                <span class="text-sm text-gray-400 pl-1">
                     {formatTime($duration)}
                 </span>
             </div>
+
+            <div class="flex sm:flex-row items-center sm:ml-auto">
+                <span class="text-sm text-gray-400">
+                    Volume {($volume * 100).toFixed(0)}%
+                </span>
         
-            <div class="flex sm:flex-row w-3/4 items-center">
-                    <span class="text-sm text-gray-400 p-4">
-                        Volume: {($volume * 100).toFixed(0)}%
-                    </span>
-            
+                <div class="pl-1 flex-grow">
                     <input 
                         id="volume" 
                         type="range" 
@@ -61,9 +62,10 @@
                         value={$volume}
                         on:input={(e) => adjustVolume(parseFloat(e.target.value))}
                         class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
-
                 </div>
-        </div>
+            </div>
+        
+        </div> 
 </div>
 
 <style>
