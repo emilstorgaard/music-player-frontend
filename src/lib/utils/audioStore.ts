@@ -1,11 +1,5 @@
 import { writable, get } from 'svelte/store';
-
-interface Song {
-    id: number;
-    title: string;
-    artist: string;
-    filePath: string;
-}
+import type { Song } from './types';
 
 // State stores
 export const playlistSongs = writable<Song[]>([]);

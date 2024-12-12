@@ -1,16 +1,11 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import PlaylistCreateModal from '$lib/components/PlaylistCreateModal.svelte';
+    import type { Playlist } from '$lib/utils/types';
 
     let playlists: Playlist[] = [];
     let error: string | null = null;
     let loading = true;
-
-    interface Playlist {
-        id: number;
-        name: string;
-        createdAtUtc: string;
-    }
 
     onMount(async () => {
         await loadPlaylists();

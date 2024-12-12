@@ -2,12 +2,20 @@
     export let songs: Song[] = [];
 
     import { playSong, stopSong, audio, currentSongIndex } from '$lib/utils/audioStore';
+    import EditSongModal from './EditSongModal.svelte';
+    import type { Song } from '$lib/utils/types';
 
-    interface Song {
-        id: number;
-        title: string;
-        artist: string;
-        filePath: string;
+    let selectedSongId: number | null = null;
+
+    let showEditSongModal = false;
+
+    function openEditSongModal() {
+        showEditSongModal = true
+    }
+
+    function closeEditSongModal() {
+        selectedSongId = null
+        showEditSongModal = false;
     }
     
     const deleteSong = async (songId: number) => {
@@ -27,61 +35,58 @@
     <ul>
         {#each songs as song, index}
         <li class="flex justify-between items-center py-2 border-b border-gray-600">
-            <span class="font-semibold">{song.title} - {song.artist}</span>
-            <button 
-                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400 flex items-center"
-                on:click={() => {
-                    if ($currentSongIndex === index && audio) {
-                        stopSong();
-                    } else {
-                        $currentSongIndex = index;
-                        playSong(song);
-                    }
-                }}>
-                <img 
-                    src={$currentSongIndex === index && audio && !audio.paused ? '/pause.png' : '/play.png'} 
-                    alt={$currentSongIndex === index && audio && !audio.paused ? 'Pause' : 'Play'} 
-                    class="h-4 w-4"
-                />
-            </button>
-            <button 
-                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400"
-                on:click={() => deleteSong(song.id)}>
-                Delete
-            </button>
+
+            <div class="flex items-center space-x-4">
+                <button 
+                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400 flex items-center"
+                    on:click={() => {
+                        if ($currentSongIndex === index && audio) {
+                            stopSong();
+                        } else {
+                            $currentSongIndex = index;
+                            playSong(song);
+                        }
+                    }}>
+                    <img 
+                        src={$currentSongIndex === index && audio && !audio.paused ? '/pause.png' : '/play.png'} 
+                        alt={$currentSongIndex === index && audio && !audio.paused ? 'Pause' : 'Play'} 
+                        class="h-4 w-4"
+                    />
+                </button>
+                <span class="font-semibold">{song.title} - {song.artist}</span>
+            </div>
+
+            <div  class="relative">
+                <button on:click={() => selectedSongId = selectedSongId === song.id ? null : song.id} class="bg-green-500 p-3 rounded-full hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-600 transition duration-150">
+                    <img src="/menu.png" alt="Settings" class="h-5 w-5" />
+                </button>
+    
+                <div class="relative z-50">
+                    {#if selectedSongId === song.id}
+                      <div class="absolute left-0 w-48 shadow-xl rounded-lg p-3">
+                        <div class="bg-gray-700 text-white rounded-lg p-6 shadow-lg w-full max-w-xs">
+                          <button 
+                            on:click={() => openEditSongModal()}
+                            class="w-full text-left text-gray-200 hover:bg-gray-600 p-3 rounded-lg transition duration-200" 
+                            title="Edit Songs">
+                            Edit Song
+                          </button>
+                          <button
+                            on:click={() => deleteSong(song.id)}
+                            class="w-full text-left text-gray-200 hover:bg-red-600 p-3 rounded-lg transition duration-200" 
+                            title="Delete Playlist" >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    {/if}
+                  </div>
+            </div>
         </li>
         {/each}
     </ul>
 
+    {#if showEditSongModal}
+        <EditSongModal on:close={closeEditSongModal} song={songs.find(s => s.id === selectedSongId)} />
+    {/if}
 </div>
-
-<style>
-    /* For Chrome, Safari, and Edge */
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px; /* Adjust the width of the thumb */
-        height: 16px; /* Adjust the height of the thumb */
-        background: #22c55e; /* Green color */
-        border-radius: 50%; /* Make it round */
-        cursor: pointer; /* Show pointer on hover */
-    }
-
-    /* For Firefox */
-    input[type="range"]::-moz-range-thumb {
-        width: 16px; /* Adjust the width of the thumb */
-        height: 16px; /* Adjust the height of the thumb */
-        background: #22c55e; /* Green color */
-        border-radius: 50%; /* Make it round */
-        cursor: pointer; /* Show pointer on hover */
-    }
-
-    /* For Internet Explorer */
-    input[type="range"]::-ms-thumb {
-        width: 16px; /* Adjust the width of the thumb */
-        height: 16px; /* Adjust the height of the thumb */
-        background: #22c55e; /* Green color */
-        border-radius: 50%; /* Make it round */
-        cursor: pointer; /* Show pointer on hover */
-    }
-</style>

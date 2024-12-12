@@ -13,8 +13,8 @@ RUN yarn
 # Copy the rest of the application code
 RUN yarn build
 
-# Expose port 8888 to the outside world
-EXPOSE 8888
+# Expose port 8180 to the outside world
+EXPOSE 8180
 
 # Command to run the application
-CMD ["yarn", "preview", "--", "--port", "8888", "--host", "0.0.0.0"]
+CMD ["yarn", "preview", "--", "--port", "8180", "--host", "0.0.0.0"]

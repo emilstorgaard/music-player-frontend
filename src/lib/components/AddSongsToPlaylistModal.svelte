@@ -1,43 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { searchQuery, search, searchResults } from '$lib/utils/search';
 
-    export let playlistId: Number;
+    export let playlistId: number;
 
     const dispatch = createEventDispatcher();
-
-    interface Song {
-        id: number;
-        title: string;
-        artist: string;
-    }
-
-    interface Search {
-        songs: Song[];
-    }
-
-    const searchQuery = writable('');
-    const searchResults = writable<Search>({ songs: [] });
-
-    async function fetchSearchResults(query: string) {
-        try {
-            const response = await fetch(`https://music.emilstorgaard.dk/api/Search?query=${encodeURIComponent(query)}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch search results');
-            }
-
-            const data: Search = await response.json();
-            searchResults.set(data);
-        } catch (error) {
-            console.error('Error fetching search results:', error);
-        }
-    }
 
     function handleSearch(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -46,9 +13,9 @@
 
     searchQuery.subscribe((query) => {
         if (query.trim()) {
-            fetchSearchResults(query);
+            searchResults(query);
         } else {
-            searchResults.set({ songs: [] });
+            search.set({ songs: [], playlists: [] });
         }
     });
 
@@ -62,13 +29,9 @@
                     headers: { 'Content-Type': 'application/json' }
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to add song to playlist');
-                }
-
+                if (!response.ok) throw new Error('Failed to add song to playlist');
                 alert('Song added to playlist successfully!');
                 dispatch('add');
-                //dispatch('close');
             } catch (error) {
                 console.error('Error adding song to playlist:', error);
                 alert('Could not add song to playlist');
@@ -108,9 +71,9 @@
         </div>
 
         <!-- Search Results -->
-        {#if $searchResults.songs.length > 0}
+        {#if $search.songs.length > 0}
             <ul class="space-y-2">
-                {#each $searchResults.songs as song}
+                {#each $search.songs as song}
                     <li
                         class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 cursor-pointer flex items-center justify-between"
                         on:click={() => (selectedSongId = song.id)}

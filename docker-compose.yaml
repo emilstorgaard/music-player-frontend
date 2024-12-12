@@ -4,4 +4,4 @@ services:
   frontend:
     image: music_player_frontend:latest
     ports:
-      - '8888:8888'
+      - '8180:8180'

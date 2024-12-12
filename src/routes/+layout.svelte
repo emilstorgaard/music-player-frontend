@@ -1,5 +1,6 @@
 <script>
 	import '../styles/app.css';
+
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import SongPanel from '$lib/components/SongPanel.svelte';
@@ -10,6 +11,7 @@
 </svelte:head>
 
 <Header title="Music Player" />
+
 <main class="mb-64">
 	<slot />
 </main>

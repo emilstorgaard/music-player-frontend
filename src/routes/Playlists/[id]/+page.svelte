@@ -7,21 +7,9 @@
     import EditPlaylistModal from '$lib/components/EditPlaylistModal.svelte';
 
     import { playlistSongs } from "$lib/utils/audioStore";
+    import type { Song, Playlist } from "$lib/utils/types"
 
     playlistSongs.set(data.songs);
-
-    interface Playlist {
-        id: number;
-        name: string;
-        createdAtUtc: string;
-    }
-
-    interface Song {
-        id: number;
-        title: string;
-        artist: string;
-        filePath: string;
-    }
 
     let showSettings = false;
     let showAddSongModal = false;
@@ -100,25 +88,25 @@
       </div>
     </div>
   
-    <div class="relative">
+    <div class="relative z-50">
         <!-- Settings Options - Show on hover -->
         {#if showSettings}
           <div class="absolute right-0 w-48 shadow-xl rounded-lg p-3">
-            <div class="bg-gray-800 text-white rounded-lg p-6 shadow-lg w-full max-w-xs">
+            <div class="bg-gray-700 text-white rounded-lg p-6 shadow-lg w-full max-w-xs">
               <button 
               on:click={openAddSongModal}
-                class="w-full text-left text-gray-200 hover:bg-gray-700 p-3 rounded-lg transition duration-200" 
+                class="w-full text-left text-gray-200 hover:bg-gray-600 p-3 rounded-lg transition duration-200" 
                 title="Add Songs">
                 Add Song
               </button>
               <button 
               on:click={openEditPlaylistModal}
-                class="w-full text-left text-gray-200 hover:bg-gray-700 p-3 rounded-lg transition duration-200" 
+                class="w-full text-left text-gray-200 hover:bg-gray-600 p-3 rounded-lg transition duration-200" 
                 title="Add Songs">
                 Edit Playlist
               </button>
               <button 
-                class="w-full text-left text-gray-200 hover:bg-red-700 p-3 rounded-lg transition duration-200" 
+                class="w-full text-left text-gray-200 hover:bg-red-600 p-3 rounded-lg transition duration-200" 
                 title="Delete Playlist" 
                 on:click={deletePlaylist}>
                 Delete
