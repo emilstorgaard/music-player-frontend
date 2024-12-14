@@ -42,35 +42,34 @@
 </script>
 
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-gray-900 text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
+    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
 
         <form on:submit|preventDefault={updatePlaylist}>
             <div class="mb-4">
-                                    <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Update Playlist</h2>
-            <button
-                on:click={closeModal}
-                class="text-2xl text-gray-400 hover:text-white transition duration-200 focus:outline-none"
-                aria-label="Close Modal"
-            >
-                x
-            </button>
-        </div>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Update Playlist</h2>
+                    <button
+                        on:click={closeModal}
+                        class="text-2xl text-light-gray hover:text-white transition duration-200 focus:outline-none"
+                        aria-label="Close Modal"
+                    >
+                        x
+                    </button>
+                </div>
 
                 <input
                     id="name"
                     type="text"
                     bind:value={updatedName}
                     placeholder="Enter playlist name"
-                    class="w-full bg-gray-800 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                    class="w-full bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
                 />
             </div>
 
             <div class="flex justify-end space-x-4">
                 <button
                     type="submit"
-                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400"
+                    class="bg-green text-white px-4 py-2 rounded hover:bg-light-green"
                 >
                     Save Changes
                 </button>

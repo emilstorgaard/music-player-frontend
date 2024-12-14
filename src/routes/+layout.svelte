@@ -16,5 +16,4 @@
 	<slot />
 </main>
 
-<SongPanel />
 <Footer year="2024" domain="musicplayer.dk" name="Emil Storgaard" />

@@ -3,13 +3,16 @@
     import PlaylistCreateModal from '$lib/components/PlaylistCreateModal.svelte';
     import type { Playlist } from '$lib/utils/types';
 
+    import { createEventDispatcher } from 'svelte';
+	import CustomContainer from './CustomContainer.svelte';
+
+    export let selectedPlaylist: Playlist | null = null;
+
     let playlists: Playlist[] = [];
+    const dispatch = createEventDispatcher(); // For emitting events to parent
+
     let error: string | null = null;
     let loading = true;
-
-    onMount(async () => {
-        await loadPlaylists();
-    });
 
     let showModal = false;
 
@@ -21,7 +24,7 @@
         showModal = false;
     }
 
-    async function loadPlaylists() {
+    async function fetchPlaylists() {
         try {
             const response = await fetch('https://music.emilstorgaard.dk/api/Playlists');
             if (!response.ok) {
@@ -35,70 +38,63 @@
         }
     }
 
+    // Emit event when a playlist is clicked
+    const handlePlaylistClick = (playlist: Playlist) => {
+        dispatch('select', playlist); // Pass playlistId to parent
+    };
+
+    onMount(fetchPlaylists);
 </script>
 
-<div class="bg-gray-900 text-white rounded-lg p-6 shadow-lg max-w-auto">
 
-    <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-semibold text-gray-100">Playlists</h2>
-        <button class="bg-green-500 p-3 rounded-full hover:bg-green-400 mb-4" on:click={openModal} title="Create Playlist">
-            <img src="/add.png" alt="Create Playlist" class="h-4 w-4" />
-        </button>
+<CustomContainer>
+    <div class="mb-3">
+
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-semibold text-light-gray">Your Playlists</h2>
+            <button  class="bg-green p-3 rounded-full hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-green transition duration-150" on:click={openModal} title="Create Playlist">
+                <img src="/add.png" alt="Create Playlist" class="h-4 w-4" />
+            </button>
+        </div>
+
     </div>
+    
+    <div class="border-t border-gray my-6"></div>
 
     {#if error}
         <p class="text-red-500 font-semibold">{error}</p>
     {/if}
 
     {#if loading}
-        <p class="text-gray-500">Loading playlists...</p>
+        <p class="text-gray">Loading playlists...</p>
     {:else}
         <ul>
             {#each playlists as playlist}
-            <li class="py-2 border-b border-gray-600 hover:bg-gray-800">
-                <a 
-                    href={`/Playlists/${playlist.id}`} 
-                    class="flex justify-between items-center hover:text-green-400"
-                    title="View Playlist"
-                >
-                    <span class="font-semibold">{playlist.name}</span>
-                    <span class="text-sm text-gray-400">
-                        {new Date(playlist.createdAtUtc).toLocaleString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false
-                        })}
-                    </span>
-                </a>
+            <li class="border-b border-gray hover:bg-dark-gray">
+                <button 
+                on:click={() => handlePlaylistClick(playlist)}
+                class="flex justify-between items-center hover:text-green w-full text-left p-2 bg-transparent border-none cursor-pointer"
+            >
+                <span class="font-semibold">{playlist.name}</span>
+                <span class="text-sm text-light-gray">
+                    {new Date(playlist.createdAtUtc).toLocaleString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    })}
+                </span>
+            </button>
             </li>
             {/each}
         </ul>
     {/if}
 
     {#if showModal}
-        <PlaylistCreateModal on:close={closeModal} on:created={loadPlaylists}  />
+        <PlaylistCreateModal on:close={closeModal} on:created={fetchPlaylists}  />
     {/if}
-</div>
-
-<style>
-    /* Styling for consistency with the SongList component */
-    .bg-gray-900 {
-        background-color: #1a202c;
-    }
-
-    .hover\:bg-gray-800:hover {
-        background-color: #2d3748;
-    }
-
-    .hover\:bg-green-400:hover {
-        background-color: #38a169;
-    }
-
-    .hover\:text-green-400:hover {
-        color: #38a169;
-    }
-</style>
+    
+</CustomContainer>

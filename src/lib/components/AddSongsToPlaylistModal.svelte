@@ -47,42 +47,39 @@
 </script>
 
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-gray-900 text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
-        <!-- Header -->
+    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold">Add Song to Playlist</h2>
             <button
                 on:click={closeModal}
-                class="text-2xl text-gray-400 hover:text-white transition duration-200 focus:outline-none"
+                class="text-2xl text-light-gray hover:text-white transition duration-200 focus:outline-none"
                 aria-label="Close Modal"
             >
                 x
             </button>
         </div>
 
-        <!-- Search Input -->
         <div class="mb-4">
             <input
                 type="text"
                 placeholder="Search for a song..."
                 on:input={handleSearch}
-                class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                class="w-full px-4 py-2 bg-dark-gray text-white rounded-lg border border-gray focus:outline-none focus:ring-2 focus:ring-green"
             />
         </div>
 
-        <!-- Search Results -->
         {#if $search.songs.length > 0}
             <ul class="space-y-2">
                 {#each $search.songs as song}
                     <li
-                        class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 cursor-pointer flex items-center justify-between"
+                        class="p-2 rounded-lg bg-dark-gray hover:bg-gray cursor-pointer flex items-center justify-between"
                         on:click={() => (selectedSongId = song.id)}
                         class:selected={selectedSongId === song.id}
                         on:click={addSongToPlaylist}
                     >
                         <span>{song.title} - {song.artist}</span>
                         <span
-                            class="text-sm text-green-400"
+                            class="text-sm text-green"
                             class:opacity-100={selectedSongId === song.id}
                             class:opacity-0={selectedSongId !== song.id}
                         >
@@ -92,7 +89,7 @@
                 {/each}
             </ul>
         {:else}
-            <p class="text-gray-400 text-center">No songs found</p>
+            <p class="text-light-gray text-center">No songs found</p>
         {/if}
     </div>
 </div>

@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from "$app/forms";
+	import Search from "./Search.svelte";
 
 	export let title = 'title';
 
@@ -11,52 +12,67 @@
 </script>
 
 <header class="mb-10">
-	<nav class="flex justify-between items-center py-4 px-6 bg-gray-900 text-white shadow-md">
+	<nav class="flex justify-between items-center py-4 px-6 text-white shadow-md">
 		<a href="/" class="flex items-center space-x-3">
 			<img src="/favicon.ico" alt="logo" class="h-8 w-auto" />
 			<span class="text-xl font-bold">{title}</span>
 		</a>
 
+		<Search />
+
+		<div class="relative inline-block text-left">
+			<div>
+				<button
+					on:click={toggleMenu}
+					type="button"
+					class="inline-flex items-center p-2 text-light-gray rounded-lg hover:bg-gray focus:outline-none focus:ring-2 focus:ring-gray"
+					aria-controls="mobile-menu-2"
+					aria-expanded={isMenuOpen}
+		  		>
+					<svg
+						class="w-6 h-6"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							fill-rule="evenodd"
+							d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+							clip-rule="evenodd"
+						></path></svg
+					>
+		  		</button>
+			</div>
+			<div class="{isMenuOpen ? '' : 'hidden'} absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-dark-gray rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+				<div class="py-1" role="none">
+					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray rounded transition duration-200">Admin</button>
+			  	</div>
+			  	<div class="py-1" role="none">
+					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Signup</button>
+					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Log in</button>
+			  	</div>
+			  	<div class="py-1" role="none">
+					<button type="submit" on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
+			  	</div>
+			</div>
+		</div>
+
 		<div class="hidden lg:flex items-center space-x-6">
-			<a href="/Playlists" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Playlists</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Profile</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Admin</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Signup</a>
-			<a href="/" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Log in</a>
+
+
 			<form action="/" method="POST" use:enhance>
-				<button type="submit" class="py-2 px-4 text-sm text-gray-300 hover:text-white hover:bg-gray-700 rounded transition duration-200">Log ud</button>
+
 			</form>
 		</div>
-		<button
-			on:click={toggleMenu}
-			data-collapse-toggle="mobile-menu-2"
-			type="button"
-			class="inline-flex items-center p-2 text-gray-300 rounded-lg lg:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-			aria-controls="mobile-menu-2"
-			aria-expanded={isMenuOpen}
-		>
-			<svg
-				class="w-6 h-6"
-				fill="currentColor"
-				viewBox="0 0 20 20"
-				xmlns="http://www.w3.org/2000/svg"
-				><path
-					fill-rule="evenodd"
-					d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-					clip-rule="evenodd"
-				></path></svg
-			>
-		</button>
 	</nav>
 
 	<div class="{isMenuOpen ? '' : 'hidden'} lg:hidden" role="dialog" aria-modal="true">
 		<div class="fixed inset-0 z-10 bg-black bg-opacity-50" on:click={toggleMenu}></div>
-		<div class="fixed inset-y-0 right-0 z-20 w-full max-w-xs overflow-y-auto bg-gray-800 shadow-lg px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+		<div class="fixed inset-y-0 right-0 z-20 w-full max-w-xs overflow-y-auto bg-dark-gray shadow-lg px-6 py-6 sm:ring-1 sm:ring-light-gray">
 			<div class="flex items-center justify-between">
 				<a href="/" class="-m-1.5 p-1.5">
 					<img class="h-8 w-auto" src="/favicon.ico" alt="" />
 				</a>
-				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-gray-300">
+				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-light-gray">
 					<svg
 						class="w-6 h-6"
 						fill="currentColor"
@@ -73,18 +89,9 @@
 				</button>
 			</div>
 			<div class="mt-6 flow-root">
-				<div class="-my-6 divide-y divide-gray-500/10">
+				<div class="-my-6 divide-y divide-dark-gray">
 					<div class="space-y-4 py-6">
-						<a href="/Playlists" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
-							Playlists
-						</a>
-
-
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
-							Profile
-						</a>
-
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition duration-200">
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-gray rounded hover:bg-light-gray transition duration-200">
 							Admin
 						</a>
 					</div>
@@ -93,12 +100,12 @@
 						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
 							Signup
 						</a>
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-green-600 rounded hover:bg-green-700 transition duration-200">
+						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
 							Log in
 						</a>
 						<form action="/" method="POST" use:enhance>
 							<button type="submit" class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
-								Log ud
+								Log out
 							</button>
 						</form>
 					</div>

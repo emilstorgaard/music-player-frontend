@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store';
-import type { Song, Playlist, Search } from './types';
+import type { Search } from './types';
 
-export const searchQuery = writable(''); // Store the search query
-export const search = writable<Search>({ playlists: [], songs: [] }); // Reactive store for search results
+export const searchQuery = writable('');
+export const search = writable<Search>({ playlists: [], songs: [] });
 
 export const searchResults = async (query: string) => {
     try {
@@ -18,7 +18,7 @@ export const searchResults = async (query: string) => {
         }
 
         const data: Search = await response.json();
-        search.set(data); // Update the search store with fetched data
+        search.set(data);
     } catch (error) {
         console.error('Error fetching search results:', error);
     }
