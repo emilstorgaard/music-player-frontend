@@ -34,7 +34,6 @@
 <ul>
     {#each songs as song, index}
     <li class="flex justify-between items-center py-2 border-b border-gray">
-
         <div class="flex items-center space-x-4">
             <button 
                 class="bg-green text-white px-4 py-2 rounded hover:bg-light-green flex items-center"
@@ -53,7 +52,8 @@
                 />
             </button>
             <!-- Title and Artist with Truncation -->
-            <span class="font-semibold truncate w-full sm:w-40 md:w-auto">{song.title} - {song.artist}</span>
+            <span class="font-semibold truncate max-w-44 sm:max-w-md md:max-w-md lg:max-w-xs">{song.title} - {song.artist}</span>
+
         </div>
 
         <div>
@@ -75,6 +75,7 @@
     </li>
     {/each}
 </ul>
+
 
     {#if showEditSongModal}
         <EditSongModal on:close={closeEditSongModal} song={songs.find(s => s.id === selectedSongId)} />
