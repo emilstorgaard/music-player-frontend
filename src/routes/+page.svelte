@@ -10,16 +10,16 @@
     };
 </script>
 
-<div class="flex flex-col md:flex-row mx-4 gap-4 min-h-screen">
-    <div class="md:w-1/4">
+<div class="flex flex-col lg:flex-row mx-4 gap-4 min-h-screen">
+    <div class="lg:w-1/4">
         <PlaylistList on:select={handlePlaylistSelect} />
     </div>
-    <div class="md:w-2/4">
+    <div class="lg:w-2/4">
     {#if selectedPlaylist}
         <Playlist playlist={selectedPlaylist} />
-        {/if}
+    {/if}
     </div>
-    <div class="md:w-1/4">
+    <div class="lg:w-1/4">
         <Stats />
     </div>
 </div>

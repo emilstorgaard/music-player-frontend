@@ -30,7 +30,6 @@
                 });
 
                 if (!response.ok) throw new Error('Failed to add song to playlist');
-                alert('Song added to playlist successfully!');
                 dispatch('add');
             } catch (error) {
                 console.error('Error adding song to playlist:', error);

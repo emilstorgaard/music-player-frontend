@@ -5,7 +5,6 @@
 	import SongList from './SongList.svelte';
   import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';
   import EditPlaylistModal from '$lib/components/EditPlaylistModal.svelte';
-  import { goto } from '$app/navigation';
 	import CustomContainer from './CustomContainer.svelte';
 
   export let playlist: Playlist | null = null;
@@ -63,8 +62,12 @@
   };
 
   async function reloadPlaylist() {
+    if (playlist === null) {
+      songs = []; // No songs to fetch if no playlist is selected
+      return;
+    }
         try {
-            const updatedPlaylist = await getPlaylist(data.playlist.id.toString());
+            const updatedPlaylist = await getPlaylist(playlist.id.toString());
             playlist = updatedPlaylist;
         } catch (error) {
             console.error('Error reloading playlist:', error);
@@ -72,12 +75,18 @@
     }
 
   async function deletePlaylist() {
+    if (playlist === null) {
+      songs = []; // No songs to fetch if no playlist is selected
+      return;
+    }
+
         showSettings = false
-        const confirmed = confirm(`Are you sure you want to delete the playlist "${data.playlist.name}"?`);
+        
+        const confirmed = confirm(`Are you sure you want to delete the playlist "${playlist.name}"?`);
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`https://music.emilstorgaard.dk/api/Playlists/${data.playlist.id}`, {
+            const response = await fetch(`https://music.emilstorgaard.dk/api/Playlists/${playlist.id}`, {
                 method: 'DELETE',
             });
 
@@ -85,7 +94,7 @@
                 throw new Error(`Failed to delete playlist: ${response.statusText}`);
             }
 
-            goto('/Playlists');
+            playlist = null
         } catch (error) {
             console.error(error);
             alert('An error occurred while deleting the playlist.');

@@ -1,71 +1,138 @@
-<div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl h-full">
+<script>
+	import CustomContainer from "./CustomContainer.svelte";
+
+</script>
+
+<CustomContainer>
     <div class="mb-3">
       <div class="flex justify-between items-center">
         <h2 class="text-2xl font-semibold text-light-gray">Stats</h2>
       </div>
   
       <!-- Total Playtime Card -->
-      <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-dark-gray">
-        <h6 class="text-sm font-medium tracking-wider text-light-gray uppercase mb-2">Total Playtime</h6>
-        <div class="flex items-center justify-between mb-4">
-          <svg class="w-12 h-12 text-light-gray" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div class="text-right">
-            <p class="text-lg font-semibold">52 Hours</p>
-            <p class="text-sm text-light-gray">Total</p>
-          </div>
+        <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-light-gray">
+            <div class="flex justify-between items-center">
+                <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Total Playtime</h6>
+                <svg class="w-12 h-12 text-light-gray" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                    <line x1="12" y1="12" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="12" y1="12" x2="14" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                </svg> 
+            </div>
+
+            <ul class="space-y-2">
+                <li class="text-lg text-light-gray font-semibold">
+                    <p class="text-lg text-white font-semibold">52 Hours</p>
+                    <p class="text-sm text-light-gray">Total</p>
+                </li>
+                <li class="text-lg text-light-gray font-semibold">
+                    <p class="text-xl text-white font-semibold">20 Hours</p>
+                    <p class="text-sm text-light-gray">This Month</p>
+                </li>
+                <li class="text-lg text-light-gray font-semibold">
+                    <p class="text-xl text-white font-semibold">8 Hours</p>
+                    <p class="text-sm text-light-gray">This Week</p>
+                </li>
+                <li class="text-lg text-light-gray font-semibold">
+                    <p class="text-xl text-white font-semibold">2 Hours</p>
+                    <p class="text-sm text-light-gray">Today</p>
+                </li>
+            </ul>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="text-center">
-            <p class="text-xl font-semibold">20 Hours</p>
-            <p class="text-sm text-light-gray">This Month</p>
-          </div>
-          <div class="text-center">
-            <p class="text-xl font-semibold">8 Hours</p>
-            <p class="text-sm text-light-gray">This Week</p>
-          </div>
-          <div class="text-center col-span-2">
-            <p class="text-xl font-semibold">2 Hours</p>
-            <p class="text-sm text-light-gray">Today</p>
-          </div>
-        </div>
-      </div>
   
       <!-- Top 10 Playlists -->
       <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-dark-gray">
-        <h6 class="text-sm font-medium tracking-wider text-light-gray uppercase mb-2">Top 10 Playlists</h6>
+        <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Playlists</h6>
+        
         <ul class="space-y-2">
-          <li class="text-lg font-semibold">Playlist 1 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 2 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 3 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 4 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 5 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 6 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 7 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 8 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 9 - 8 plays</li>
-          <li class="text-lg font-semibold">Playlist 10 - 8 plays</li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">1. Playlist</p>
+                <p class="text-sm text-light-gray">100 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">2. Playlist</p>
+                <p class="text-sm text-light-gray">90 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">3. Playlist</p>
+                <p class="text-sm text-light-gray">80 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">4. Playlist</p>
+                <p class="text-sm text-light-gray">70 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">5. Playlist</p>
+                <p class="text-sm text-light-gray">60 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">6. Playlist</p>
+                <p class="text-sm text-light-gray">50 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">7. Playlist</p>
+                <p class="text-sm text-light-gray">40 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">8. Playlist</p>
+                <p class="text-sm text-light-gray">30 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">9. Playlist</p>
+                <p class="text-sm text-light-gray">20 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">10. Playlist</p>
+                <p class="text-sm text-light-gray">10 plays</p>
+            </li>
         </ul>
       </div>
   
       <!-- Top 10 Most Played Songs -->
       <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-dark-gray">
-        <h6 class="text-sm font-medium tracking-wider text-light-gray uppercase mb-2">Top 10 Most Played Songs</h6>
+        <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Most Played Songs</h6>
         <ul class="space-y-2">
-          <li class="text-lg font-semibold">Song 1 - 100 plays</li>
-          <li class="text-lg font-semibold">Song 2 - 90 plays</li>
-          <li class="text-lg font-semibold">Song 3 - 80 plays</li>
-          <li class="text-lg font-semibold">Song 4 - 70 plays</li>
-          <li class="text-lg font-semibold">Song 5 - 60 plays</li>
-          <li class="text-lg font-semibold">Song 6 - 50 plays</li>
-          <li class="text-lg font-semibold">Song 7 - 40 plays</li>
-          <li class="text-lg font-semibold">Song 8 - 30 plays</li>
-          <li class="text-lg font-semibold">Song 9 - 20 plays</li>
-          <li class="text-lg font-semibold">Song 10 - 10 plays</li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">1. Song</p>
+                <p class="text-sm text-light-gray">100 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">2. Song</p>
+                <p class="text-sm text-light-gray">90 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">3. Song</p>
+                <p class="text-sm text-light-gray">80 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">4. Song</p>
+                <p class="text-sm text-light-gray">70 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">5. Song</p>
+                <p class="text-sm text-light-gray">60 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">6. Song</p>
+                <p class="text-sm text-light-gray">50 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">7. Song</p>
+                <p class="text-sm text-light-gray">40 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">8. Song</p>
+                <p class="text-sm text-light-gray">30 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">9. Song</p>
+                <p class="text-sm text-light-gray">20 plays</p>
+            </li>
+            <li class="text-lg text-light-gray font-semibold">
+                <p class="text-lg text-white font-semibold">10. Song</p>
+                <p class="text-sm text-light-gray">10 plays</p>
+            </li>
         </ul>
       </div>
     </div>
-  </div>
-  
+</CustomContainer>

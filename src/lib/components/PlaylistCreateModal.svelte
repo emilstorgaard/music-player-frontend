@@ -48,7 +48,7 @@
             type="text" 
             placeholder="Playlist Name" 
             bind:value={playlistName} 
-            class="mb-4 bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring focus:ring-green w-full"
+            class="mb-4 bg-gray text-white p-2 rounded focus:outline-none focus:ring focus:ring-green w-full"
         />
         <div class="flex justify-end">
             <button 

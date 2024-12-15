@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { currentSongIndex, toggleShuffle, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
+    import { currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
 </script>
 
 <div class="text-white pt-3 flex flex-col w-full">
@@ -28,7 +28,7 @@
             bg-green hover:bg-light-green hover:ring-4 hover:ring-green"
             on:click={togglePauseContinue} 
             title={$isPaused ? 'Play' : 'Pause'} 
-            disabled={$playlistSongs.length <= 0}>
+            disabled={audio == null && $playlistSongs.length <= 0}>
             <img src={$isPaused ? '/play.png' : '/pause.png'} alt={$isPaused ? 'Pause' : 'Play'} class="h-4 w-4" />
         </button>
 

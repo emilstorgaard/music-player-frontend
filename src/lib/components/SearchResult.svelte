@@ -10,7 +10,7 @@
 <div class="bg-dark-gray text-white rounded-lg p-6 shadow-lg w-full">
     <!-- Songs Section -->
     {#if songs.length > 0}
-        <div>
+        <div class="overflow-y-auto max-h-96">
             <h2 class="text-2xl font-semibold text-light-gray mb-4">Songs</h2>
             <SongList {songs} />
         </div>
@@ -18,7 +18,7 @@
 
     <!-- Playlists Section -->
     {#if playlists.length > 0}
-        <div class="mt-8">
+        <div class="mt-8 overflow-y-auto max-h-96">
             <h2 class="text-2xl font-semibold text-light-gray mb-4">Playlists</h2>
             <PlaylistList {playlists} />
         </div>

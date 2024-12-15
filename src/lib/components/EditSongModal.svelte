@@ -63,7 +63,7 @@
                     type="text"
                     bind:value={updatedTitle}
                     placeholder="Enter song title"
-                    class="w-full bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
                 />
                 
                 <input
@@ -71,7 +71,7 @@
                     type="text"
                     bind:value={updatedArtist}
                     placeholder="Enter song artist"
-                    class="w-full bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
+                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
                 />
             </div>
 
