@@ -52,7 +52,7 @@
                 />
             </button>
             <!-- Title and Artist with Truncation -->
-            <span class="font-semibold truncate max-w-44 sm:max-w-md md:max-w-md lg:max-w-xs">{song.title} - {song.artist}</span>
+            <span class="font-semibold truncate max-w-28 sm:max-w-sm md:max-w-md lg:max-w-64">{song.title} - {song.artist}</span>
         </div>
     
         <div class="flex items-center space-x-4">

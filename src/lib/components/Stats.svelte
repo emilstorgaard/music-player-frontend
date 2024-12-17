@@ -41,7 +41,7 @@
         </div>
   
       <!-- Top 5 Playlists -->
-      <div class="flex flex-col shadow p-6 text-dark-gray">
+      <div class="flex flex-col p-6 text-dark-gray">
         <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Playlists</h6>
         
         <ul class="space-y-2">
@@ -69,7 +69,7 @@
       </div>
   
       <!-- Top 5 Most Played Songs -->
-      <div class="flex flex-col shadow p-6 text-dark-gray">
+      <div class="flex flex-col p-6 text-dark-gray">
         <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Most Played Songs</h6>
         <ul class="space-y-2">
             <li class="text-lg text-light-gray font-semibold">
