@@ -10,7 +10,7 @@
       </div>
   
       <!-- Total Playtime Card -->
-        <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-light-gray">
+        <div class="flex flex-col p-6 text-light-gray">
             <div class="flex justify-between items-center">
                 <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Total Playtime</h6>
                 <svg class="w-12 h-12 text-light-gray" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,8 +40,8 @@
             </ul>
         </div>
   
-      <!-- Top 10 Playlists -->
-      <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-dark-gray">
+      <!-- Top 5 Playlists -->
+      <div class="flex flex-col shadow p-6 text-dark-gray">
         <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Playlists</h6>
         
         <ul class="space-y-2">
@@ -65,31 +65,11 @@
                 <p class="text-lg text-white font-semibold">5. Playlist</p>
                 <p class="text-sm text-light-gray">60 plays</p>
             </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">6. Playlist</p>
-                <p class="text-sm text-light-gray">50 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">7. Playlist</p>
-                <p class="text-sm text-light-gray">40 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">8. Playlist</p>
-                <p class="text-sm text-light-gray">30 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">9. Playlist</p>
-                <p class="text-sm text-light-gray">20 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">10. Playlist</p>
-                <p class="text-sm text-light-gray">10 plays</p>
-            </li>
         </ul>
       </div>
   
-      <!-- Top 10 Most Played Songs -->
-      <div class="flex flex-col shadow p-6 bg-gray rounded-md mb-4 text-dark-gray">
+      <!-- Top 5 Most Played Songs -->
+      <div class="flex flex-col shadow p-6 text-dark-gray">
         <h6 class="text-sm font-medium tracking-wider text-white uppercase mb-2">Top 10 Most Played Songs</h6>
         <ul class="space-y-2">
             <li class="text-lg text-light-gray font-semibold">
@@ -111,26 +91,6 @@
             <li class="text-lg text-light-gray font-semibold">
                 <p class="text-lg text-white font-semibold">5. Song</p>
                 <p class="text-sm text-light-gray">60 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">6. Song</p>
-                <p class="text-sm text-light-gray">50 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">7. Song</p>
-                <p class="text-sm text-light-gray">40 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">8. Song</p>
-                <p class="text-sm text-light-gray">30 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">9. Song</p>
-                <p class="text-sm text-light-gray">20 plays</p>
-            </li>
-            <li class="text-lg text-light-gray font-semibold">
-                <p class="text-lg text-white font-semibold">10. Song</p>
-                <p class="text-sm text-light-gray">10 plays</p>
             </li>
         </ul>
       </div>

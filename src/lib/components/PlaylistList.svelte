@@ -31,6 +31,7 @@
                 throw new Error('Failed to fetch playlists');
             }
             playlists = await response.json();
+            handlePlaylistClick(playlists[0])
         } catch (err: any) {
             error = err.message || 'An unexpected error occurred.';
         } finally {

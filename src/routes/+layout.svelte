@@ -6,13 +6,13 @@
 </script>
 
 <svelte:head>
-	<title>MusicPlayer</title>
+	<title>BeatStream</title>
 </svelte:head>
 
-<Header title="Music Player" />
+<Header title="BeatStream" />
 
 <main class="mb-64">
 	<slot />
 </main>
 
-<Footer year="2024" domain="musicplayer.dk" name="Emil Storgaard" />
+<Footer year="2024" domain="beatstream.emilstorgaard.dk" name="Emil Storgaard" />

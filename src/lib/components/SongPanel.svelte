@@ -67,11 +67,11 @@
             </span>
         </div>
 
-        <div class="flex sm:flex-row items-center sm:ml-auto">
+        <div class="hidden sm:flex sm:flex-row items-center sm:ml-auto">
             <span class="text-sm text-light-gray">
                 Volume {($volume * 100).toFixed(0)}%
             </span>
-
+        
             <div class="pl-1 flex-grow">
                 <input 
                     id="volume" 
