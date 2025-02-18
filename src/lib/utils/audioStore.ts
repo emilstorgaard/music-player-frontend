@@ -9,6 +9,7 @@ export const isPaused = writable<boolean>(true);
 export const currentTime = writable<number>(0);
 export const duration = writable<number>(0);
 export const currentSongName = writable<string | null>(null);
+export const currentSongId = writable<number | null>(null);
 
 export const shuffledOrder = writable<number[]>([]);
 export const isShuffleEnabled = writable<boolean>(false);
@@ -46,6 +47,7 @@ export const playSong = async (song: Song) => {
         isPaused.set(false);
         await audio.play();
         currentSongName.set(`${song.title} - ${song.artist}`);
+        currentSongId.set(song.id);
     } catch (error) {
         console.error('Error fetching song:', error);
     }
@@ -75,6 +77,7 @@ export const stopSong = () => {
     currentTime.set(0);
     duration.set(0);
     currentSongName.set(null);
+    currentSongId.set(null);
 };
 
 export const playAllSongs = async () => {

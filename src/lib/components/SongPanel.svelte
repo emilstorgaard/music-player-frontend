@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
+    import { currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, currentSongId, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
 </script>
 
 <div class="text-white pt-3 flex flex-col w-full">
@@ -43,9 +43,22 @@
     </div>
 
     <div class="flex flex-col sm:flex-row items-center justify-between w-full px-4">
-        <span class="text-sm text-light-gray sm:mr-auto">
-            {$currentSongName || "No song playing"}
-        </span>
+
+        <div class="flex items-center sm:mr-auto">
+            {#if $currentSongId}
+            <div class="flex items-center sm:mr-auto">
+                <img 
+                    src={`https://music.emilstorgaard.dk/api/Songs/${$currentSongId}/cover`} 
+                    alt={$currentSongName} 
+                    class="w-12 h-12 rounded-md object-cover mr-4"
+                />
+                <span class="text-sm text-light-gray">{$currentSongName}</span>
+            </div>
+            {:else}
+                <!-- No song is playing -->
+                <span class="text-sm text-light-gray">No song playing</span>
+            {/if}
+        </div>
 
         <div class="flex sm:flex-row md:w-1/2 items-center">
             <span class="text-sm text-light-gray pr-1">
