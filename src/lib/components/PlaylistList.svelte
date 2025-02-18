@@ -71,24 +71,26 @@
     {:else}
         <ul>
             {#each playlists as playlist}
-            <li class="border-b border-gray hover:bg-dark-gray">
+            <li class="border-b border-gray hover:bg-dark-gray flex items-center gap-2 p-2">
+                <img src="https://music.emilstorgaard.dk/api/Playlists/{playlist.id}/cover" alt="{playlist.name}" class="w-12 h-12 rounded-md object-cover" />
+            
                 <button 
-                on:click={() => handlePlaylistClick(playlist)}
-                class="flex justify-between items-center hover:text-green w-full text-left p-2 bg-transparent border-none cursor-pointer"
-            >
-                <span class="font-semibold">{playlist.name}</span>
-                <span class="text-sm text-light-gray">
-                    {new Date(playlist.createdAtUtc).toLocaleString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false
-                    })}
-                </span>
-            </button>
+                    on:click={() => handlePlaylistClick(playlist)}
+                    class="flex justify-between items-center hover:text-green w-full text-left bg-transparent border-none cursor-pointer"
+                >
+                    <span class="font-semibold">{playlist.name}</span>
+                    <span class="text-sm text-light-gray">
+                        {new Date(playlist.createdAtUtc).toLocaleString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: false
+                        })}
+                    </span>
+                </button>
             </li>
             {/each}
         </ul>

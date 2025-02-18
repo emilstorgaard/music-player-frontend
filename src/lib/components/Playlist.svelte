@@ -115,7 +115,13 @@
             <span class="text-sm text-light-gray">Created: {new Date(playlist?.createdAtUtc).toLocaleDateString()}</span>
         </div>
         <div class="flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <img src={`https://music.emilstorgaard.dk/api/Playlists/${playlist?.id}/cover`} 
+                 alt={playlist?.name} 
+                 class="w-16 h-16 rounded-md object-cover" />
+    
             <h2 class="text-2xl font-semibold text-light-gray">{playlist?.name}</h2>
+          </div>
             <div>
                 <button on:click={() => showSettings = !showSettings} class="bg-green p-3 rounded-full hover:bg-light-green focus:outline-none focus:ring-2 focus:ring transition duration-150">
                     <img src="/menu.png" alt="Settings" class="h-5 w-5" />

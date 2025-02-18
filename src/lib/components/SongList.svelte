@@ -51,8 +51,15 @@
                     class="h-4 w-4"
                 />
             </button>
-            <!-- Title and Artist with Truncation -->
-            <span class="font-semibold truncate max-w-28 sm:max-w-sm md:max-w-md lg:max-w-64">{song.title} - {song.artist}</span>
+
+            <img 
+                src={`https://music.emilstorgaard.dk/api/Songs/${song.id}/cover`} 
+                alt={song.title} 
+                class="w-12 h-12 rounded-md object-cover"
+            />
+
+            <!-- Make this line responsive -->
+            <span class="font-semibold truncate max-w-none xs:max-w-32 sm:max-w-sm md:max-w-md lg:max-w-72 xl:max-w-96 2xl:max-w-none">{song.title} - {song.artist}</span>
         </div>
     
         <div class="flex items-center space-x-4">
