@@ -12,7 +12,7 @@
 </script>
 
 <header class="mb-10">
-	<nav class="flex items-center justify-between p-4 space-x-6 text-white shadow-md">
+	<nav class="flex items-center justify-between p-4 space-x-6 text-light-gray shadow-md">
 		<a href="/" class="flex items-center space-x-3">
 			<img src="/favicon.ico" alt="logo" class="h-8 w-auto" />
 			<span class="text-xl font-bold hidden sm:block">{title}</span>

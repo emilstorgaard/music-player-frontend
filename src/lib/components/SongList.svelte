@@ -32,12 +32,12 @@
 </script>
 
 {#each songs as song, index}
-<div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition  border-b border-gray">
+<div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition border-b border-gray">
     <div class="relative w-16 h-16">
         <img 
             src={`https://music.emilstorgaard.dk/api/Songs/${song.id}/cover`} 
             alt={song.title} 
-            class="w-16 h-16 rounded-md object-cover transition-opacity duration-300 group-hover:opacity-50"
+            class="w-full h-full rounded-md object-cover transition-opacity duration-300 group-hover:opacity-50"
         />
 
         <button class="absolute inset-0 flex items-center justify-center bg-pink bg-opacity-50 text-white 
