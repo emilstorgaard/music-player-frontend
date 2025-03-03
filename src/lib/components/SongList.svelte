@@ -31,78 +31,91 @@
     };
 </script>
 
-<ul>
-    {#each songs as song, index}
-    <li class="flex justify-between items-center py-2 border-b border-gray">
-        <div class="flex items-center space-x-4">
-            <button 
-                class="bg-green text-white px-4 py-2 rounded hover:bg-light-green flex items-center"
-                on:click={() => {
-                    if ($currentSongIndex === index) {
-                        pauseContinue();
-                    } else {
-                        $currentSongIndex = index;
-                        playSong(song);
-                    }
-                }}>
-                <img 
-                    src={$currentSongIndex === index && !$isPaused ? '/pause.png' : '/play.png'} 
-                    alt={$currentSongIndex === index && !$isPaused ? 'Pause' : 'Play'} 
-                    class="h-4 w-4"
-                />
-            </button>
+{#each songs as song, index}
+<div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition  border-b border-gray">
+    <div class="relative w-16 h-16">
+        <img 
+            src={`https://music.emilstorgaard.dk/api/Songs/${song.id}/cover`} 
+            alt={song.title} 
+            class="w-16 h-16 rounded-md object-cover"
+        />
 
-            <img 
-                src={`https://music.emilstorgaard.dk/api/Songs/${song.id}/cover`} 
-                alt={song.title} 
-                class="w-12 h-12 rounded-md object-cover"
-            />
+        <button class="absolute inset-0 flex items-center justify-center bg-pink bg-opacity-50 text-white 
+            rounded-md opacity-0 group-hover:opacity-100 transition"
+            on:click={() => {
+                if ($currentSongIndex === index) {
+                    pauseContinue();
+                } else {
+                    $currentSongIndex = index;
+                    playSong(song);
+                }
+            }}>
 
-            <!-- Make this line responsive -->
-            <span class="font-semibold truncate max-w-none xs:max-w-32 sm:max-w-sm md:max-w-md lg:max-w-72 xl:max-w-96 2xl:max-w-none">{song.title} - {song.artist}</span>
-        </div>
-    
-        <div class="flex items-center space-x-4">
-            <!-- Like Button on:click={() => toggleLike(song.id)} in button in svg fill={likedSongs.includes(song.id) ? 'red' : 'none'}  --> 
-            <button 
-                class="p-2 rounded-full focus:outline-none transition duration-150">
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    fill='red'
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 text-red-500 hover:text-red-700 transition duration-150">
-                    <path 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        d="M21.8 8.1c0-2.8-2.3-5.1-5.1-5.1-1.4 0-2.7.6-3.7 1.6-.9-1-2.3-1.6-3.7-1.6-2.8 0-5.1 2.3-5.1 5.1 0 3.7 3.4 6.6 8.1 11 4.7-4.4 8.1-7.3 8.1-11z" 
-                    />
-                </svg>
-            </button>
-    
-            <!-- Settings Button -->
-            <button 
-                on:click={() => selectedSongId = selectedSongId === song.id ? null : song.id} 
-                class="bg-green p-3 rounded-full hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-green transition duration-150">
-                <img src="/menu.png" alt="Settings" class="h-5 w-5" />
-            </button>
-    
-            <div class="relative">
-                {#if selectedSongId === song.id}
-                <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-dark-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                    <div class="py-1">
-                        <button on:click={() => openEditSongModal()} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray" title="Edit Song">Edit</button>
-                        <button on:click={() => deleteSong(song.id)} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
-                    </div>
-                </div>
-                {/if}
-            </div>
-        </div>
-    </li>
-    {/each}
-</ul>
-
-
-    {#if showEditSongModal}
-        <EditSongModal on:close={closeEditSongModal} song={songs.find(s => s.id === selectedSongId)} />
+    <!-- Pause Icon (when playing) -->
+    {#if $currentSongIndex === index && !$isPaused}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 3h4v18H6zm8 0h4v18h-4z" />
+        </svg>
     {/if}
+
+    <!-- Play Icon (when paused) -->
+    {#if $currentSongIndex !== index || $isPaused}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z" />
+        </svg>
+    {/if}
+            
+        </button>
+    </div>
+
+    <div class="text-left w-full">
+        <p class="text-lg font-medium line-clamp-1">
+            {song.title} - {song.artist}
+        </p>
+        <button 
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" 
+            fill={song.isLiked ? 'red' : 'none'} 
+            viewBox="0 0 24 24" 
+            stroke-width="1.5" 
+            stroke="currentColor" 
+            class="w-6 h-6 text-red-500 hover:text-red-700 transition duration-150">
+            <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="M21.8 8.1c0-2.8-2.3-5.1-5.1-5.1-1.4 0-2.7.6-3.7 1.6-.9-1-2.3-1.6-3.7-1.6-2.8 0-5.1 2.3-5.1 5.1 0 3.7 3.4 6.6 8.1 11 4.7-4.4 8.1-7.3 8.1-11z" 
+            />
+        </svg>
+    </button>
+    </div>
+
+    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition">
+        <!-- Settings Button -->
+        <button 
+            on:click={() => selectedSongId = selectedSongId === song.id ? null : song.id} 
+            class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="19" r="1" />
+            </svg>
+        </button>
+
+        <div class="relative">
+            {#if selectedSongId === song.id}
+            <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-dark-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1">
+                    <button on:click={() => openEditSongModal()} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray" title="Edit Song">Edit</button>
+                    <button on:click={() => deleteSong(song.id)} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
+                </div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{/each}
+
+
+{#if showEditSongModal}
+    <EditSongModal on:close={closeEditSongModal} song={songs.find(s => s.id === selectedSongId)} />
+{/if}

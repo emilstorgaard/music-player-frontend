@@ -2,6 +2,7 @@ export interface Playlist {
     id: number;
     name: string;
     createdAtUtc: string;
+    isLiked: boolean;
 }
 
 export interface Song {
@@ -9,6 +10,7 @@ export interface Song {
     title: string;
     artist: string;
     filePath: string;
+    isLiked: boolean;
 }
 
 export interface Search {

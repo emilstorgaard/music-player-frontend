@@ -5,7 +5,6 @@
 	import SongList from './SongList.svelte';
   import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';
   import EditPlaylistModal from '$lib/components/EditPlaylistModal.svelte';
-	import CustomContainer from './CustomContainer.svelte';
 
   export let playlist: Playlist | null = null;
 
@@ -105,43 +104,38 @@
   $: playlist?.id, fetchSongs();
 </script>
 
-<CustomContainer>
+<div>
 {#if $error}
     <p class="text-red-500">{ $error }</p>
 {:else if playlist?.id}
-    <div class="mb-3">
-        <div class="flex justify-between items-center mb-4">
-            <span class="text-sm text-light-gray">ID: {playlist?.id}</span>
-            <span class="text-sm text-light-gray">Created: {new Date(playlist?.createdAtUtc).toLocaleDateString()}</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-4">
-            <img src={`https://music.emilstorgaard.dk/api/Playlists/${playlist?.id}/cover`} 
-                 alt={playlist?.name} 
-                 class="w-16 h-16 rounded-md object-cover" />
-    
-            <h2 class="text-2xl font-semibold text-light-gray">{playlist?.name}</h2>
-          </div>
-            <div>
-                <button on:click={() => showSettings = !showSettings} class="bg-green p-3 rounded-full hover:bg-light-green focus:outline-none focus:ring-2 focus:ring transition duration-150">
-                    <img src="/menu.png" alt="Settings" class="h-5 w-5" />
-                </button>
+<div class="flex justify-between items-center mb-4">
+	<div class="flex items-center gap-4">
+		<img src={`https://music.emilstorgaard.dk/api/Playlists/${playlist?.id}/cover`} 
+			alt={playlist?.name} 
+			class="w-16 h-16 rounded-md object-cover" />
+		<h2 class="text-xl font-semibold text-left">{playlist?.name}</h2>
+	</div>
+	<button on:click={() => showSettings = !showSettings} class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition ml-auto">
+		<!-- Add Icon (SVG) -->
+		<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+		</svg>
+	</button>
+	
+	<div class="relative">
+		{#if showSettings}
+			<div class="absolute right-0 z-10 mt-8 w-56 origin-top-right rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+				<div class="py-1">
+					<button on:click={openAddSongModal} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-light-gray" title="Add Songs">Add Songs</button>
+					<button on:click={openEditPlaylistModal} class="block w-full text-left rounded-md px-4 py-2 text-sm text-white hover:bg-light-gray" title="Edit Song">Edit</button>
+					<button on:click={deletePlaylist} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
+				</div>
+			</div>
+		{/if}
+	</div>
+</div>
 
-                <div class="relative">
-                    {#if showSettings}
-                        <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-dark-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="py-1">
-                                <button on:click={openAddSongModal} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray" title="Add Songs">Add Songs</button>
-                                <button on:click={openEditPlaylistModal} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray" title="Edit Song">Edit</button>
-                                <button on:click={deletePlaylist} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
-                            </div>
-                        </div>
-                    {/if}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="border-t border-gray my-6"></div>
+<div class="border-t border-gray my-2"></div>
 
         <!-- Song List -->
         <SongList songs={songs} />
@@ -154,10 +148,4 @@
             <EditPlaylistModal on:close={closeEditPlaylistModal} on:update={reloadPlaylist} playlist={playlist} />
         {/if}
 {/if}
-</CustomContainer>
-
-<style>
-  button:hover {
-    cursor: pointer;
-  }
-</style>
+  </div>

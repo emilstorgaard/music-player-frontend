@@ -1,19 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-	import SongUploadModal from '$lib/components/SongUploadModal.svelte';
     import { searchQuery, search, searchResults } from '$lib/utils/search';
 	import SearchResult from './SearchResult.svelte';
 
-    let showModal = false;
     let showSearchResults = false;
-
-    function openModal() {
-        showModal = true;
-    }
-
-    function closeModal() {
-        showModal = false;
-    }
 
     const handleSearchChange = (event: Event) => {
         const target = event.target as HTMLInputElement;
@@ -54,7 +44,7 @@
     });
 </script>
 
-<div class="max-w-md mx-auto w-2/6">   
+<div class="flex-grow max-w-lg">   
     <div class="relative">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg class="w-4 h-4 text-light-gray" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -65,25 +55,13 @@
         <input
             type="search"
             class="block p-2 ps-10 w-full text-md text-white rounded-full bg-dark-gray focus:outline-none focus:ring-2 focus:ring-green"
-            placeholder="Search songs or playlists..."
+            placeholder="Search songs or playlists"
             on:input={handleSearchChange} />
-
-        <button
-            class="bg-green p-1 rounded-full hover:bg-light-green absolute end-2.5 bottom-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm"
-            on:click={openModal}
-            title="UploadSong"
-        >
-            <img src="/uploadSong.png" alt="UploadSong" class="h-4 w-auto" />
-        </button>
     </div>
 
     {#if showSearchResults && ($search.songs.length > 0 || $search.playlists.length > 0)}
         <div class="fixed w-1/2 left-1/2 transform -translate-x-1/2 mt-1 search-results-container">
             <SearchResult songs={$search.songs} playlists={$search.playlists} />
         </div>
-    {/if}
-
-    {#if showModal}
-        <SongUploadModal on:close={closeModal} />
     {/if}
     </div>

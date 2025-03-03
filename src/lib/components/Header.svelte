@@ -12,10 +12,10 @@
 </script>
 
 <header class="mb-10">
-	<nav class="flex justify-between items-center py-4 px-6 text-white shadow-md">
+	<nav class="flex items-center justify-between p-4 space-x-6 text-white shadow-md">
 		<a href="/" class="flex items-center space-x-3">
 			<img src="/favicon.ico" alt="logo" class="h-8 w-auto" />
-			<span class="text-xl font-bold">{title}</span>
+			<span class="text-xl font-bold hidden sm:block">{title}</span>
 		</a>
 
 		<Search />
@@ -55,14 +55,7 @@
 			  	</div>
 			</div>
 		</div>
-
-		<div class="hidden lg:flex items-center space-x-6">
-
-
-			<form action="/" method="POST" use:enhance>
-
-			</form>
-		</div>
+		
 	</nav>
 
 	<div class="{isMenuOpen ? '' : 'hidden'} lg:hidden" role="dialog" aria-modal="true">
