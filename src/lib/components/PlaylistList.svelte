@@ -48,7 +48,7 @@
 
 <div>
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold text-left">Your Playlists</h2>
+        <h2 class="text-xl font-semibold text-left">Playlists</h2>
         <button class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition" on:click={openModal} title="Create Playlist">
             <!-- Add Icon (SVG) -->
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
