@@ -118,7 +118,9 @@
 	<button on:click={() => showSettings = !showSettings} class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition ml-auto">
 		<!-- Add Icon (SVG) -->
 		<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+			<circle cx="12" cy="5" r="1" />
+			<circle cx="12" cy="12" r="1" />
+			<circle cx="12" cy="19" r="1" />
 		</svg>
 	</button>
 	

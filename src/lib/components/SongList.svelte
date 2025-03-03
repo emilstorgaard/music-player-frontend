@@ -37,7 +37,7 @@
         <img 
             src={`https://music.emilstorgaard.dk/api/Songs/${song.id}/cover`} 
             alt={song.title} 
-            class="w-16 h-16 rounded-md object-cover"
+            class="w-16 h-16 rounded-md object-cover transition-opacity duration-300 group-hover:opacity-50"
         />
 
         <button class="absolute inset-0 flex items-center justify-center bg-pink bg-opacity-50 text-white 
@@ -53,14 +53,14 @@
 
     <!-- Pause Icon (when playing) -->
     {#if $currentSongIndex === index && !$isPaused}
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 3h4v18H6zm8 0h4v18h-4z" />
         </svg>
     {/if}
 
     <!-- Play Icon (when paused) -->
     {#if $currentSongIndex !== index || $isPaused}
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="currentColor" viewBox="0 0 24 24" >
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z" />
         </svg>
     {/if}
@@ -103,10 +103,10 @@
 
         <div class="relative">
             {#if selectedSongId === song.id}
-            <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-dark-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1">
-                    <button on:click={() => openEditSongModal()} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray" title="Edit Song">Edit</button>
-                    <button on:click={() => deleteSong(song.id)} class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
+                    <button on:click={() => openEditSongModal()} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-light-gray" title="Edit Song">Edit</button>
+                    <button on:click={() => deleteSong(song.id)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
                 </div>
             </div>
             {/if}
