@@ -4,6 +4,10 @@ export async function testFunction(emailTest: string, passwordTest: string) {
 
     const response = await fetch("/api/test", {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ emailTest, passwordTest })
     });
 
     if (!response.ok) {
