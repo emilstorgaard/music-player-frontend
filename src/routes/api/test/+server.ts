@@ -1,5 +1,6 @@
 import { json, type RequestEvent } from "@sveltejs/kit";
 
+import { API_HOST } from "$env/static/private";
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -10,7 +11,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         formData.append("Email", emailTest);
         formData.append("Password", passwordTest);
 
-        const csharpApiResponse = await fetch("https://music.emilstorgaard.dk/api/auth/login", {
+        const csharpApiResponse = await fetch(`${API_HOST}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded" // Required for FormData

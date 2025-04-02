@@ -50,17 +50,17 @@
     let passwordTest = "";
     let emailTest = "";
 
-async function handleTest(event: SubmitEvent) {
-    event.preventDefault();
+    async function handleTest(event: SubmitEvent) {
+        event.preventDefault();
 
-    try {
-        console.log("you clicked me")
-        await testFunction(emailTest, passwordTest);
-        console.log("der kom ikke en fejl")
-    } catch (error: any) {
-        errorMessageTest = error.message;
+        try {
+            console.log("you clicked me")
+            await testFunction(emailTest, passwordTest);
+            console.log("der kom ikke en fejl")
+        } catch (error: any) {
+            errorMessageTest = error.message;
+        }
     }
-}
 
 </script>
 

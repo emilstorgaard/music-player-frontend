@@ -1,40 +1,59 @@
 import { API_HOST } from "$env/static/private";
-import { json, type RequestEvent } from "@sveltejs/kit";
+import type { RequestEvent } from "@sveltejs/kit";
+// import type { RequestHandler } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }: RequestEvent) {
-    const data = await request.formData();
-    const email = data.get("email");
-    const password = data.get("password");
+    const { email, password } = await request.json();
 
-    if (!email || !password || typeof email !== "string" || typeof password !== "string") {
-        return json({ error: "Ugyldige login-oplysninger" }, { status: 400 });
+    try {
+        if (!email || !password || typeof email !== "string" || typeof password !== "string") {
+            return new Response(JSON.stringify({ error: "Ugyldige login-oplysninger" }), {
+                status: 400,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        const formData = new URLSearchParams();
+        formData.append("Email", email);
+        formData.append("Password", password);
+
+        const response = await fetch(`${API_HOST}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
+            },
+            body: formData.toString() // Convert FormData to URL-encoded format
+        });
+    
+        if (!response.ok) {
+            const errorData = await response.json();
+            return new Response(JSON.stringify({ error: errorData.message || "Login failed" }), {
+                status: response.status,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        const data = await response.json();
+
+        const { token } = data
+
+        // Sæt JWT som en HttpOnly cookie i SvelteKit serveren
+        cookies.set("jwt", token, {
+            path: "/",
+            httpOnly: true,  // Beskytter mod XSS
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60, // 1 time
+        });
+
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+        });
+    } catch (error) {
+        return new Response(JSON.stringify({ error: "Internal server error" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" }
+        });
     }
-
-    // Send login request til C# backend
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-
-    const response = await fetch(`${API_HOST}/auth/login`, {
-        method: "POST",
-        body: formData
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        return json({ error: errorData.error || "Login fejlede" }, { status: response.status });
-    }
-
-    const { token } = await response.json();
-
-    // Sæt JWT som en HttpOnly cookie i SvelteKit serveren
-    cookies.set("jwt", token, {
-        path: "/",
-        httpOnly: true,  // Beskytter mod XSS
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 60 * 60, // 1 time
-    });
-
-    return json({ success: true });
 }
