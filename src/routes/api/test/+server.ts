@@ -2,7 +2,7 @@ import { json, type RequestEvent } from "@sveltejs/kit";
 
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, cookies }) => {
     const { emailTest, passwordTest } = await request.json();
 
     try {
@@ -27,7 +27,20 @@ export const POST: RequestHandler = async ({ request }) => {
         }
 
         const data = await csharpApiResponse.json();
-        console.log(data)
+
+        const { token } = data
+
+        console.log("token", token)
+
+        // Sæt JWT som en HttpOnly cookie i SvelteKit serveren
+        cookies.set("jwt", token, {
+            path: "/",
+            httpOnly: true,  // Beskytter mod XSS
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60, // 1 time
+        });
+
         return new Response(JSON.stringify(data), {
             status: 200,
             headers: { "Content-Type": "application/json" }
