@@ -29,7 +29,7 @@ export const playSong = async (song: Song) => {
     }
 
     try {
-        const url = `https://music.emilstorgaard.dk/api/Songs/${song.id}/stream`;
+        const url = `${"https://music.emilstorgaard.dk/api"}/Songs/${song.id}/stream`;
         audio = new Audio(url);
         audio.volume = get(volume);
 

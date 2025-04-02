@@ -10,6 +10,10 @@ COPY . .
 # Install dependencies
 RUN yarn
 
+# Manually install jsonwebtoken
+RUN yarn add jsonwebtoken
+# npm install -D @types/jsonwebtoken
+
 # Copy the rest of the application code
 RUN yarn build
 

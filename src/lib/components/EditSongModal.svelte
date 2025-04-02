@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type { Song } from '$lib/utils/types';
+    import { page } from '$app/stores';
 
     export let song: Song;
 
@@ -16,9 +17,10 @@
         }
 
         try {
-            const response = await fetch(`https://music.emilstorgaard.dk/api/Songs/${song.id}`, {
+            const response = await fetch(`${$page.data.API_HOST}/Songs/${song.id}`, {
                 method: 'PUT',
                 headers: {
+                    'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ title: updatedTitle, artist: updatedArtist }),

@@ -1,22 +1,35 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import { page } from '$app/stores';
 
     const dispatch = createEventDispatcher();
 
     let playlistName: string = '';
+    let imageFile: File | null = null;
     let errorMessage: string | null = null;
+
+    function handleImageChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        if (target.files && target.files.length > 0) {
+            imageFile = target.files[0];
+        }
+    }
 
     async function submit() {
         if (playlistName.trim()) {
-            const body = JSON.stringify({ name: playlistName });
+            const formData = new FormData();
+            formData.append('name', playlistName);
+            if (imageFile) {
+                formData.append('coverImageFile', imageFile);
+            }
 
             try {
-                const response = await fetch('https://music.emilstorgaard.dk/api/Playlists', {
+                const response = await fetch(`${$page.data.API_HOST}/Playlists`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${$page.data.loggedInUser?.jwt}`,
                     },
-                    body,
+                    body: formData,
                 });
 
                 if (response.ok) {
@@ -44,12 +57,21 @@
         {#if errorMessage}
             <p class="text-red-500 mb-4">{errorMessage}</p>
         {/if}
+
         <input 
             type="text" 
             placeholder="Playlist Name" 
             bind:value={playlistName} 
             class="mb-4 bg-gray text-white p-2 rounded focus:outline-none focus:ring focus:ring-green w-full"
         />
+
+        <input 
+            type="file" 
+            accept="image/*"
+            on:change={handleImageChange}
+            class="mb-4 bg-gray text-white p-2 rounded w-full"
+        />
+
         <div class="flex justify-end">
             <button 
                 on:click={close} 

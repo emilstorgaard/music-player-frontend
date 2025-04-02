@@ -1,6 +1,10 @@
-<script>
-	import { enhance } from "$app/forms";
+<script lang="ts">
 	import Search from "./Search.svelte";
+	import LoginModal from '$lib/components/LoginModal.svelte';
+	import SignupModal from '$lib/components/SignupModal.svelte';
+	import UploadSongModal from '$lib/components/UploadSongModal.svelte';
+	import { logout } from "$lib/utils/auth";
+	import { userStore } from '$lib/stores/auth';  // Importér din userStore
 
 	export let title = 'title';
 
@@ -9,15 +13,59 @@
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
 	}
+
+    let showLoginModal = false;
+	let showSignupModal = false;
+	let showUploadSongModal = false;
+
+	function openLoginModal() {
+		toggleMenu();
+        showLoginModal = true;
+    }
+
+    function closeLoginModal() {
+        showLoginModal = false;
+    }
+
+	function openSignupModal() {
+		toggleMenu();
+        showSignupModal = true;
+    }
+
+    function closeSignupModal() {
+        showSignupModal = false;
+    }
+
+	function openUploadSongModal() {
+		toggleMenu();
+        showUploadSongModal = true;
+    }
+
+    function closeUploadSongModal() {
+        showUploadSongModal = false;
+    }
+
+    let errorMessage = "";
+
+	async function handleLogout(event: SubmitEvent) {
+        event.preventDefault();
+
+        try {
+            await logout();
+        } catch (error: any) {
+            errorMessage = error.message;
+        }
+    }
+
 </script>
 
-<header class="mb-10">
+<header class="mb-5">
 	<nav class="flex items-center justify-between p-4 space-x-6 text-light-gray shadow-md">
 		<a href="/" class="flex items-center space-x-3">
 			<img src="/favicon.ico" alt="logo" class="h-8 w-auto" />
 			<span class="text-xl font-bold hidden sm:block">{title}</span>
 		</a>
-
+		
 		<Search />
 
 		<div class="relative inline-block text-left">
@@ -43,16 +91,19 @@
 		  		</button>
 			</div>
 			<div class="{isMenuOpen ? '' : 'hidden'} absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-dark-gray rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-				<div class="py-1" role="none">
-					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray rounded transition duration-200">Admin</button>
-			  	</div>
+				{#if !$userStore} 
 			  	<div class="py-1" role="none">
-					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Signup</button>
-					<button on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Log in</button>
+					<button on:click={openSignupModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Signup</button>
+					<button on:click={openLoginModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Log in</button>
 			  	</div>
+				{:else}
 			  	<div class="py-1" role="none">
-					<button type="submit" on:click={toggleMenu} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
+					<button on:click={openUploadSongModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Upload Song</button>
+					 <form on:submit={handleLogout}> <!-- use:enhance> -->
+						<button type="submit" class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
+					 </form>
 			  	</div>
+				{/if}
 			</div>
 		</div>
 		
@@ -84,26 +135,40 @@
 			<div class="mt-6 flow-root">
 				<div class="-my-6 divide-y divide-dark-gray">
 					<div class="space-y-4 py-6">
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-gray rounded hover:bg-light-gray transition duration-200">
-							Admin
-						</a>
-					</div>
-
-					<div class="space-y-4 py-6">
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
+						{#if !$userStore} 
+						<button on:click={openSignupModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
 							Signup
-						</a>
-						<a href="/" on:click={toggleMenu} class="block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
+						</button>
+						<button on:click={openLoginModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
 							Log in
-						</a>
-						<form action="/" method="POST" use:enhance>
+						</button>
+						{:else}
+						<button on:click={openUploadSongModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
+							Upload Song
+						</button>
+						<form on:submit={handleLogout}> <!-- use:enhance -->
 							<button type="submit" class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
 								Log out
 							</button>
 						</form>
+						{/if}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	{#if showLoginModal}
+		<LoginModal on:close={closeLoginModal}  />
+	{/if}
+
+	{#if showSignupModal}
+		<SignupModal on:close={closeSignupModal}  />
+	{/if}
+
+	{#if showUploadSongModal}
+		<UploadSongModal on:close={closeUploadSongModal}  />
+	{/if}
+
+
 </header>

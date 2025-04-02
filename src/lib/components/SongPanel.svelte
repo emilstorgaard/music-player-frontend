@@ -1,8 +1,9 @@
 <script lang="ts">
     import { currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, currentSongId, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
+    import { page } from '$app/stores';
 </script>
 
-<div class="text-white pt-3 flex flex-col w-full">
+<div class="text-white flex flex-col w-full">
     <div class="flex justify-center items-center space-x-4">
         <button 
             class="p-3 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:ring-0
@@ -47,7 +48,7 @@
         <div class="flex items-center sm:w-1/3">
             {#if $currentSongId}
                 <img 
-                    src={`https://music.emilstorgaard.dk/api/Songs/${$currentSongId}/cover`} 
+                    src={`${$page.data.API_HOST}/Songs/${$currentSongId}/cover`} 
                     alt={$currentSongName} 
                     class="w-12 h-12 rounded-md object-cover mr-3"
                 />

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import { searchQuery, search, searchResults } from '$lib/utils/search';
+    import { page } from '$app/stores';
 
     export let playlistId: number;
 
@@ -24,9 +25,12 @@
     async function addSongToPlaylist() {
         if (selectedSongId) {
             try {
-                const response = await fetch(`https://music.emilstorgaard.dk/api/Playlists/${playlistId}/songs/${selectedSongId}`, {
+                const response = await fetch(`${$page.data.API_HOST}/Playlists/${playlistId}/songs/${selectedSongId}`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: { 
+                        'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
 
                 if (!response.ok) throw new Error('Failed to add song to playlist');
