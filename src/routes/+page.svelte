@@ -37,6 +37,7 @@
     import { fetchSongs } from '$lib/utils/songs'
 	import { userStore } from '$lib/stores/auth';
 	import SongList from '$lib/components/SongList.svelte';
+	import { testFunction } from '$lib/utils/test';
 
 
     const openAddSongModal = () => { showSettings = false; showAddSongModal = true; };
@@ -45,7 +46,24 @@
     const openEditPlaylistModal = () => { showSettings = false; showEditPlaylistModal = true; };
     const closeEditPlaylistModal = () => { showEditPlaylistModal = false; };
 
+    let errorMessageTest = "";
+
+async function handleTest() {
+    try {
+        console.log("you clicked me")
+        await testFunction()
+        console.log("der kom ikke en fejl")
+    } catch (error: any) {
+        errorMessageTest = error.message;
+    }
+}
+
 </script>
+
+<button on:click={handleTest} class="bg-blue-600">test</button>
+{#if errorMessageTest}
+    <p class="text-red-500">{errorMessageTest}</p>
+{/if}
 
 <div class="flex-grow flex flex-col lg:flex-row gap-4 px-4">
     <div class="h-[70vh] lg:w-1/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">

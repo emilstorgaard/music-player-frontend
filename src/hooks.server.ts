@@ -29,11 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 		// Add user to event.locals
 		event.locals.user = { email, uid, jwt: token };
-
 	}
-
-	// Proceed with the request
-	// return resolve(event);
 
 	const response = await resolve(event);
     return response;
