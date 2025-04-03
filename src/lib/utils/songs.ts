@@ -6,17 +6,17 @@ export async function uploadSong(title: string, artist: string, image: File | nu
     }
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('artist', artist);
-    if (image) formData.append('image', image);
-    formData.append('audio', audio);
-    
+    formData.append("title", title);
+    formData.append("artist", artist);
+    formData.append("audio", audio);
+
+    if (image) {
+        formData.append("image", image);
+    }
+
     const response = await fetch("/api/uploadsong", {
         method: "POST",
-        headers: { 
-            // No need to set "Content-Type"; the browser will handle it.
-        },
-        body: formData // Pass FormData directly
+        body: formData, // Send the form data
     });
 
     if (!response.ok) {
