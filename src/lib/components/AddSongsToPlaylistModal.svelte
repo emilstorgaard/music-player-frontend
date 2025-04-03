@@ -1,7 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import { searchQuery, search, searchResults } from '$lib/utils/search';
-    import { page } from '$app/stores';
+	import { userStore } from '$lib/stores/auth';
+	import { addSongToPlaylist } from '$lib/utils/songs';
 
     export let playlistId: number;
 
@@ -22,25 +23,22 @@
 
     let selectedSongId: number | null = null;
 
-    async function addSongToPlaylist() {
-        if (selectedSongId) {
-            try {
-                const response = await fetch(`${$page.data.API_HOST}/Playlists/${playlistId}/songs/${selectedSongId}`, {
-                    method: 'POST',
-                    headers: { 
-                        'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+    let errorMessage = ""
 
-                if (!response.ok) throw new Error('Failed to add song to playlist');
-                dispatch('add');
-            } catch (error) {
-                console.error('Error adding song to playlist:', error);
-                alert('Could not add song to playlist');
-            }
-        } else {
-            alert('Please select a song first');
+    async function handleAddSongToPlaylist(event: SubmitEvent) {
+        event.preventDefault();
+
+        const jwt = $userStore?.jwt
+        if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+        if (!selectedSongId) throw new Error("Song was not selected.");
+
+        try {
+            await addSongToPlaylist(playlistId, selectedSongId, jwt);
+
+            dispatch('add');
+        } catch (error: any) {
+            errorMessage = error.message;
         }
     }
 
@@ -62,6 +60,8 @@
             </button>
         </div>
 
+        <p class="text-red-500">{errorMessage}</p>
+
         <div class="mb-4">
             <input
                 type="text"
@@ -78,7 +78,7 @@
                         class="p-2 rounded-lg bg-dark-gray hover:bg-gray cursor-pointer flex items-center justify-between"
                         on:click={() => (selectedSongId = song.id)}
                         class:selected={selectedSongId === song.id}
-                        on:click={addSongToPlaylist}
+                        on:click={handleAddSongToPlaylist}
                     >
                         <span>{song.title} - {song.artist}</span>
                         <span

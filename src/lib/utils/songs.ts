@@ -55,3 +55,20 @@ export const fetchSongs = async (playlistId: number ) => {
     selectedPlaylistSongsStore.set(songs);
     return;
 };
+
+export const addSongToPlaylist = async (playlistId: number, selectedSongId: number, jwt: string) => {
+    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/Playlists/${playlistId}/songs/${selectedSongId}`, {
+        method: 'POST',
+        headers: { 
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (!response.ok) throw new Error('Failed to add song to playlist');
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to add song to playlist.");
+    }
+}
