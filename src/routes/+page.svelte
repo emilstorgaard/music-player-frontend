@@ -21,7 +21,11 @@
 
     async function handleDeletePlaylist() {
         try {
-            await deletePlaylist($selectedPlaylistStore)
+			const jwt = $userStore?.jwt
+
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            await deletePlaylist($selectedPlaylistStore, jwt)
 			close()
         } catch (error: any) {
             errorMessage = error.message;

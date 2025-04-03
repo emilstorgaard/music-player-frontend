@@ -8,6 +8,7 @@
     }
 
 	import { uploadSong } from "$lib/utils/songs"
+	import { userStore } from '$lib/stores/auth';
 
 	let title = "";
 	let artist = "";
@@ -31,7 +32,11 @@
 		console.log(title, artist, image, audio)
 
         try {
-            await uploadSong(title, artist, image, audio);
+			const jwt = $userStore?.jwt
+
+			if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            await uploadSong(title, artist, image, audio, jwt);
 			close()
         } catch (error: any) {
             errorMessage = error.message;

@@ -1,17 +1,22 @@
 import { userStore } from "$lib/stores/auth";
 import { playlistsStore } from "$lib/stores/playlistStore2";
+import { setCookie, deleteCookie } from "$lib/utils/cookies"
 
 export async function login(email: string, password: string) {
-    if (!email || !password) {
+    if (!email || !password || typeof email !== "string" || typeof password !== "string") {
         throw new Error("Email og password er påkrævet.");
     }
 
-    const response = await fetch("/api/login", {
+    const formData = new URLSearchParams();
+    formData.append("Email", email);
+    formData.append("Password", password);
+
+    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/auth/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
         },
-        body: JSON.stringify({ email, password })
+        body: formData.toString() // Convert FormData to URL-encoded format
     });
 
     if (!response.ok) {
@@ -19,11 +24,16 @@ export async function login(email: string, password: string) {
         throw new Error(errorData.error || "Login fejlede");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    const { token } = data
+
+    setCookie("jwt", token, { maxAge: 60 * 60, path: '/' })
+    return
 }
 
 export async function signup(email: string, password: string, confirmPassword: string) {
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword || typeof email !== "string" || typeof password !== "string" || typeof confirmPassword !== "string") {
         throw new Error("Email og password er påkrævet.");
     }
 
@@ -31,12 +41,16 @@ export async function signup(email: string, password: string, confirmPassword: s
         throw new Error("Passwords does not match!.");
     }
 
-    const response = await fetch("/api/signup", {
+    const formData = new URLSearchParams();
+    formData.append("Email", email);
+    formData.append("Password", password);
+
+    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/users/register`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
         },
-        body: JSON.stringify({ email, password })
+        body: formData.toString() // Convert FormData to URL-encoded format
     });
 
     if (!response.ok) {
@@ -44,21 +58,14 @@ export async function signup(email: string, password: string, confirmPassword: s
         throw new Error(errorData.error || "Signup fejlede");
     }
 
-    return response.json();
+    return
 }
 
 export async function logout() {
-    const response = await fetch("/api/logout", {
-        method: "POST",
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Login fejlede");
-    }
+    deleteCookie("jwt")
 
     userStore.set(null)
     playlistsStore.set([])
 
-    return response.json();
+    return;
 }

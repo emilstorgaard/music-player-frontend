@@ -21,7 +21,7 @@
     onMount(() => {
         const unsubscribe = userStore.subscribe(user => {
             if (user) {
-                fetchPlaylists();
+                fetchPlaylists(user.jwt);
             }
         });
 

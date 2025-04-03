@@ -1,8 +1,17 @@
 import { userStore } from "$lib/stores/auth";
+import { getCookie } from "./cookies";
 
 export async function fetchUserData() {
-    const response = await fetch("/api/user", {
-        method: "GET"
+    const jwt = getCookie('jwt')
+
+    if (!jwt) {
+      console.warn("JWT not found in cookies. User might not be logged in.");
+      return;
+    }
+
+    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/users/authorized`, {
+        method: "GET",
+        headers: { 'Authorization': `Bearer ${jwt}` }
     });
 
     if (!response.ok) {
@@ -13,5 +22,5 @@ export async function fetchUserData() {
     // Parse the JSON response body
     const data = await response.json();
 
-    userStore.set({ email: data.user.email, uid: data.user.id, jwt: data.jwt })
+    userStore.set({ email: data.email, uid: data.id, jwt: jwt })
 }
