@@ -37,7 +37,6 @@
     import { fetchSongs } from '$lib/utils/songs'
 	import { userStore } from '$lib/stores/auth';
 	import SongList from '$lib/components/SongList.svelte';
-	import { testFunction } from '$lib/utils/test';
 
 
     const openAddSongModal = () => { showSettings = false; showAddSongModal = true; };
@@ -45,52 +44,7 @@
 
     const openEditPlaylistModal = () => { showSettings = false; showEditPlaylistModal = true; };
     const closeEditPlaylistModal = () => { showEditPlaylistModal = false; };
-
-    let errorMessageTest = "";
-    let passwordTest = "";
-    let emailTest = "";
-
-    async function handleTest(event: SubmitEvent) {
-        event.preventDefault();
-
-        try {
-            console.log("you clicked me")
-            await testFunction(emailTest, passwordTest);
-            console.log("der kom ikke en fejl")
-        } catch (error: any) {
-            errorMessageTest = error.message;
-        }
-    }
-
 </script>
-
-<form on:submit={handleTest} class="p-6 space-y-4 md:space-y-6 sm:p-8">
-				
-    <input
-        type="email"
-        name="email"
-        bind:value={emailTest}
-        id="email"
-        class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-        placeholder="jens@jensen.com"
-        required
-    />
-    <input
-        type="password"
-        name="password"
-        bind:value={passwordTest}
-        id="password"
-        placeholder="••••••••"
-        class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-        required
-    />
-
-    <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Log ind</button>
-</form>
-
-{#if errorMessageTest}
-    <p class="text-red-500">{errorMessageTest}</p>
-{/if}
 
 <div class="flex-grow flex flex-col lg:flex-row gap-4 px-4">
     <div class="h-[70vh] lg:w-1/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">

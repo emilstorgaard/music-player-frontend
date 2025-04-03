@@ -27,7 +27,7 @@ export async function POST({ request, cookies }: RequestEvent) {
     
         if (!response.ok) {
             const errorData = await response.json();
-            return new Response(JSON.stringify({ error: errorData.message || "Login failed" }), {
+            return new Response(JSON.stringify({ error: errorData.error || "Login failed" }), {
                 status: response.status,
                 headers: { "Content-Type": "application/json" }
             });

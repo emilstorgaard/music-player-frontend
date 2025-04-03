@@ -31,13 +31,12 @@ export async function signup(email: string, password: string, confirmPassword: s
         throw new Error("Passwords does not match!.");
     }
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-
     const response = await fetch("/api/signup", {
         method: "POST",
-        body: formData
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
     });
 
     if (!response.ok) {

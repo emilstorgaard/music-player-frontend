@@ -5,15 +5,18 @@ export async function uploadSong(title: string, artist: string, image: File | nu
         throw new Error("Invalid data.");
     }
 
-	const formData = new FormData();
-	formData.append('title', title);
-	formData.append('artist', artist);
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('artist', artist);
     if (image) formData.append('image', image);
-	formData.append('audio', audio);
-
+    formData.append('audio', audio);
+    
     const response = await fetch("/api/uploadsong", {
         method: "POST",
-        body: formData
+        headers: { 
+            // No need to set "Content-Type"; the browser will handle it.
+        },
+        body: formData // Pass FormData directly
     });
 
     if (!response.ok) {
