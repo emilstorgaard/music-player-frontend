@@ -27,6 +27,8 @@
 
 <Header title="BeatStream" />
 
+<!-- TODO: est jeg tror altså ikke at locals bliver brugt -->
+
 <main>
 	<slot />
 </main>

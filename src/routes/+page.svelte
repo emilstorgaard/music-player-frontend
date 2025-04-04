@@ -1,7 +1,14 @@
 <script lang="ts">
     import PlaylistList from '$lib/components/PlaylistList.svelte';
-    import { selectedPlaylistStore } from '$lib/stores/playlistStore2';
+    import { selectedPlaylistStore, playlistsStore } from '$lib/stores/playlistStore2';
 	import PlaylistCreateModal from '$lib/components/PlaylistCreateModal.svelte';
+    import { deletePlaylist } from '$lib/utils/playlists';
+    import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';
+    import EditPlaylistModal from '$lib/components/EditPlaylistModal.svelte';
+    import { fetchSongs } from '$lib/utils/songs'
+	import { userStore } from '$lib/stores/auth';
+	import SongList from '$lib/components/SongList.svelte';
+    import { fetchPlaylists } from '$lib/utils/playlists';
 
     let showModal = false;
 
@@ -13,7 +20,7 @@
         showModal = false;
     }
 
-    import { page } from '$app/stores';
+	import { API_BASE_URL } from '$lib/utils/config';
 
     let showSettings = false;
     let showAddSongModal = false;
@@ -26,22 +33,51 @@
             if (!jwt) throw new Error("Authentication token (JWT) is required.");
 
             await deletePlaylist($selectedPlaylistStore, jwt)
+            await fetchPlaylists(jwt);
 			close()
         } catch (error: any) {
             errorMessage = error.message;
         }
     }
 
+    async function handleCreate() {
+        // Close the modal when done
+        closeModal();
+
+        const jwt = $userStore?.jwt
+
+        if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+        // Call fetchPlaylists after creating a playlist to get the updated list
+        await fetchPlaylists(jwt);
+    }
+
+    async function handleUpdate() {
+        // Close the modal when done
+        try {
+            const jwt = $userStore?.jwt;
+
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            // Call fetchPlaylists after creating a playlist to get the updated list
+            await fetchPlaylists(jwt);
+            // update selected playlist store by taking the playlist from playlists store by id
+            const selectedPlaylist = $selectedPlaylistStore;
+            const updatedPlaylist = $playlistsStore.find(playlist => playlist.id === selectedPlaylist?.id);
+            if (updatedPlaylist) {
+                selectedPlaylistStore.set(updatedPlaylist);
+            } else {
+                console.error('Updated playlist not found in the store.');
+            }
+
+           
+        } catch (error: any) {
+            errorMessage = error.message;
+            console.error('Error updating song:', error);
+        }
+    }
+
     let errorMessage = "";
-
-
-	import { deletePlaylist } from '$lib/utils/playlists';
-    import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';
-    import EditPlaylistModal from '$lib/components/EditPlaylistModal.svelte';
-    import { fetchSongs } from '$lib/utils/songs'
-	import { userStore } from '$lib/stores/auth';
-	import SongList from '$lib/components/SongList.svelte';
-
 
     const openAddSongModal = () => { showSettings = false; showAddSongModal = true; };
     const closeAddSongModal = () => { showAddSongModal = false; };
@@ -70,8 +106,7 @@
         {/if}
 
         {#if showModal}
-        <!-- on:create={fetchPlaylists} -->
-            <PlaylistCreateModal on:close={closeModal} />
+            <PlaylistCreateModal on:close={closeModal} on:create={handleCreate} />
         {/if}
     </div>
 
@@ -79,8 +114,8 @@
     <div class="h-[70vh] lg:w-3/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">
         {#if $selectedPlaylistStore}
             <div class="flex justify-between items-center mb-4 pb-2 border-b">
-                <div class="flex items-center gap-4">
-                    <img src="{$page.data.API_HOST}/Playlists/{$selectedPlaylistStore?.id}/cover" 
+                <div class="flex items-center gap-4"> <!-- TODO: est Get image from playlist endpoint -->
+                    <img src="{API_BASE_URL}/songs/cover/{$selectedPlaylistStore?.coverImagePath}"  
                         alt={$selectedPlaylistStore?.name} 
                         class="w-16 h-16 rounded-md object-cover" />
                     <h2 class="text-xl font-semibold text-white text-left">{$selectedPlaylistStore?.name}</h2>
@@ -107,11 +142,11 @@
             
             <!-- Modals -->
             {#if showAddSongModal}
-                <AddSongsToPlaylistModal on:close={closeAddSongModal} on:add={() => fetchSongs($selectedPlaylistStore?.id)} playlistId={$selectedPlaylistStore?.id} />
+                <AddSongsToPlaylistModal on:close={closeAddSongModal} on:add={() => fetchSongs($selectedPlaylistStore?.id, $userStore?.jwt)} playlistId={$selectedPlaylistStore?.id} />
             {/if}
     
             {#if showEditPlaylistModal}
-                <EditPlaylistModal on:close={closeEditPlaylistModal} playlist={$selectedPlaylistStore} />
+                <EditPlaylistModal on:close={closeEditPlaylistModal} on:update={handleUpdate} />
             {/if}
         {/if}
 

@@ -1,6 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import { page } from '$app/stores';
+	import { createPlaylist } from '$lib/utils/playlists';
+	import { userStore } from '$lib/stores/auth';
 
     const dispatch = createEventDispatcher();
 
@@ -15,34 +17,17 @@
         }
     }
 
-    async function submit() {
-        if (playlistName.trim()) {
-            const formData = new FormData();
-            formData.append('name', playlistName);
-            if (imageFile) {
-                formData.append('coverImageFile', imageFile);
-            }
+    async function handleSignup() {
+        try {
+			const jwt = $userStore?.jwt
 
-            try {
-                const response = await fetch(`${$page.data.API_HOST}/Playlists`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${$page.data.loggedInUser?.jwt}`,
-                    },
-                    body: formData,
-                });
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
 
-                if (response.ok) {
-                    dispatch('created');
-                    close();
-                } else {
-                    errorMessage = 'Failed to create playlist. Please try again.';
-                }
-            } catch (err) {
-                errorMessage = 'An unexpected error occurred.';
-            }
-        } else {
-            errorMessage = 'Playlist name cannot be empty.';
+            await createPlaylist(playlistName, imageFile, jwt);
+            dispatch('create');
+            close();
+        } catch (error: any) {
+            errorMessage = error.message;
         }
     }
 
@@ -80,7 +65,7 @@
                 Cancel
             </button>
             <button 
-                on:click={submit} 
+                on:click={handleSignup} 
                 class="bg-green hover:bg-light-green text-white font-semibold py-2 px-4 rounded"
             >
                 Create

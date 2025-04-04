@@ -1,40 +1,43 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type { Playlist } from '$lib/utils/types';
-	import { page } from '$app/stores';
-
-    export let playlist: Playlist;
+    import { userStore } from '$lib/stores/auth';
+	import { updatePlaylist } from '$lib/utils/playlists';
+	import { selectedPlaylistStore } from '$lib/stores/playlistStore2';
 
     const dispatch = createEventDispatcher();
 
-    let updatedName = playlist.name;
+    let updatedName = $selectedPlaylistStore?.name;
+    let image: File | null = null;
+    let errorMessage: "";
 
-    async function updatePlaylist() {
-        if (!updatedName.trim()) {
-            alert('Playlist name cannot be empty.');
-            return;
-        }
+    function handleImageChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        image = target.files?.[0] || null;
+    }
+
+    async function handleUpdatePlaylist(event: SubmitEvent) {
+        event.preventDefault();
 
         try {
-            const response = await fetch(`${$page.data.API_HOST}/Playlists/${playlist.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: updatedName }),
-            });
+			const jwt = $userStore?.jwt
 
-            if (!response.ok) {
-                throw new Error(`Failed to update playlist: ${response.statusText}`);
+			if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            if (!updatedName) {
+                throw new Error("Name is required.");
             }
 
-            alert('Playlist updated successfully!');
+            const playlistId = $selectedPlaylistStore?.id
+
+            if (!playlistId) throw new Error("No playlist selected.");
+
+            await updatePlaylist(playlistId, updatedName, image, jwt);
             dispatch('update');
             dispatch('close');
-        } catch (error) {
+        } catch (error: any) {
+            errorMessage = error.message;
             console.error('Error updating playlist:', error);
-            alert('An error occurred while updating the playlist.');
         }
     }
 
@@ -46,7 +49,7 @@
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
 
-        <form on:submit|preventDefault={updatePlaylist}>
+        <form on:submit|preventDefault={handleUpdatePlaylist}>
             <div class="mb-4">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Update Playlist</h2>
@@ -66,6 +69,16 @@
                     placeholder="Enter playlist name"
                     class="w-full bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
                 />
+
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    on:change={handleImageChange}
+                />
+
             </div>
 
             <div class="flex justify-end space-x-4">

@@ -1,12 +1,13 @@
 import { writable } from 'svelte/store';
 import type { Search } from './types';
+import { API_BASE_URL } from './config';
 
 export const searchQuery = writable('');
 export const search = writable<Search>({ playlists: [], songs: [] });
 
 export const searchResults = async (query: string) => {
     try {
-        const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/Search?query=${encodeURIComponent(query)}`, {
+        const response = await fetch(`${API_BASE_URL}/Search?query=${encodeURIComponent(query)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

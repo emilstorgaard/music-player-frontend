@@ -1,5 +1,5 @@
 import { selectedPlaylistSongsStore } from "$lib/stores/playlistStore2";
-import { getCookie } from "$lib/utils/cookies";
+import { API_BASE_URL } from "./config";
 
 export async function uploadSong(title: string, artist: string, image: File | null, audio: File | null, jwt: string) {
     if (typeof title !== 'string' || typeof artist !== 'string' || !title || !artist || !audio || !(audio instanceof File)) {
@@ -23,27 +23,31 @@ export async function uploadSong(title: string, artist: string, image: File | nu
         formData.append("coverImageFile", image);
     }
 
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/songs`, {
+    const response = await fetch(`${API_BASE_URL}/songs`, {
         method: "POST",
         headers: {
-            'Authorization': `Bearer ${jwt}` // Include the JWT in the Authorization header
+            'Authorization': `Bearer ${jwt}`
         },
-        body: formData, // Send the form data
+        body: formData,
     });
 
     if (!response.ok) {
         const errorData = await response.json();
-        console.log("okay kaldet fejler")
         throw new Error(errorData.error || "Upload song failed.");
     }
     
     return;
 }
 
-export const fetchSongs = async (playlistId: number ) => {
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/Playlists/${playlistId}/songs`, {
+export const fetchSongs = async (playlistId: number, jwt: string | undefined) => {
+    if (!jwt) {
+        throw new Error("Not logged in.");
+    }
+       
+
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs`, {
         method: "GET",
-        headers: { 'Authorization': `Bearer ${getCookie("jwt")}` }
+        headers: { 'Authorization': `Bearer ${jwt}` }
     })
 
     if (!response.ok) {
@@ -52,12 +56,13 @@ export const fetchSongs = async (playlistId: number ) => {
     }
         
     const songs = await response.json();
+
     selectedPlaylistSongsStore.set(songs);
     return;
 };
 
 export const addSongToPlaylist = async (playlistId: number, selectedSongId: number, jwt: string) => {
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/Playlists/${playlistId}/songs/${selectedSongId}`, {
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs/${selectedSongId}`, {
         method: 'POST',
         headers: { 
             'Authorization': `Bearer ${jwt}`,
@@ -72,3 +77,64 @@ export const addSongToPlaylist = async (playlistId: number, selectedSongId: numb
         throw new Error(errorData.error || "Failed to add song to playlist.");
     }
 }
+
+export const updateSong = async (songId: number, title: string, artist: string, image: File | null, audio: File | null, jwt: string) => {
+    if (typeof title !== 'string' || typeof artist !== 'string' || !title || !artist) {
+        throw new Error("Invalid data.");
+    }
+    
+    if (image && !(image instanceof File)) {
+        throw new Error("Invalid image file.");
+    }
+
+    if (audio && !(audio instanceof File)) {
+        throw new Error("Invalid audio file.");
+    }
+
+    if (!jwt) {
+        throw new Error("Authentication token (JWT) is required.");
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("artist", artist);
+
+    if (image) {
+        formData.append("coverImageFile", image);
+    }
+
+    if (audio) {
+        formData.append("audioFile", audio);
+    }
+
+    const response = await fetch(`${API_BASE_URL}/Songs/${songId}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+        },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Update song failed.");
+    }
+    
+    return;
+}
+
+export const deleteSong = async (songId: number, jwt: string) => {
+    const response = await fetch(`${API_BASE_URL}/Songs/${songId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error while deleting song.");
+    }
+    
+    return;
+};

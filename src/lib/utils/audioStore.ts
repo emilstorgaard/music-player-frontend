@@ -1,5 +1,6 @@
 import { writable, get } from 'svelte/store';
 import type { Song } from './types';
+import { API_BASE_URL } from './config';
 
 // State stores
 export const playlistSongs = writable<Song[]>([]);
@@ -29,7 +30,7 @@ export const playSong = async (song: Song) => {
     }
 
     try {
-        const url = `${"https://music.emilstorgaard.dk/api"}/Songs/${song.id}/stream`;
+        const url = `${API_BASE_URL}/Songs/${song.id}/stream`;
         audio = new Audio(url);
         audio.volume = get(volume);
 

@@ -1,6 +1,7 @@
 import { userStore } from "$lib/stores/auth";
 import { playlistsStore } from "$lib/stores/playlistStore2";
 import { setCookie, deleteCookie } from "$lib/utils/cookies"
+import { API_BASE_URL } from "./config";
 
 export async function login(email: string, password: string) {
     if (!email || !password || typeof email !== "string" || typeof password !== "string") {
@@ -11,7 +12,7 @@ export async function login(email: string, password: string) {
     formData.append("Email", email);
     formData.append("Password", password);
 
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
@@ -45,7 +46,7 @@ export async function signup(email: string, password: string, confirmPassword: s
     formData.append("Email", email);
     formData.append("Password", password);
 
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/users/register`, {
+    const response = await fetch(`${API_BASE_URL}/users/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded" // Required for FormData

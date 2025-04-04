@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { page } from '$app/stores';
-
     import { playlistsStore, errorStore, selectedPlaylistStore } from '$lib/stores/playlistStore2';
 
     let showModal = false;
@@ -17,6 +15,7 @@
     import { userStore } from '$lib/stores/auth'; // Assuming you have a userStore
 	import { fetchPlaylists } from '$lib/utils/playlists';
 	import { onMount } from 'svelte';
+	import { API_BASE_URL } from '$lib/utils/config';
 
     onMount(() => {
         const unsubscribe = userStore.subscribe(user => {
@@ -37,7 +36,7 @@
 
     {#each $playlistsStore as playlist}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between hover:bg-gray hover:cursor-pointer transition">
-        <img src={`${$page.data.API_HOST}/Playlists/${playlist.id}/cover`} alt="{playlist.name}" class="w-16 h-16 rounded-md object-cover" />
+        <img src={`${API_BASE_URL}/songs/cover/${playlist.coverImagePath}`} alt="{playlist.name}" class="w-16 h-16 rounded-md object-cover" /> <!-- TODO: est Get image from playlist endpoint -->
         <button on:click={() => selectedPlaylistStore.set(playlist)} class="text-left w-full">
             <p class="text-lg text-white font-medium line-clamp-1">{playlist.name}</p>
             <button 

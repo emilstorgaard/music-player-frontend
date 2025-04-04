@@ -1,14 +1,21 @@
 <script lang="ts">
     import { playSong, pauseContinue, audio, currentSongIndex, isPaused } from '$lib/utils/audioStore';
     import EditSongModal from './EditSongModal.svelte';
-    import { page } from '$app/stores';
-	import { selectedPlaylistSongsStore } from '$lib/stores/playlistStore2';
+	import { selectedPlaylistSongStore, selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore2';
+    import { deleteSong, fetchSongs } from '$lib/utils/songs'
+    import { onMount } from 'svelte';
+    import { API_BASE_URL } from '$lib/utils/config';
+    import type { Song } from '$lib/utils/types';
+    import { userStore } from '$lib/stores/auth';
 
     let selectedSongId: number | null = null;
 
     let showEditSongModal = false;
 
-    function openEditSongModal() {
+    let errorMessage = ""
+
+    function openEditSongModal(song: Song) {
+        selectedPlaylistSongStore.set(song);
         showEditSongModal = true
     }
 
@@ -17,32 +24,53 @@
         showEditSongModal = false;
     }
     
-    // const deleteSong = async (songId: number) => {
-    //     try {
-    //         await fetch(`${$page.data.API_HOST}/Songs/${songId}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
-    //             },
-    //         });
+    async function handleDeleteSong(songId: number) {
+        try {
+            const jwt = $userStore?.jwt;
 
-    //         songs = songs.filter(song => song.id !== songId);
-    //     } catch (error) {
-    //         console.error('Error deleting song:', error);
-    //     }
-    // };
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
 
-  //import { selectedPlaylist, selectedPlaylistSongs, error, fetchSongs } from '$lib/stores/playlistStore'; // Import the store function
-  import { selectedPlaylistStore } from '$lib/stores/playlistStore2';
-  import { fetchSongs } from '$lib/utils/songs'
-  import SongList from './SongList.svelte';
+            await deleteSong(songId, jwt);
 
-    import { onMount } from 'svelte';
+            const playlistId = $selectedPlaylistStore?.id
+            if (!playlistId) throw new Error("Not selected playlist.");
+
+            // Call fetchPlaylists after creating a playlist to get the updated list
+            await fetchSongs(playlistId, jwt);
+        } catch (error: any) {
+            errorMessage = error.message;
+            console.error('Error updating song:', error);
+        }
+    }
+
+    async function handleUpdate() {
+        // Close the modal when done
+        try {
+            closeEditSongModal();
+
+            const jwt = $userStore?.jwt;
+
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            const playlistId = $selectedPlaylistStore?.id
+            if (!playlistId) throw new Error("Not selected playlist.");
+
+            // Call fetchPlaylists after creating a playlist to get the updated list
+            await fetchSongs(playlistId, jwt);
+        } catch (error: any) {
+            errorMessage = error.message;
+            console.error('Error updating song:', error);
+        }
+    }
 
 onMount(() => {
     const unsubscribe = selectedPlaylistStore.subscribe(selectedPlaylist => {
         if (selectedPlaylist) {
-            fetchSongs(selectedPlaylist.id);
+            const jwt = $userStore?.jwt;
+
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            fetchSongs(selectedPlaylist.id, jwt);
         }
     });
 
@@ -52,11 +80,14 @@ onMount(() => {
 
 <!-- Scrollable List -->
 <div class="flex-1 overflow-y-auto mt-2 space-y-2">
+    {#if errorMessage}
+    <p class="text-red-500">{errorMessage}</p>
+    {/if}
     {#each $selectedPlaylistSongsStore as song, index}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition border-b border-gray">
         <div class="relative w-16 h-16">
             <img 
-                src={`${$page.data.API_HOST}/Songs/${song.id}/cover`} 
+                src={`${API_BASE_URL}/Songs/cover/${song.coverImagePath}`} 
                 alt={song.title} 
                 class="w-full h-full rounded-md object-cover transition-opacity duration-300 group-hover:opacity-50"
             />
@@ -126,8 +157,8 @@ onMount(() => {
                 {#if selectedSongId === song.id}
                 <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1">
-                        <button on:click={() => openEditSongModal()} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-light-gray" title="Edit Song">Edit</button>
-                        <!-- <button on:click={() => deleteSong(song.id)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button> -->
+                        <button on:click={() => openEditSongModal(song)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-light-gray" title="Edit Song">Edit</button>
+                        <button on:click={() => handleDeleteSong(song.id)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
                     </div>
                 </div>
                 {/if}
@@ -138,5 +169,5 @@ onMount(() => {
 </div>
 
 {#if showEditSongModal}
-    <!-- <EditSongModal on:close={closeEditSongModal} song={songs.find(s => s.id === selectedSongId)} /> -->
+    <EditSongModal on:close={closeEditSongModal} on:update={handleUpdate} />
 {/if}

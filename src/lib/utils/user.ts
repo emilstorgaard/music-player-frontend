@@ -1,5 +1,6 @@
 import { userStore } from "$lib/stores/auth";
 import { getCookie } from "./cookies";
+import { API_BASE_URL } from "$lib/utils/config";
 
 export async function fetchUserData() {
     const jwt = getCookie('jwt')
@@ -9,7 +10,7 @@ export async function fetchUserData() {
       return;
     }
 
-    const response = await fetch(`${"https://music.emilstorgaard.dk/api"}/users/authorized`, {
+    const response = await fetch(`${API_BASE_URL}/users/authorized`, {
         method: "GET",
         headers: { 'Authorization': `Bearer ${jwt}` }
     });
@@ -19,7 +20,6 @@ export async function fetchUserData() {
         throw new Error(errorData.error || "FetchUserData fejlede");
     }
 
-    // Parse the JSON response body
     const data = await response.json();
 
     userStore.set({ email: data.email, uid: data.id, jwt: jwt })

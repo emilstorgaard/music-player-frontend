@@ -1,41 +1,50 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import type { Song } from '$lib/utils/types';
-    import { page } from '$app/stores';
-
-    export let song: Song;
+    import { userStore } from '$lib/stores/auth';
+    import { updateSong } from '$lib/utils/songs';
+	import { selectedPlaylistSongStore } from '$lib/stores/playlistStore2';
 
     const dispatch = createEventDispatcher();
 
-    let updatedTitle = song.title;
-    let updatedArtist = song.artist;
+    let updatedTitle = $selectedPlaylistSongStore?.title;
+    let updatedArtist = $selectedPlaylistSongStore?.artist;
+    let image: File | null = null;
+	let audio: File | null = null;
+    let errorMessage: "";
 
-    async function updateSong() {
-        if (!updatedTitle.trim() && !updatedArtist.trim()) {
-            alert('Playlist name cannot be empty.');
-            return;
-        }
+    function handleImageChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        image = target.files?.[0] || null;
+    }
+
+    function handleAudioChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        audio = target.files?.[0] || null;
+    }
+
+    async function handleUpdateSong(event: SubmitEvent) {
+        event.preventDefault();
 
         try {
-            const response = await fetch(`${$page.data.API_HOST}/Songs/${song.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${$page.data.loggedInUser.jwt}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title: updatedTitle, artist: updatedArtist }),
-            });
+			const jwt = $userStore?.jwt
 
-            if (!response.ok) {
-                throw new Error(`Failed to update song: ${response.statusText}`);
+			if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            if (!updatedTitle || !updatedArtist) {
+                alert('Title and artist are required.');
+                return;
             }
 
-            alert('Song updated successfully!');
+            const songId = $selectedPlaylistSongStore?.id;
+
+            if (!songId) throw new Error("No song selected.");
+
+            await updateSong(songId, updatedTitle, updatedArtist, image, audio, jwt);
             dispatch('update');
             dispatch('close');
-        } catch (error) {
+        } catch (error: any) {
+            errorMessage = error.message;
             console.error('Error updating song:', error);
-            alert('An error occurred while updating the song.');
         }
     }
 
@@ -47,7 +56,7 @@
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
 
-        <form on:submit|preventDefault={updateSong}>
+        <form on:submit={handleUpdateSong}>
             <div class="mb-4">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Update Song</h2>
@@ -60,11 +69,15 @@
                     </button>
                 </div>
 
+                {#if errorMessage}
+                    <p class="text-red-500">{errorMessage}</p>
+                {/if}
+
                 <input
                     id="title"
                     type="text"
                     bind:value={updatedTitle}
-                    placeholder="Enter song title"
+                    placeholder={updatedTitle}
                     class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
                 />
                 
@@ -72,8 +85,29 @@
                     id="artist"
                     type="text"
                     bind:value={updatedArtist}
-                    placeholder="Enter song artist"
-                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
+                    placeholder={updatedTitle}
+                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+                />
+
+                 <!-- Image Upload -->
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    on:change={handleImageChange}
+                />
+
+                <!-- Audio Upload -->
+                <input
+                    type="file"
+                    name="audio"
+                    bind:value={audio}
+                    id="audio"
+                    accept="audio/*"
+                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    on:change={handleAudioChange}
                 />
             </div>
 

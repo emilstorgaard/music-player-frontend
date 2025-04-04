@@ -1,6 +1,7 @@
 export interface Playlist {
     id: number;
     name: string;
+    coverImagePath: string;
     createdAtUtc: string;
     isLiked: boolean;
 }
@@ -10,6 +11,7 @@ export interface Song {
     title: string;
     artist: string;
     filePath: string;
+    coverImagePath: string;
     isLiked: boolean;
 }
 

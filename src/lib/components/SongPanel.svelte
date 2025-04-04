@@ -1,6 +1,7 @@
 <script lang="ts">
     import { currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, playlistSongs, currentSongName, currentSongId, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/utils/audioStore';
     import { page } from '$app/stores';
+	import { API_BASE_URL } from '$lib/utils/config';
 </script>
 
 <div class="text-white flex flex-col w-full">
@@ -48,7 +49,7 @@
         <div class="flex items-center sm:w-1/3">
             {#if $currentSongId}
                 <img 
-                    src={`${$page.data.API_HOST}/Songs/${$currentSongId}/cover`} 
+                    src={`${API_BASE_URL}/Songs/${$currentSongId}/cover`} 
                     alt={$currentSongName} 
                     class="w-12 h-12 rounded-md object-cover mr-3"
                 />
