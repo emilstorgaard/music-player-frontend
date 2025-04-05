@@ -27,7 +27,6 @@
         showModal = false;
     }
 
-
     async function handleDeletePlaylist() {
         try {
 			const jwt = $userStore?.jwt

@@ -1,9 +1,9 @@
 import { writable, get } from 'svelte/store';
-import type { Song } from './types';
-import { API_BASE_URL } from './config';
+import type { Song } from '$lib/utils/types';
+import { API_BASE_URL } from '$lib/utils/config';
+import { selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
 
 // State stores
-export const playlistSongs = writable<Song[]>([]);
 export const currentSongIndex = writable<number | null>(null);
 export const currentSongCover = writable<string | null>(null);
 export const volume = writable<number>(1.0);
@@ -17,10 +17,6 @@ export const shuffledOrder = writable<number[]>([]);
 export const isShuffleEnabled = writable<boolean>(false);
 
 export let audio: HTMLAudioElement | null = null;
-
-export const getPlaylistSongs = () => {
-    return get(playlistSongs)
-}
 
 export const playSong = async (song: Song) => {
     currentSongCover.set(song.coverImagePath);
@@ -85,7 +81,7 @@ export const stopSong = () => {
 };
 
 export const playAllSongs = async () => {
-    const songs = get(playlistSongs);
+    const songs = get(selectedPlaylistSongsStore);
     const shuffleEnabled = get(isShuffleEnabled);
 
     if (songs.length > 0) {
@@ -102,7 +98,7 @@ export const playAllSongs = async () => {
 };
 
 export const shuffleSongs = () => {
-    const songs = get(playlistSongs);
+    const songs = get(selectedPlaylistSongsStore);
     const order = songs.map((_, index) => index);
 
     for (let i = order.length - 1; i > 0; i--) {
@@ -122,7 +118,7 @@ export const toggleShuffle = () => {
 };
 
 export const togglePauseContinue = async () => {
-    const songs = get(playlistSongs);
+    const songs = get(selectedPlaylistSongsStore);
 
     if (audio) {
         pauseContinue();
@@ -134,7 +130,7 @@ export const togglePauseContinue = async () => {
 export const playNextSong = () => {
     currentSongIndex.update((currentIndex) => {
         const shuffleEnabled = get(isShuffleEnabled);
-        const songs = get(playlistSongs);
+        const songs = get(selectedPlaylistSongsStore);
         const order = get(shuffledOrder);
 
         if (currentIndex === null) return null;
@@ -159,7 +155,7 @@ export const playNextSong = () => {
 export const playPreviousSong = () => {
     currentSongIndex.update((currentIndex) => {
         const shuffleEnabled = get(isShuffleEnabled);
-        const songs = get(playlistSongs);
+        const songs = get(selectedPlaylistSongsStore);
         const order = get(shuffledOrder);
 
         if (currentIndex === null) return null;

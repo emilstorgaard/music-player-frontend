@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playSong, pauseContinue, audio, currentSongIndex, isPaused } from '$lib/utils/audioStore';
+    import { playSong, pauseContinue, currentSongIndex, isPaused } from '$lib/stores/audioStore';
     import EditSongModal from './EditSongModal.svelte';
 	import { selectedPlaylistSongStore, selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
     import { deleteSong, dislikeSong, fetchSongs, likeSong } from '$lib/utils/songs'

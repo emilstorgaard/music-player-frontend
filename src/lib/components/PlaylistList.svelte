@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playlistsStore, errorStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
+    import { playlistsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
     import { userStore } from '$lib/stores/auth'; // Assuming you have a userStore
 	import { dislikePlaylist, fetchPlaylists, likePlaylist } from '$lib/utils/playlists';
 	import { onMount } from 'svelte';
@@ -40,9 +40,7 @@
 
 <!-- Scrollable List -->
 <div class="flex-1 overflow-y-auto mt-2 space-y-2">
-    {#if $errorStore}
-        <p class="text-red-500 font-semibold">{$errorStore}</p>
-    {/if}
+
     {#if errorMessage}
         <p class="text-red-500 font-semibold">{errorMessage}</p>
     {/if}
