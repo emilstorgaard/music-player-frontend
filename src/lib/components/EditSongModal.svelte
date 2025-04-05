@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import { userStore } from '$lib/stores/auth';
     import { updateSong } from '$lib/utils/songs';
-	import { selectedPlaylistSongStore } from '$lib/stores/playlistStore2';
+	import { selectedPlaylistSongStore } from '$lib/stores/playlistStore';
 
     const dispatch = createEventDispatcher();
 

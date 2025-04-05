@@ -1,29 +1,11 @@
-import { writable, derived  } from 'svelte/store';
+import { writable } from 'svelte/store';
 import type { Playlist, Song } from '$lib/utils/types';
-import { API_BASE_URL } from '$lib/utils/config';
 
-export const selectedPlaylist = writable<Playlist | null>(null);
-export const selectedPlaylistSongs = writable<Song[]>([]);
-export const error = writable<string | null>(null)
+export const playlistsStore = writable<Playlist[]>([]);
+export const errorStore = writable<string | null>(null);
 
-// Fetch songs when playlist changes
-export const fetchSongs = async (playlistId: number) => {
-    console.log("den henter sangene")
-    try {
-        const res = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs`);
-        if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+export const selectedPlaylistStore = writable<Playlist | null>(null);
+export const selectedPlaylistSongsStore = writable<Song[]>([]);
+export const selectedPlaylistSongserrorStore = writable<string | null>(null);
 
-        const data: Song[] = await res.json();
-        selectedPlaylistSongs.set(data);
-        error.set(null);
-    } catch (err: any) {
-        error.set('Error fetching songs: ' + err.message);
-    }
-};
-
-// Automatically fetch songs when `selectedPlaylist` changes
-export const derivedSongs = derived(selectedPlaylist, ($selectedPlaylist, set) => {
-    if ($selectedPlaylist) {
-        fetchSongs($selectedPlaylist.id);
-    }
-});
+export const selectedPlaylistSongStore = writable<Song | null>(null);

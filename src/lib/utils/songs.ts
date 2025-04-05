@@ -1,4 +1,4 @@
-import { selectedPlaylistSongsStore } from "$lib/stores/playlistStore2";
+import { selectedPlaylistSongsStore } from "$lib/stores/playlistStore";
 import { API_BASE_URL } from "./config";
 
 export async function uploadSong(title: string, artist: string, image: File | null, audio: File | null, jwt: string) {
@@ -138,3 +138,43 @@ export const deleteSong = async (songId: number, jwt: string) => {
     
     return;
 };
+
+export async function likeSong(songId: number, jwt: string) {
+    if (!jwt) {
+        throw new Error("Authentication token (JWT) is required.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/Songs/${songId}/like`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to like song.");
+    }
+
+    return;
+}
+
+export async function dislikeSong(songId: number, jwt: string) {
+    if (!jwt) {
+        throw new Error("Authentication token (JWT) is required.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/Songs/${songId}/dislike`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to dislike song.");
+    }
+
+    return;
+}

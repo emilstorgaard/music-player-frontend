@@ -1,8 +1,8 @@
 <script lang="ts">
     import { playSong, pauseContinue, audio, currentSongIndex, isPaused } from '$lib/utils/audioStore';
     import EditSongModal from './EditSongModal.svelte';
-	import { selectedPlaylistSongStore, selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore2';
-    import { deleteSong, fetchSongs } from '$lib/utils/songs'
+	import { selectedPlaylistSongStore, selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
+    import { deleteSong, dislikeSong, fetchSongs, likeSong } from '$lib/utils/songs'
     import { onMount } from 'svelte';
     import { API_BASE_URL } from '$lib/utils/config';
     import type { Song } from '$lib/utils/types';
@@ -76,6 +76,28 @@ onMount(() => {
 
     return () => unsubscribe(); // Cleanup to prevent memory leaks
 });
+
+async function handleLikeSong(song: Song) {
+        try {
+            const jwt = $userStore?.jwt;
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            if (song.isLiked) {
+                await dislikeSong(song.id, jwt);
+            } else {
+                await likeSong(song.id, jwt);
+            }
+
+            const playlistId = $selectedPlaylistStore?.id;
+            if (!playlistId) throw new Error("Failed to update songs no playlist selected.");
+
+            // Refresh Songs after the change
+            fetchSongs(playlistId, jwt);
+        } catch (error: any) {
+            errorMessage = error.message;
+        }
+    }
+
 </script>
 
 <!-- Scrollable List -->
@@ -85,46 +107,43 @@ onMount(() => {
     {/if}
     {#each $selectedPlaylistSongsStore as song, index}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition border-b border-gray">
-        <div class="relative w-16 h-16">
-            <img 
-                src={`${API_BASE_URL}/Songs/cover/${song.coverImagePath}`} 
-                alt={song.title} 
-                class="w-full h-full rounded-md object-cover transition-opacity duration-300 group-hover:opacity-50"
-            />
-    
-            <button class="absolute inset-0 flex items-center justify-center bg-pink bg-opacity-50 text-white 
-                rounded-md opacity-0 group-hover:opacity-100 transition"
-                on:click={() => {
-                    if ($currentSongIndex === index) {
-                        pauseContinue();
-                    } else {
-                        $currentSongIndex = index;
-                        playSong(song);
-                    }
-                }}>
-    
-        <!-- Pause Icon (when playing) -->
+    <!-- Cover Image + Play/Pause Overlay -->
+    <div class="relative w-16 h-16 shrink-0">
+        <img 
+        src={`${API_BASE_URL}/Songs/cover/${song.coverImagePath}`} 
+        alt={song.title} 
+        class="w-full h-full rounded-lg object-cover transition-opacity duration-300 group-hover:opacity-60"
+        />
+
+        <button 
+        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-lg opacity-0 group-hover:opacity-100 transition"
+        on:click={() => {
+            if ($currentSongIndex === index) {
+            pauseContinue();
+            } else {
+            $currentSongIndex = index;
+            playSong(song);
+            }
+        }}>
+        
+        <!-- Play / Pause Icons -->
         {#if $currentSongIndex === index && !$isPaused}
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 3h4v18H6zm8 0h4v18h-4z" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 3h4v18H6zm8 0h4v18h-4z" />
+            </svg>
+        {:else}
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 3l14 9-14 9V3z" />
             </svg>
         {/if}
-    
-        <!-- Play Icon (when paused) -->
-        {#if $currentSongIndex !== index || $isPaused}
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green" fill="currentColor" viewBox="0 0 24 24" >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z" />
-            </svg>
-        {/if}
-                
-            </button>
-        </div>
+        </button>
+    </div>
     
         <div class="text-left w-full">
             <p class="text-lg text-white font-medium line-clamp-1">
                 {song.title} - {song.artist}
             </p>
-            <button 
+            <button on:click={() => handleLikeSong(song)}
         >
             <svg xmlns="http://www.w3.org/2000/svg" 
                 fill={song.isLiked ? 'red' : 'none'} 

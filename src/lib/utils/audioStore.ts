@@ -5,6 +5,7 @@ import { API_BASE_URL } from './config';
 // State stores
 export const playlistSongs = writable<Song[]>([]);
 export const currentSongIndex = writable<number | null>(null);
+export const currentSongCover = writable<string | null>(null);
 export const volume = writable<number>(1.0);
 export const isPaused = writable<boolean>(true);
 export const currentTime = writable<number>(0);
@@ -22,6 +23,8 @@ export const getPlaylistSongs = () => {
 }
 
 export const playSong = async (song: Song) => {
+    currentSongCover.set(song.coverImagePath);
+
     if (audio) {
         if (!get(isPaused)) {
             isPaused.set(true);

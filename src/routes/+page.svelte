@@ -1,6 +1,6 @@
 <script lang="ts">
     import PlaylistList from '$lib/components/PlaylistList.svelte';
-    import { selectedPlaylistStore, playlistsStore } from '$lib/stores/playlistStore2';
+    import { selectedPlaylistStore, playlistsStore } from '$lib/stores/playlistStore';
 	import PlaylistCreateModal from '$lib/components/PlaylistCreateModal.svelte';
     import { deletePlaylist } from '$lib/utils/playlists';
     import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';

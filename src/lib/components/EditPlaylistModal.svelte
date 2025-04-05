@@ -3,7 +3,7 @@
     import type { Playlist } from '$lib/utils/types';
     import { userStore } from '$lib/stores/auth';
 	import { updatePlaylist } from '$lib/utils/playlists';
-	import { selectedPlaylistStore } from '$lib/stores/playlistStore2';
+	import { selectedPlaylistStore } from '$lib/stores/playlistStore';
 
     const dispatch = createEventDispatcher();
 

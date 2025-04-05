@@ -1,5 +1,5 @@
 import { userStore } from "$lib/stores/auth";
-import { playlistsStore } from "$lib/stores/playlistStore2";
+import { playlistsStore } from "$lib/stores/playlistStore";
 import { setCookie, deleteCookie } from "$lib/utils/cookies"
 import { API_BASE_URL } from "./config";
 

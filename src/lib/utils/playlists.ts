@@ -1,4 +1,4 @@
-import { playlistsStore, selectedPlaylistSongsStore, selectedPlaylistStore } from "$lib/stores/playlistStore2";
+import { playlistsStore, selectedPlaylistSongsStore, selectedPlaylistStore } from "$lib/stores/playlistStore";
 import { API_BASE_URL } from "./config";
 import type { Playlist } from "./types";
 
@@ -103,6 +103,46 @@ export async function updatePlaylist(playlistId: number, name: string, image: Fi
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to update playlist.");
+    }
+
+    return;
+}
+
+export async function likePlaylist(playlistId: number, jwt: string) {
+    if (!jwt) {
+        throw new Error("Authentication token (JWT) is required.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/like`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to like playlist.");
+    }
+
+    return;
+}
+
+export async function dislikePlaylist(playlistId: number, jwt: string) {
+    if (!jwt) {
+        throw new Error("Authentication token (JWT) is required.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/dislike`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to dislike playlist.");
     }
 
     return;

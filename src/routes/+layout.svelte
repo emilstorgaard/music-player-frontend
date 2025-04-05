@@ -5,7 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	import { page } from '$app/stores';
-	import { selectedPlaylistStore, selectedPlaylistSongsStore } from '$lib/stores/playlistStore2';
+	import { selectedPlaylistStore, selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
 
 	import { userStore } from '$lib/stores/auth';  // Importér din userStore
 
@@ -26,8 +26,6 @@
 </svelte:head>
 
 <Header title="BeatStream" />
-
-<!-- TODO: est jeg tror altså ikke at locals bliver brugt -->
 
 <main>
 	<slot />
