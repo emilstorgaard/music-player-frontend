@@ -110,9 +110,8 @@
         {/if}
     </div>
 
-        
+    {#if $selectedPlaylistStore}
     <div class="h-[70vh] lg:w-3/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">
-        {#if $selectedPlaylistStore}
             <div class="flex justify-between items-center mb-4 pb-2 border-b">
                 <div class="flex items-center gap-4"> <!-- TODO: est Get image from playlist endpoint -->
                     <img src="{API_BASE_URL}/songs/cover/{$selectedPlaylistStore?.coverImagePath}"  
@@ -148,9 +147,8 @@
             {#if showEditPlaylistModal}
                 <EditPlaylistModal on:close={closeEditPlaylistModal} on:update={handleUpdate} />
             {/if}
-        {/if}
-
     </div>
+    {/if}
 
 </div>
 
