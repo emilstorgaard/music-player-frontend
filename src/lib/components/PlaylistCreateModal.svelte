@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { page } from '$app/stores';
+    import Modal from './Modal.svelte';
 	import { createPlaylist } from '$lib/utils/playlists';
 	import { userStore } from '$lib/stores/auth';
 
@@ -36,40 +36,39 @@
     }
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-lg w-full max-w-md">
-        <h2 class="text-xl font-bold mb-4">Create Playlist</h2>
-        {#if errorMessage}
-            <p class="text-red-500 mb-4">{errorMessage}</p>
-        {/if}
+<Modal title="Create Playlist" on:close={close}>
+    <form on:submit={handleSignup}>
+		<div class="space-y-4 md:space-y-6" >
+			<div>
+				<label for="name" class="block mb-2 text-sm font-medium">Playlist Name</label>
+				<input
+					type="text"
+					name="name"
+					bind:value={playlistName}
+					id="name"
+					class="bg-gray text-white sm:text-sm p-2.5 rounded focus:outline-none focus:ring focus:ring-green block w-full"
+					placeholder="Playlist Namee"
+					required
+				/>
+			</div>
 
-        <input 
-            type="text" 
-            placeholder="Playlist Name" 
-            bind:value={playlistName} 
-            class="mb-4 bg-gray text-white p-2 rounded focus:outline-none focus:ring focus:ring-green w-full"
-        />
+			<div>
+				<label for="image" class="block mb-2 text-sm font-medium">Playlist Image</label>
+				<input
+					type="file"
+					name="image"
+					id="image"
+					accept="image/*"
+					class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
+					on:change={handleImageChange}
+				/>
+			</div>
 
-        <input 
-            type="file" 
-            accept="image/*"
-            on:change={handleImageChange}
-            class="mb-4 bg-gray text-white p-2 rounded w-full"
-        />
+			{#if errorMessage}
+				<p style="color: red;">{errorMessage}</p>
+			{/if}
 
-        <div class="flex justify-end">
-            <button 
-                on:click={close} 
-                class="bg-gray hover:bg-light-gray text-white font-semibold py-2 px-4 rounded mr-2"
-            >
-                Cancel
-            </button>
-            <button 
-                on:click={handleSignup} 
-                class="bg-green hover:bg-light-green text-white font-semibold py-2 px-4 rounded"
-            >
-                Create
-            </button>
-        </div>
-    </div>
-</div>
+			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Create</button>
+		</div>
+	</form>
+</Modal>

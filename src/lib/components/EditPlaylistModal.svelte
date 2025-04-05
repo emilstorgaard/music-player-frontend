@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import type { Playlist } from '$lib/utils/types';
+    import Modal from './Modal.svelte';
     import { userStore } from '$lib/stores/auth';
 	import { updatePlaylist } from '$lib/utils/playlists';
 	import { selectedPlaylistStore } from '$lib/stores/playlistStore';
@@ -46,50 +46,37 @@
     }
 </script>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
-
-        <form on:submit|preventDefault={handleUpdatePlaylist}>
-            <div class="mb-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Update Playlist</h2>
-                    <button
-                        on:click={closeModal}
-                        class="text-2xl text-light-gray hover:text-white transition duration-200 focus:outline-none"
-                        aria-label="Close Modal"
-                    >
-                        x
-                    </button>
-                </div>
-
+<Modal title="Edit Playlist" on:close={closeModal}>
+    <form on:submit|preventDefault={handleUpdatePlaylist}>
+        <div class="space-y-4 md:space-y-6" >
+            <div>
+                <label for="Title" class="block mb-2 text-sm font-medium">Title</label>
                 <input
                     id="name"
                     type="text"
                     bind:value={updatedName}
                     placeholder="Enter playlist name"
-                    class="w-full bg-dark-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green"
+                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
                 />
+            </div>
 
+            <div>
+                <label for="image" class="block mb-2 text-sm font-medium">Playlist Image</label>
                 <input
                     type="file"
                     name="image"
                     id="image"
                     accept="image/*"
-                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
                     on:change={handleImageChange}
                 />
-
             </div>
 
-            <div class="flex justify-end space-x-4">
-                <button
-                    type="submit"
-                    class="bg-green text-white px-4 py-2 rounded hover:bg-light-green"
-                >
-                    Save Changes
-                </button>
-            </div>
-        </form>
+            {#if errorMessage}
+                <p class="text-red-500">{errorMessage}</p>
+            {/if}
 
-    </div>
-</div>
+            <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Save Changes</button>
+        </div>
+    </form>
+</Modal>

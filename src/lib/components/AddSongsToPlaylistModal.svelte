@@ -3,6 +3,7 @@
     import { searchQuery, search, searchResults } from '$lib/utils/search';
 	import { userStore } from '$lib/stores/auth';
 	import { addSongToPlaylist } from '$lib/utils/songs';
+	import Modal from './Modal.svelte';
 
     export let playlistId: number;
 
@@ -47,29 +48,13 @@
     }
 </script>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Add Song to Playlist</h2>
-            <button
-                on:click={closeModal}
-                class="text-2xl text-light-gray hover:text-white transition duration-200 focus:outline-none"
-                aria-label="Close Modal"
-            >
-                x
-            </button>
-        </div>
-
-        <p class="text-red-500">{errorMessage}</p>
-
-        <div class="mb-4">
-            <input
-                type="text"
-                placeholder="Search for a song..."
-                on:input={handleSearch}
-                class="w-full px-4 py-2 bg-dark-gray text-white rounded-lg border border-gray focus:outline-none focus:ring-2 focus:ring-green"
-            />
-        </div>
+<Modal title="Add Songs to Playlist" on:close={closeModal}>
+        <input
+            type="text"
+            placeholder="Search for a song..."
+            on:input={handleSearch}
+            class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+        />
 
         {#if $search.songs.length > 0}
             <ul class="space-y-2">
@@ -94,8 +79,11 @@
         {:else}
             <p class="text-light-gray text-center">No songs found</p>
         {/if}
-    </div>
-</div>
+
+        {#if errorMessage}
+            <p class="text-red-500">{errorMessage}</p>
+        {/if}
+</Modal>
 
 
 <style>

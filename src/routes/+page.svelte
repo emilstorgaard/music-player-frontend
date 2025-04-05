@@ -9,7 +9,14 @@
 	import { userStore } from '$lib/stores/auth';
 	import SongList from '$lib/components/SongList.svelte';
     import { fetchPlaylists } from '$lib/utils/playlists';
+	import { API_BASE_URL } from '$lib/utils/config';
 
+
+
+    let showSettings = false;
+    let showAddSongModal = false;
+    let showEditPlaylistModal = false;
+    let errorMessage = "";
     let showModal = false;
 
     function openModal() {
@@ -20,11 +27,6 @@
         showModal = false;
     }
 
-	import { API_BASE_URL } from '$lib/utils/config';
-
-    let showSettings = false;
-    let showAddSongModal = false;
-    let showEditPlaylistModal = false;
 
     async function handleDeletePlaylist() {
         try {
@@ -77,8 +79,6 @@
         }
     }
 
-    let errorMessage = "";
-
     const openAddSongModal = () => { showSettings = false; showAddSongModal = true; };
     const closeAddSongModal = () => { showAddSongModal = false; };
 
@@ -91,7 +91,7 @@
 
         <div class="flex justify-between items-center mb-4 pb-2 border-b">
             <h2 class="text-xl font-semibold text-white text-left">Playlists</h2>
-            <button class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition" on:click={openModal} title="Create Playlist">
+            <button class="p-2 rounded-full hover:bg-green transition" on:click={openModal} title="Create Playlist">
                 <!-- Add Icon (SVG) -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -119,7 +119,7 @@
                         class="w-16 h-16 rounded-md object-cover" />
                     <h2 class="text-xl font-semibold text-white text-left">{$selectedPlaylistStore?.name}</h2>
                 </div>
-                <button on:click={() => showSettings = !showSettings} class="p-2 rounded-full hover:bg-green focus:outline-none focus:ring-2 focus:ring-pink-500 transition ml-auto">
+                <button on:click={() => showSettings = !showSettings} class="p-2 rounded-full hover:bg-green transition ml-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <circle cx="12" cy="5" r="1" />
                         <circle cx="12" cy="12" r="1" />

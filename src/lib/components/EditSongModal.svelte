@@ -3,6 +3,7 @@
     import { userStore } from '$lib/stores/auth';
     import { updateSong } from '$lib/utils/songs';
 	import { selectedPlaylistSongStore } from '$lib/stores/playlistStore';
+	import Modal from './Modal.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -53,26 +54,11 @@
     }
 </script>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-dark-gray text-white rounded-lg p-6 shadow-xl w-full max-w-lg">
-
-        <form on:submit={handleUpdateSong}>
-            <div class="mb-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Update Song</h2>
-                    <button
-                        on:click={closeModal}
-                        class="text-2xl text-light-gray hover:text-white transition duration-200 focus:outline-none"
-                        aria-label="Close Modal"
-                    >
-                        x
-                    </button>
-                </div>
-
-                {#if errorMessage}
-                    <p class="text-red-500">{errorMessage}</p>
-                {/if}
-
+<Modal title="Edit Song" on:close={closeModal}>
+    <form on:submit={handleUpdateSong}>
+        <div class="space-y-4 md:space-y-6" >
+            <div>
+                <label for="Title" class="block mb-2 text-sm font-medium">Title</label>
                 <input
                     id="title"
                     type="text"
@@ -80,46 +66,50 @@
                     placeholder={updatedTitle}
                     class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
                 />
-                
+            </div>
+            
+            <div>
+                <label for="artist" class="block mb-2 text-sm font-medium">Artist</label>
                 <input
                     id="artist"
                     type="text"
                     bind:value={updatedArtist}
                     placeholder={updatedTitle}
-                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+                    class="bg-gray text-white sm:text-sm p-2.5 rounded focus:outline-none focus:ring focus:ring-green block w-full"
                 />
+            </div>
 
-                 <!-- Image Upload -->
+            <!-- Image Upload -->
+            <div>
+                <label for="image" class="block mb-2 text-sm font-medium">Cover Image</label>
                 <input
                     type="file"
                     name="image"
                     id="image"
                     accept="image/*"
-                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
                     on:change={handleImageChange}
                 />
+            </div>
 
-                <!-- Audio Upload -->
+            <!-- Audio Upload -->
+            <div>
+                <label for="audio" class="block mb-2 text-sm font-medium">Audio File</label>
                 <input
                     type="file"
                     name="audio"
-                    bind:value={audio}
                     id="audio"
                     accept="audio/*"
-                    class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+                    class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
                     on:change={handleAudioChange}
                 />
             </div>
 
-            <div class="flex justify-end space-x-4">
-                <button
-                    type="submit"
-                    class="bg-green text-white px-4 py-2 rounded hover:bg-light-green"
-                >
-                    Save Changes
-                </button>
-            </div>
-        </form>
+            {#if errorMessage}
+                <p class="text-red-500">{errorMessage}</p>
+            {/if}
 
-    </div>
-</div>
+            <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Save Changes</button>
+        </div>
+    </form>
+</Modal>

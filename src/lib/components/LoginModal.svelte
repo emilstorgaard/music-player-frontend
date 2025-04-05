@@ -9,6 +9,7 @@
 
 	import { login } from "$lib/utils/auth";
 	import { fetchUserData } from '$lib/utils/user';
+	import Modal from './Modal.svelte';
 
 	let email = "";
     let password = "";
@@ -29,59 +30,40 @@
 
 </script>
 
-<div>
-	<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-		<div class="bg-dark-gray text-white rounded-lg p-6 shadow-lg w-full max-w-md">
-
-			<div class="flex justify-between items-center px-6 sm:px-8">
-				<h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl">
-					Log ind
-				</h1>
-				<button 
-					on:click={close} 
-					class="bg-gray hover:bg-light-gray text-white font-semibold py-2 px-4 rounded"
-				>
-					x
-				</button>
-			</div>
-	
-			<form on:submit={handleLogin} class="p-6 space-y-4 md:space-y-6 sm:p-8">
+<Modal title="Login" on:close={close}>
+	<form on:submit={handleLogin}>
 				
-				<div class="space-y-4 md:space-y-6" >
-					<div>
-						<label for="email" class="block mb-2 text-sm font-medium">Email</label>
-						<input
-							type="email"
-							name="email"
-							bind:value={email}
-							id="email"
-							class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-							placeholder="jens@jensen.com"
-							required
-						/>
-					</div>
-					<div>
-						<label for="password" class="block mb-2 text-sm font-medium">Password</label>
-						<input
-							type="password"
-							name="password"
-							bind:value={password}
-							id="password"
-							placeholder="••••••••"
-							class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-							required
-						/>
-					</div>
+		<div class="space-y-4 md:space-y-6" >
+			<div>
+				<label for="email" class="block mb-2 text-sm font-medium">Email</label>
+				<input
+					type="email"
+					name="email"
+					bind:value={email}
+					id="email"
+					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					placeholder="jens@jensen.com"
+					required
+				/>
+			</div>
+			<div>
+				<label for="password" class="block mb-2 text-sm font-medium">Password</label>
+				<input
+					type="password"
+					name="password"
+					bind:value={password}
+					id="password"
+					placeholder="••••••••"
+					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					required
+				/>
+			</div>
 
-					{#if errorMessage}
-						<p style="color: red;">{errorMessage}</p>
-					{/if}
-	
-					<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Log ind</button>
-				</div>
-			</form>
-	
+			{#if errorMessage}
+				<p style="color: red;">{errorMessage}</p>
+			{/if}
+
+			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Log ind</button>
 		</div>
-	</div>
-
-</div>
+	</form>
+</Modal>
