@@ -1,26 +1,12 @@
-import { writable, get } from 'svelte/store';
-import type { Song } from '$lib/utils/types';
-import { API_BASE_URL } from '$lib/utils/config';
+import { get } from 'svelte/store';
+import type { Song } from './types';
+import { API_BASE_URL } from './config';
+import { currentSong, currentSongIndex, volume, isPaused, currentTime, duration, shuffledOrder, isShuffleEnabled } from '$lib/stores/songStore';
 import { selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
-
-// State stores
-export const currentSongIndex = writable<number | null>(null);
-export const currentSongCover = writable<string | null>(null);
-export const volume = writable<number>(1.0);
-export const isPaused = writable<boolean>(true);
-export const currentTime = writable<number>(0);
-export const duration = writable<number>(0);
-export const currentSongName = writable<string | null>(null);
-export const currentSongId = writable<number | null>(null);
-
-export const shuffledOrder = writable<number[]>([]);
-export const isShuffleEnabled = writable<boolean>(false);
 
 export let audio: HTMLAudioElement | null = null;
 
 export const playSong = async (song: Song) => {
-    currentSongCover.set(song.coverImagePath);
-
     if (audio) {
         if (!get(isPaused)) {
             isPaused.set(true);
@@ -46,8 +32,7 @@ export const playSong = async (song: Song) => {
         audio.onended = playNextSong;
         isPaused.set(false);
         await audio.play();
-        currentSongName.set(`${song.title} - ${song.artist}`);
-        currentSongId.set(song.id);
+        currentSong.set(song);
     } catch (error) {
         console.error('Error fetching song:', error);
     }
@@ -76,8 +61,7 @@ export const stopSong = () => {
     currentSongIndex.set(null);
     currentTime.set(0);
     duration.set(0);
-    currentSongName.set(null);
-    currentSongId.set(null);
+    currentSong.set(null);
 };
 
 export const playAllSongs = async () => {

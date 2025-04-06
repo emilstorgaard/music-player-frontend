@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { currentSongCover, currentSongIndex, toggleShuffle, audio, isShuffleEnabled, togglePauseContinue, playPreviousSong, isPaused, playNextSong, currentSongName, currentSongId, formatTime, currentTime, duration, seekSong, volume, adjustVolume } from '$lib/stores/audioStore';
+    import { currentSong, currentSongIndex, isShuffleEnabled, isPaused, currentTime, duration, volume } from '$lib/stores/songStore';
+    import { toggleShuffle, audio, togglePauseContinue, playPreviousSong, playNextSong, formatTime, seekSong, adjustVolume } from '$lib/utils/audioPlayer';
     import { selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
     import { API_BASE_URL } from '$lib/utils/config';
 </script>
@@ -47,13 +48,13 @@
     <div class="flex flex-col sm:flex-row items-center w-full px-4 gap-3 mt-4 sm:mt-0">
 
         <div class="flex items-center sm:w-1/3">
-            {#if $currentSongId}
+            {#if $currentSong?.id}
                 <img 
-                    src={`${API_BASE_URL}/Songs/cover/${$currentSongCover}`} 
-                    alt={$currentSongName} 
+                    src={`${API_BASE_URL}/Songs/cover/${$currentSong?.coverImagePath}`} 
+                    alt={`${$currentSong?.title} - ${$currentSong?.artist}`} 
                     class="w-12 h-12 rounded-md object-cover mr-3"
                 />
-                <span class="text-sm text-light-gray truncate">{$currentSongName}</span>
+                <span class="text-sm text-light-gray truncate">${$currentSong?.title} - ${$currentSong?.artist}</span>
             {:else}
                 <span class="text-sm text-light-gray">No song playing</span>
             {/if}
