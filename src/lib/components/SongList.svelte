@@ -3,7 +3,7 @@
     import { currentSongIndex, isPaused } from '$lib/stores/songStore';
     import EditSongModal from './EditSongModal.svelte';
 	import { selectedPlaylistSongStore, selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
-    import { deleteSong, dislikeSong, fetchSongs, likeSong } from '$lib/utils/songs'
+    import { deleteSong, dislikeSong, fetchSongs, likeSong, removeSongFromPlaylist } from '$lib/utils/songs'
     import { onMount } from 'svelte';
     import { API_BASE_URL } from '$lib/utils/config';
     import type { Song } from '$lib/utils/types';
@@ -64,21 +64,21 @@
         }
     }
 
-onMount(() => {
-    const unsubscribe = selectedPlaylistStore.subscribe(selectedPlaylist => {
-        if (selectedPlaylist) {
-            const jwt = $userStore?.jwt;
+    onMount(() => {
+        const unsubscribe = selectedPlaylistStore.subscribe(selectedPlaylist => {
+            if (selectedPlaylist) {
+                const jwt = $userStore?.jwt;
 
-            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+                if (!jwt) throw new Error("Authentication token (JWT) is required.");
 
-            fetchSongs(selectedPlaylist.id, jwt);
-        }
+                fetchSongs(selectedPlaylist.id, jwt);
+            }
+        });
+
+        return () => unsubscribe(); // Cleanup to prevent memory leaks
     });
 
-    return () => unsubscribe(); // Cleanup to prevent memory leaks
-});
-
-async function handleLikeSong(song: Song) {
+    async function handleLikeSong(song: Song) {
         try {
             const jwt = $userStore?.jwt;
             if (!jwt) throw new Error("Authentication token (JWT) is required.");
@@ -96,6 +96,25 @@ async function handleLikeSong(song: Song) {
             fetchSongs(playlistId, jwt);
         } catch (error: any) {
             errorMessage = error.message;
+        }
+    }
+
+    async function handleRemoveSongFromPlaylist(songId: number) {
+        try {
+            const jwt = $userStore?.jwt;
+
+            if (!jwt) throw new Error("Authentication token (JWT) is required.");
+
+            const playlistId = $selectedPlaylistStore?.id
+            if (!playlistId) throw new Error("Not selected playlist.")
+
+            await removeSongFromPlaylist(playlistId, songId, jwt);
+
+            // Call fetchPlaylists after creating a playlist to get the updated list
+            await fetchSongs(playlistId, jwt);
+        } catch (error: any) {
+            errorMessage = error.message;
+            console.error('Error updating song:', error);
         }
     }
 
@@ -178,6 +197,7 @@ async function handleLikeSong(song: Song) {
                 <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1">
                         <button on:click={() => openEditSongModal(song)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-light-gray" title="Edit Song">Edit</button>
+                        <button on:click={() => handleRemoveSongFromPlaylist(song.id)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Remove</button>
                         <button on:click={() => handleDeleteSong(song.id)} class="block w-full text-left px-4 rounded-md py-2 text-sm text-white hover:bg-red-600" title="Delete Song">Delete</button>
                     </div>
                 </div>

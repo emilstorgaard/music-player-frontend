@@ -178,3 +178,21 @@ export async function dislikeSong(songId: number, jwt: string) {
 
     return;
 }
+
+export const removeSongFromPlaylist = async (playlistId: number, songId: number, jwt: string) => {
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs/${songId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+        },
+    });
+
+    console.log(response);
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error while deleting song.");
+    }
+    
+    return;
+};
