@@ -47,9 +47,7 @@
 
     let errorMessage = "";
 
-	async function handleLogout(event: SubmitEvent) {
-        event.preventDefault();
-
+	async function handleLogout() {
         try {
             await logout();
         } catch (error: any) {
@@ -99,9 +97,7 @@
 				{:else}
 			  	<div class="py-1" role="none">
 					<button on:click={openUploadSongModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Upload Song</button>
-					 <form on:submit={handleLogout}> <!-- use:enhance> -->
-						<button type="submit" class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
-					 </form>
+					<button on:click={handleLogout} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
 			  	</div>
 				{/if}
 			</div>
@@ -146,11 +142,9 @@
 						<button on:click={openUploadSongModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
 							Upload Song
 						</button>
-						<form on:submit={handleLogout}> <!-- use:enhance -->
-							<button type="submit" class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
-								Log out
-							</button>
-						</form>
+						<button on:click={handleLogout} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
+							Log out
+						</button>
 						{/if}
 					</div>
 				</div>

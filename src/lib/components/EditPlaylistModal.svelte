@@ -56,7 +56,7 @@
                     type="text"
                     bind:value={updatedName}
                     placeholder="Enter playlist name"
-                    class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+                    class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
                 />
             </div>
 
@@ -67,7 +67,7 @@
                     name="image"
                     id="image"
                     accept="image/*"
-                    class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
+                    class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
                     on:change={handleImageChange}
                 />
             </div>

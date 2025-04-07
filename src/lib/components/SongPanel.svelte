@@ -54,7 +54,7 @@
                     alt={`${$currentSong?.title} - ${$currentSong?.artist}`} 
                     class="w-12 h-12 rounded-md object-cover mr-3"
                 />
-                <span class="text-sm text-light-gray truncate">${$currentSong?.title} - ${$currentSong?.artist}</span>
+                <span class="text-sm text-light-gray truncate">{$currentSong?.title} - {$currentSong?.artist}</span>
             {:else}
                 <span class="text-sm text-light-gray">No song playing</span>
             {/if}

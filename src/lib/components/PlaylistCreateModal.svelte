@@ -46,7 +46,7 @@
 					name="name"
 					bind:value={playlistName}
 					id="name"
-					class="bg-gray text-white sm:text-sm p-2.5 rounded focus:outline-none focus:ring focus:ring-green block w-full"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					placeholder="Playlist Namee"
 					required
 				/>
@@ -59,7 +59,7 @@
 					name="image"
 					id="image"
 					accept="image/*"
-					class="bg-gray text-white sm:text-sm rounded block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					on:change={handleImageChange}
 				/>
 			</div>

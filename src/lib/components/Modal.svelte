@@ -9,7 +9,7 @@
   }
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
   <div class="bg-dark-gray text-white rounded-lg py-6 shadow-lg w-full max-w-md m-4">
 
   <div class="flex justify-between items-center px-6 sm:px-8">

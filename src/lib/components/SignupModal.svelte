@@ -38,7 +38,7 @@
 					name="email"
 					bind:value={email}
 					id="email"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					placeholder="jens@jensen.com"
 					required
 				/>
@@ -51,7 +51,7 @@
 					name="password"
 					id="password"
 					placeholder="••••••••"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					required
 				/>
 			</div>
@@ -63,7 +63,7 @@
 					bind:value={confirmPassword}
 					id="confirmPassword"
 					placeholder="••••••••"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					required
 				/>
 			</div>

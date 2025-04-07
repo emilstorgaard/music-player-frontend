@@ -11,8 +11,6 @@
     import { fetchPlaylists } from '$lib/utils/playlists';
 	import { API_BASE_URL } from '$lib/utils/config';
 
-
-
     let showSettings = false;
     let showAddSongModal = false;
     let showEditPlaylistModal = false;
@@ -86,9 +84,9 @@
 </script>
 
 <div class="flex-grow flex flex-col lg:flex-row gap-4 px-4">
-    <div class="h-[70vh] lg:w-1/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">
+    <div class="h-[70vh] lg:w-1/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4">
 
-        <div class="flex justify-between items-center mb-4 pb-2 border-b">
+        <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray">
             <h2 class="text-xl font-semibold text-white text-left">Playlists</h2>
             <button class="p-2 rounded-full hover:bg-green transition" on:click={openModal} title="Create Playlist">
                 <!-- Add Icon (SVG) -->
@@ -111,7 +109,7 @@
 
     {#if $selectedPlaylistStore}
     <div class="h-[70vh] lg:w-3/4 w-full flex flex-col border bg-dark-gray rounded-lg shadow-lg p-4">
-            <div class="flex justify-between items-center mb-4 pb-2 border-b">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray">
                 <div class="flex items-center gap-4"> <!-- TODO: est Get image from playlist endpoint -->
                     <img src="{API_BASE_URL}/songs/cover/{$selectedPlaylistStore?.coverImagePath}"  
                         alt={$selectedPlaylistStore?.name} 
@@ -150,5 +148,3 @@
     {/if}
 
 </div>
-
-

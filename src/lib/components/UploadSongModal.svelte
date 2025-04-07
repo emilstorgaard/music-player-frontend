@@ -56,7 +56,7 @@
 					name="title"
 					bind:value={title}
 					id="title"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					placeholder="Title"
 					required
 				/>
@@ -69,7 +69,7 @@
 					name="artist"
 					bind:value={artist}
 					id="artist"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					placeholder="Artist"
 					required
 				/>
@@ -83,7 +83,7 @@
 					name="image"
 					id="image"
 					accept="image/*"
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					on:change={handleImageChange}
 				/>
 			</div>
@@ -98,7 +98,7 @@
 					id="audio"
 					accept="audio/*"
 					required
-					class="bg-gray-50 border border-gray-300 text-gray sm:text-sm rounded-lg block w-full p-2.5"
+					class="w-full bg-gray text-white p-2 rounded block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green"
 					on:change={handleAudioChange}
 				/>
 			</div>
