@@ -4,6 +4,7 @@
 	import { userStore } from '$lib/stores/auth';
 	import { addSongToPlaylist } from '$lib/utils/songs';
 	import Modal from './Modal.svelte';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     export let playlistId: number;
 
@@ -24,8 +25,6 @@
 
     let selectedSongId: number | null = null;
 
-    let errorMessage = ""
-
     async function handleAddSongToPlaylist(event: SubmitEvent) {
         event.preventDefault();
 
@@ -39,7 +38,7 @@
 
             dispatch('add');
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -78,10 +77,6 @@
             </ul>
         {:else}
             <p class="text-light-gray text-center">No songs found</p>
-        {/if}
-
-        {#if errorMessage}
-            <p class="text-red-500">{errorMessage}</p>
         {/if}
 </Modal>
 

@@ -1,5 +1,5 @@
 import { userStore } from "$lib/stores/auth";
-import { playlistsStore } from "$lib/stores/playlistStore";
+import { playlistsStore, selectedPlaylistStore, selectedPlaylistSongsStore, selectedPlaylistSongStore } from "$lib/stores/playlistStore";
 import { setCookie, deleteCookie } from "$lib/utils/cookies"
 import { API_BASE_URL } from "./config";
 
@@ -67,6 +67,9 @@ export async function logout() {
 
     userStore.set(null)
     playlistsStore.set([])
+    selectedPlaylistStore.set(null)
+    selectedPlaylistSongsStore.set([])
+    selectedPlaylistSongStore.set(null)
 
     return;
 }

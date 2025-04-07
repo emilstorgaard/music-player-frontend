@@ -8,12 +8,11 @@
     import { API_BASE_URL } from '$lib/utils/config';
     import type { Song } from '$lib/utils/types';
     import { userStore } from '$lib/stores/auth';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     let selectedSongId: number | null = null;
 
     let showEditSongModal = false;
-
-    let errorMessage = ""
 
     function openEditSongModal(song: Song) {
         selectedPlaylistSongStore.set(song);
@@ -39,8 +38,7 @@
             // Call fetchPlaylists after creating a playlist to get the updated list
             await fetchSongs(playlistId, jwt);
         } catch (error: any) {
-            errorMessage = error.message;
-            console.error('Error updating song:', error);
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -59,8 +57,7 @@
             // Call fetchPlaylists after creating a playlist to get the updated list
             await fetchSongs(playlistId, jwt);
         } catch (error: any) {
-            errorMessage = error.message;
-            console.error('Error updating song:', error);
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -95,7 +92,7 @@
             // Refresh Songs after the change
             fetchSongs(playlistId, jwt);
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -113,8 +110,7 @@
             // Call fetchPlaylists after creating a playlist to get the updated list
             await fetchSongs(playlistId, jwt);
         } catch (error: any) {
-            errorMessage = error.message;
-            console.error('Error updating song:', error);
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -122,9 +118,6 @@
 
 <!-- Scrollable List -->
 <div class="flex-1 overflow-y-auto mt-2 space-y-2">
-    {#if errorMessage}
-    <p class="text-red-500">{errorMessage}</p>
-    {/if}
     {#each $selectedPlaylistSongsStore as song, index}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between relative group hover:bg-gray hover:cursor-pointer transition border-b border-gray">
     <!-- Cover Image + Play/Pause Overlay -->

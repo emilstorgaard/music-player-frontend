@@ -3,12 +3,12 @@
     import Modal from './Modal.svelte';
 	import { createPlaylist } from '$lib/utils/playlists';
 	import { userStore } from '$lib/stores/auth';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     const dispatch = createEventDispatcher();
 
     let playlistName: string = '';
     let imageFile: File | null = null;
-    let errorMessage: string | null = null;
 
     function handleImageChange(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -27,7 +27,7 @@
             dispatch('create');
             close();
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -63,10 +63,6 @@
 					on:change={handleImageChange}
 				/>
 			</div>
-
-			{#if errorMessage}
-				<p style="color: red;">{errorMessage}</p>
-			{/if}
 
 			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Create</button>
 		</div>

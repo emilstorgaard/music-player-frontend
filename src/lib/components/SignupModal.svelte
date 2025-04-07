@@ -9,11 +9,11 @@
 
 	import { signup } from "$lib/utils/auth";
 	import Modal from './Modal.svelte';
+	import { triggerToast } from '$lib/stores/toastStore';
 
 	let email = "";
     let password = "";
 	let confirmPassword = "";
-    let errorMessage = "";
 
     async function handleSignup(event: SubmitEvent) {
         event.preventDefault();
@@ -22,14 +22,14 @@
             await signup(email, password, confirmPassword);
 			close()
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
 </script>
 
 <Modal title="Signup" on:close={close}>
-	<form on:submit={handleSignup} class="p-6 space-y-4 md:space-y-6 sm:p-8">
+	<form on:submit={handleSignup}>
 		<div class="space-y-4 md:space-y-6" >
 			<div>
 				<label for="email" class="block mb-2 text-sm font-medium">Email</label>
@@ -67,10 +67,6 @@
 					required
 				/>
 			</div>
-
-			{#if errorMessage}
-				<p style="color: red;">{errorMessage}</p>
-			{/if}
 
 			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Signup</button>
 		</div>

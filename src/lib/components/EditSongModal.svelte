@@ -4,6 +4,7 @@
     import { updateSong } from '$lib/utils/songs';
 	import { selectedPlaylistSongStore } from '$lib/stores/playlistStore';
 	import Modal from './Modal.svelte';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     const dispatch = createEventDispatcher();
 
@@ -11,7 +12,6 @@
     let updatedArtist = $selectedPlaylistSongStore?.artist;
     let image: File | null = null;
 	let audio: File | null = null;
-    let errorMessage: "";
 
     function handleImageChange(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -44,8 +44,7 @@
             dispatch('update');
             dispatch('close');
         } catch (error: any) {
-            errorMessage = error.message;
-            console.error('Error updating song:', error);
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -104,10 +103,6 @@
                     on:change={handleAudioChange}
                 />
             </div>
-
-            {#if errorMessage}
-                <p class="text-red-500">{errorMessage}</p>
-            {/if}
 
             <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Save Changes</button>
         </div>

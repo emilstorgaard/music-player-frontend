@@ -5,6 +5,7 @@
 	import UploadSongModal from '$lib/components/UploadSongModal.svelte';
 	import { logout } from "$lib/utils/auth";
 	import { userStore } from '$lib/stores/auth';  // Importér din userStore
+	import { triggerToast } from "$lib/stores/toastStore";
 
 	export let title = 'title';
 
@@ -45,13 +46,11 @@
         showUploadSongModal = false;
     }
 
-    let errorMessage = "";
-
 	async function handleLogout() {
         try {
             await logout();
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 

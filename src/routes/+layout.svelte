@@ -8,6 +8,7 @@
 	import { selectedPlaylistStore, selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
 
 	import { userStore } from '$lib/stores/auth';  // Importér din userStore
+	import Toast from '$lib/components/Toast.svelte';
 
 	// Whenever the page updates, check if the user is logged out
 	$: if (!$page.data.loggedInUser) {
@@ -29,6 +30,7 @@
 
 <main>
 	<slot />
+	<Toast />
 </main>
 
 <Footer year="2024" domain="beatstream.emilstorgaard.dk" name="Emil Storgaard" />

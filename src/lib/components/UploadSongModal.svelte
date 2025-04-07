@@ -3,6 +3,7 @@
 	import { uploadSong } from "$lib/utils/songs"
 	import { userStore } from '$lib/stores/auth';
 	import Modal from './Modal.svelte';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     const dispatch = createEventDispatcher();
 
@@ -14,7 +15,6 @@
 	let artist = "";
 	let image: File | null = null;
 	let audio: File | null = null;
-	let errorMessage = "";
 
 	function handleImageChange(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -39,7 +39,7 @@
             await uploadSong(title, artist, image, audio, jwt);
 			close()
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -103,10 +103,6 @@
 				/>
 			</div>
 			
-			{#if errorMessage}
-				<p style="color: red;">{errorMessage}</p>
-			{/if}
-
 			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Upload</button>
 		</div>
 	</form>

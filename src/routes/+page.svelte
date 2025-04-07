@@ -10,11 +10,11 @@
 	import SongList from '$lib/components/SongList.svelte';
     import { fetchPlaylists } from '$lib/utils/playlists';
 	import { API_BASE_URL } from '$lib/utils/config';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     let showSettings = false;
     let showAddSongModal = false;
     let showEditPlaylistModal = false;
-    let errorMessage = "";
     let showModal = false;
 
     function openModal() {
@@ -35,7 +35,7 @@
             await fetchPlaylists(jwt);
 			close()
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -71,8 +71,7 @@
 
            
         } catch (error: any) {
-            errorMessage = error.message;
-            console.error('Error updating song:', error);
+            triggerToast(error.message, 'error');
         }
     }
 

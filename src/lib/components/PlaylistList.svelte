@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { API_BASE_URL } from '$lib/utils/config';
 	import type { Playlist } from '$lib/utils/types';
+	import { triggerToast } from '$lib/stores/toastStore';
 
     onMount(() => {
         const unsubscribe = userStore.subscribe(user => {
@@ -15,8 +16,6 @@
 
         return () => unsubscribe(); // Cleanup to prevent memory leaks
     });
-
-    let errorMessage = ""
 
     async function handleLikePlaylist(playlist: Playlist) {
         try {
@@ -32,7 +31,7 @@
             // Refresh playlists after the change
             fetchPlaylists(jwt);
         } catch (error: any) {
-            errorMessage = error.message;
+            triggerToast(error.message, 'error');
         }
     }
 
@@ -40,10 +39,6 @@
 
 <!-- Scrollable List -->
 <div class="flex-1 overflow-y-auto mt-2 space-y-2">
-
-    {#if errorMessage}
-        <p class="text-red-500 font-semibold">{errorMessage}</p>
-    {/if}
 
     {#each $playlistsStore as playlist}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between hover:bg-gray hover:cursor-pointer transition">
