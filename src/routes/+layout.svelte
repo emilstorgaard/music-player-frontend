@@ -9,6 +9,7 @@
 
 	import { userStore } from '$lib/stores/auth';  // Importér din userStore
 	import Toast from '$lib/components/Toast.svelte';
+	import { currentSong } from '$lib/stores/songStore';
 
 	// Whenever the page updates, check if the user is logged out
 	$: if (!$page.data.loggedInUser) {
@@ -20,13 +21,21 @@
 	$: if ($page.data.loggedInUser) {
 		userStore.set($page.data.loggedInUser); // Sætter brugerdata i store
     }
+
+	$: title = $currentSong ? `${$currentSong.title} - ${$currentSong.artist}` : 'BeatStream';
 </script>
 
 <svelte:head>
-	<title>BeatStream</title>
+	<title>{title}</title>
 </svelte:head>
 
+
+{#if $currentSong}
+<Header title={$currentSong.title} />
+{:else}
 <Header title="BeatStream" />
+{/if}
+
 
 <main>
 	<slot />
