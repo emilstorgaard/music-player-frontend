@@ -29,13 +29,7 @@
 	<title>{title}</title>
 </svelte:head>
 
-
-{#if $currentSong}
-<Header title={$currentSong.title} />
-{:else}
 <Header title="BeatStream" />
-{/if}
-
 
 <main>
 	<slot />

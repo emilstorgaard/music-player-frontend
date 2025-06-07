@@ -1,6 +1,6 @@
 <script lang="ts">
     import PlaylistList from '$lib/components/PlaylistList.svelte';
-    import { selectedPlaylistStore, playlistsStore } from '$lib/stores/playlistStore';
+    import { selectedPlaylistStore, selectedPlaylistSongsStore, playlistsStore } from '$lib/stores/playlistStore';
 	import PlaylistCreateModal from '$lib/components/PlaylistCreateModal.svelte';
     import { deletePlaylist } from '$lib/utils/playlists';
     import AddSongsToPlaylistModal from '$lib/components/AddSongsToPlaylistModal.svelte';
@@ -86,7 +86,7 @@
     <div class="h-[70vh] lg:w-1/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4">
 
         <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray">
-            <h2 class="text-xl font-semibold text-white text-left">Playlists</h2>
+            <h2 class="text-xl font-semibold text-white text-left">Your Playlists</h2>
             <button class="p-2 rounded-full hover:bg-green transition" on:click={openModal} title="Create Playlist">
                 <!-- Add Icon (SVG) -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

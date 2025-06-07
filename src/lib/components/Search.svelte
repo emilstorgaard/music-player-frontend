@@ -1,47 +1,23 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
     import { searchQuery, search, searchResults } from '$lib/utils/search';
 	import SearchResult from './SearchResult.svelte';
 
     let showSearchResults = false;
 
-    const handleSearchChange = (event: Event) => {
+    const handleSearchChange = async (event: Event) => {
         const target = event.target as HTMLInputElement;
-        searchQuery.set(target.value);
+        const value = target.value.trim();
 
-        showSearchResults = target.value.trim() !== "";
-    };
+        searchQuery.set(value);
+        showSearchResults = value !== "";
 
-    const handleClickOutside = (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-        const searchInput = document.querySelector('input[placeholder="Search songs or playlists..."]');
-        const searchResultsDiv = document.querySelector('.search-results-container');
-
-        if (
-            searchInput && searchResultsDiv &&
-            !searchInput.contains(target) &&
-            !searchResultsDiv.contains(target)
-        ) {
-            showSearchResults = false;
+        if (value !== "") {
+            await searchResults(value);
+        } else {
+            // Clear results if input is empty
+            search.set({ playlists: [], songs: [] });
         }
     };
-
-    onMount(() => {
-        // Attach a global click listener
-        document.addEventListener('click', handleClickOutside);
-
-        const unsubscribe = searchQuery.subscribe((query) => {
-            if (query) {
-                searchResults(query);
-            }
-        });
-
-        return () => {
-            // Clean up listeners on destroy
-            document.removeEventListener('click', handleClickOutside);
-            unsubscribe();
-        };
-    });
 </script>
 
 <div class="flex-grow max-w-lg">   
@@ -60,8 +36,8 @@
     </div>
 
     {#if showSearchResults && ($search.songs.length > 0 || $search.playlists.length > 0)}
-        <div class="fixed w-1/2 left-1/2 transform -translate-x-1/2 mt-1 search-results-container">
-            <SearchResult songs={$search.songs} playlists={$search.playlists} />
-        </div>
-    {/if}
+    <div class="fixed left-1/2 transform -translate-x-1/2 w-3/4 max-w-[800px] z-50 flex items-center justify-center mt-1">
+        <SearchResult songs={$search.songs} playlists={$search.playlists} />
     </div>
+    {/if}
+</div>
