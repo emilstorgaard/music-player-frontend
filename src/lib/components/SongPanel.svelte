@@ -1,7 +1,7 @@
 <script lang="ts">
     import { currentSong, currentSongIndex, isShuffleEnabled, isPaused, currentTime, duration, volume } from '$lib/stores/songStore';
-    import { toggleShuffle, audio, togglePauseContinue, playPreviousSong, playNextSong, formatTime, seekSong, adjustVolume } from '$lib/utils/audioPlayer';
-    import { selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
+    import { toggleShuffle, togglePauseContinue, playPreviousSong, playNextSong, formatTime, seekSong, adjustVolume } from '$lib/utils/audioPlayer';
+    import { selectedPlaylistSongsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
     import { API_BASE_URL } from '$lib/utils/config';
 </script>
 
@@ -31,7 +31,7 @@
             bg-green hover:bg-light-green hover:ring-4 hover:ring-green"
             on:click={togglePauseContinue} 
             title={$isPaused ? 'Play' : 'Pause'} 
-            disabled={audio == null && $selectedPlaylistSongsStore.length <= 0}>
+            disabled={!$selectedPlaylistStore && !$currentSong}>
             <img src={$isPaused ? '/play.png' : '/pause.png'} alt={$isPaused ? 'Pause' : 'Play'} class="h-4 w-4" />
         </button>
 
