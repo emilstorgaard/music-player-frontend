@@ -67,10 +67,15 @@
         </button>
     </div>
     
-        <div class="text-left w-full">
+    <div class="text-left w-full flex justify-between items-center">
+        <div>
             <h3 class="text-lg font-semibold text-white">{song.title}</h3>
             <p class="text-sm text-light-gray">{song.artist}</p>
         </div>
+        <div class="text-sm text-light-gray w-12 text-right tabular-nums">
+            {song.duration}
+        </div>
+    </div>
 
     </div>
     {/each}

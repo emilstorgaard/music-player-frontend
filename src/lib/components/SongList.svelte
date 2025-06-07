@@ -152,26 +152,31 @@
         </button>
     </div>
     
-        <div class="text-left w-full">
-            <p class="text-lg text-white font-medium line-clamp-1">
-                {song.title} - {song.artist}
-            </p>
-            <button on:click={() => handleLikeSong(song)}
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                fill={song.isLiked ? 'red' : 'none'} 
-                viewBox="0 0 24 24" 
-                stroke-width="1.5" 
-                stroke="currentColor" 
-                class="w-6 h-6 text-red-500 hover:text-red-700 transition duration-150">
-                <path 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round" 
-                    d="M21.8 8.1c0-2.8-2.3-5.1-5.1-5.1-1.4 0-2.7.6-3.7 1.6-.9-1-2.3-1.6-3.7-1.6-2.8 0-5.1 2.3-5.1 5.1 0 3.7 3.4 6.6 8.1 11 4.7-4.4 8.1-7.3 8.1-11z" 
-                />
-            </svg>
-        </button>
-        </div>
+<div class="text-left w-full">
+  <p class="text-lg text-white font-medium line-clamp-1">
+    {song.title} - {song.artist}
+  </p>
+
+  <div class="flex items-center gap-2 mt-1">
+    <button on:click={() => handleLikeSong(song)}>
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           fill={song.isLiked ? 'red' : 'none'} 
+           viewBox="0 0 24 24" 
+           stroke-width="1.5" 
+           stroke="currentColor" 
+           class="w-6 h-6 text-red-500 hover:text-red-700 transition duration-150">
+        <path 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          d="M21.8 8.1c0-2.8-2.3-5.1-5.1-5.1-1.4 0-2.7.6-3.7 1.6-.9-1-2.3-1.6-3.7-1.6-2.8 0-5.1 2.3-5.1 5.1 0 3.7 3.4 6.6 8.1 11 4.7-4.4 8.1-7.3 8.1-11z" 
+        />
+      </svg>
+    </button>
+        <p class="text-sm text-light-gray">
+      {song.duration}
+    </p>
+  </div>
+</div>
     
         <div class="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition">
             <!-- Settings Button -->
