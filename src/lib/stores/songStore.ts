@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 import type { Song } from '$lib/utils/types';
 
-// State stores
 export const volume = writable<number>(1.0);
 export const isPaused = writable<boolean>(true);
 export const currentTime = writable<number>(0);

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import Modal from './Modal.svelte';
 	import { createPlaylist } from '$lib/utils/playlists';
 	import { userStore } from '$lib/stores/auth';
 	import { triggerToast } from '$lib/stores/toastStore';
+    import Modal from './Modal.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -64,7 +64,7 @@
 				/>
 			</div>
 
-			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Create</button>
+			<button type="submit" title="Create Playlist" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Create</button>
 		</div>
 	</form>
 </Modal>

@@ -1,12 +1,5 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-
-    const dispatch = createEventDispatcher();
-
-    function close() {
-        dispatch('close');
-    }
-
 	import { signup } from "$lib/utils/auth";
 	import Modal from './Modal.svelte';
 	import { triggerToast } from '$lib/stores/toastStore';
@@ -14,6 +7,12 @@
 	let email = "";
     let password = "";
 	let confirmPassword = "";
+
+    const dispatch = createEventDispatcher();
+
+    function close() {
+        dispatch('close');
+    }
 
     async function handleSignup(event: SubmitEvent) {
         event.preventDefault();
@@ -68,7 +67,7 @@
 				/>
 			</div>
 
-			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Signup</button>
+			<button type="submit" title="Signup" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Signup</button>
 		</div>
 	</form>
 </Modal>

@@ -88,42 +88,42 @@
 </div>
 
 <style>
-/* Button transitions and focus effects */
-button {
-    transition: background-color 0.2s, transform 0.2s;
-}
-button:active {
-    transform: scale(0.95);
-}
+	button {
+		transition: background-color 0.2s, transform 0.2s;
+	}
 
-/* Custom range slider thumb styles */
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #22c55e;
-    border-radius: 50%;
-    cursor: pointer;
-}
-input[type="range"]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: #22c55e;
-    border-radius: 50%;
-    cursor: pointer;
-}
-input[type="range"]::-ms-thumb {
-    width: 16px;
-    height: 16px;
-    background: #22c55e;
-    border-radius: 50%;
-    cursor: pointer;
-}
+	button:active {
+		transform: scale(0.95);
+	}
 
-/* Disabled state styles */
-button:disabled {
-    background-color: #6b7280; /* Gray color */
-    color: #d1d5db; /* Light gray text */
-}
+	input[type="range"]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		background: #22c55e;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+
+	input[type="range"]::-moz-range-thumb {
+		width: 16px;
+		height: 16px;
+		background: #22c55e;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	
+	input[type="range"]::-ms-thumb {
+		width: 16px;
+		height: 16px;
+		background: #22c55e;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+
+	button:disabled {
+		background-color: #6b7280;
+		color: #d1d5db;
+	}
 </style>

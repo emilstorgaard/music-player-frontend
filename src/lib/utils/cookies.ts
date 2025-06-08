@@ -1,6 +1,4 @@
 export function setCookie(name: string, value: string, options: { [key: string]: any } = {}) {
-    console.log("er dette client eller server side")
-
     let cookieString = `${name}=${value};`;
     for (const propName in options) {
         cookieString += `${propName}=${options[propName]};`;
@@ -13,7 +11,6 @@ export function deleteCookie(name: string, path: string = '/', domain: string | 
       const cookies = document.cookie.split(';');
       for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
         if (cookie.startsWith(name + '=')) {
           document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};${domain ? ` domain=${domain};` : ''}`;
           return;

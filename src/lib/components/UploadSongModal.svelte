@@ -5,16 +5,16 @@
 	import Modal from './Modal.svelte';
 	import { triggerToast } from '$lib/stores/toastStore';
 
+	let title = "";
+	let artist = "";
+	let image: File | null = null;
+	let audio: File | null = null;
+
     const dispatch = createEventDispatcher();
 
     function close() {
         dispatch('close');
     }
-
-	let title = "";
-	let artist = "";
-	let image: File | null = null;
-	let audio: File | null = null;
 
 	function handleImageChange(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -42,7 +42,6 @@
             triggerToast(error.message, 'error');
         }
     }
-
 </script>
 
 <Modal title="Upload Song" on:close={close}>
@@ -103,7 +102,7 @@
 				/>
 			</div>
 			
-			<button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Upload</button>
+			<button type="submit" title="Upload" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Upload</button>
 		</div>
 	</form>
 </Modal>

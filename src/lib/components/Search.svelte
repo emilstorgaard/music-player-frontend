@@ -14,7 +14,6 @@
         if (value !== "") {
             await searchResults(value);
         } else {
-            // Clear results if input is empty
             search.set({ playlists: [], songs: [] });
         }
     };
@@ -36,8 +35,8 @@
     </div>
 
     {#if showSearchResults && ($search.songs.length > 0 || $search.playlists.length > 0)}
-    <div class="fixed left-1/2 transform -translate-x-1/2 w-3/4 max-w-[800px] z-50 flex items-center justify-center mt-1">
-        <SearchResult songs={$search.songs} playlists={$search.playlists} />
-    </div>
+        <div class="fixed left-1/2 transform -translate-x-1/2 w-3/4 max-w-[800px] z-50 flex items-center justify-center mt-1">
+            <SearchResult songs={$search.songs} playlists={$search.playlists} />
+        </div>
     {/if}
 </div>

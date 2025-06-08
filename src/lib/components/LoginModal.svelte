@@ -1,19 +1,17 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import { triggerToast } from '$lib/stores/toastStore';
+	import { login } from "$lib/utils/auth";
+    import { fetchUserData } from '$lib/utils/user';
+    import Modal from './Modal.svelte';
 
     const dispatch = createEventDispatcher();
+	let email = "";
+    let password = "";
 
     function close() {
         dispatch('close');
     }
-
-    import { login } from "$lib/utils/auth";
-    import { fetchUserData } from '$lib/utils/user';
-    import Modal from './Modal.svelte';
-
-    let email = "";
-    let password = "";
 
     async function handleLogin(event: SubmitEvent) {
         event.preventDefault();
@@ -56,7 +54,7 @@
                 />
             </div>
 
-            <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Log ind</button>
+            <button type="submit" title="Login" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Log ind</button>
         </div>
     </form>
 </Modal>

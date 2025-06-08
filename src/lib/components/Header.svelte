@@ -4,20 +4,19 @@
 	import SignupModal from '$lib/components/SignupModal.svelte';
 	import UploadSongModal from '$lib/components/UploadSongModal.svelte';
 	import { logout } from "$lib/utils/auth";
-	import { userStore } from '$lib/stores/auth';  // Importér din userStore
+	import { userStore } from '$lib/stores/auth';
 	import { triggerToast } from "$lib/stores/toastStore";
 
 	export let title = 'title';
 
 	let isMenuOpen = false;
+	let showLoginModal = false;
+	let showSignupModal = false;
+	let showUploadSongModal = false;
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
 	}
-
-    let showLoginModal = false;
-	let showSignupModal = false;
-	let showUploadSongModal = false;
 
 	function openLoginModal() {
 		toggleMenu();
@@ -70,6 +69,7 @@
 				<button
 					on:click={toggleMenu}
 					type="button"
+					title="Menu"
 					class="inline-flex items-center p-2 text-light-gray rounded-lg hover:bg-gray focus:outline-none focus:ring-2 focus:ring-gray"
 					aria-controls="mobile-menu-2"
 					aria-expanded={isMenuOpen}
@@ -90,13 +90,13 @@
 			<div class="{isMenuOpen ? '' : 'hidden'} absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-dark-gray rounded-md bg-gray shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
 				{#if !$userStore} 
 			  	<div class="py-1" role="none">
-					<button on:click={openSignupModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Signup</button>
-					<button on:click={openLoginModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Log in</button>
+					<button title="Signup" on:click={openSignupModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Signup</button>
+					<button title="Login" on:click={openLoginModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Log in</button>
 			  	</div>
 				{:else}
 			  	<div class="py-1" role="none">
-					<button on:click={openUploadSongModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Upload Song</button>
-					<button on:click={handleLogout} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
+					<button title="Upload Song" on:click={openUploadSongModal} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-light-gray transition duration-200">Upload Song</button>
+					<button title="Logout" on:click={handleLogout} class="block w-full text-left px-4 py-2 text-sm text-light-gray hover:text-white hover:bg-red-600 rounded transition duration-200">Log out</button>
 			  	</div>
 				{/if}
 			</div>
@@ -111,7 +111,7 @@
 				<a href="/" class="-m-1.5 p-1.5">
 					<img class="h-8 w-auto" src="/favicon.ico" alt="" />
 				</a>
-				<button on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-light-gray">
+				<button title="Menu" on:click={toggleMenu} type="button" class="-m-2.5 rounded-md p-2.5 text-light-gray">
 					<svg
 						class="w-6 h-6"
 						fill="currentColor"
@@ -131,17 +131,17 @@
 				<div class="-my-6 divide-y divide-dark-gray">
 					<div class="space-y-4 py-6">
 						{#if !$userStore} 
-						<button on:click={openSignupModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
+						<button title="Signup" on:click={openSignupModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition duration-200">
 							Signup
 						</button>
-						<button on:click={openLoginModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
+						<button title="Login" on:click={openLoginModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
 							Log in
 						</button>
 						{:else}
-						<button on:click={openUploadSongModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
+						<button title="Upload Song" on:click={openUploadSongModal} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-green rounded hover:bg-light-green transition duration-200">
 							Upload Song
 						</button>
-						<button on:click={handleLogout} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
+						<button title="Logout" on:click={handleLogout} class="w-full max-w-md block py-2 px-4 text-center text-sm text-white bg-red-600 rounded hover:bg-red-700 transition duration-200">
 							Log out
 						</button>
 						{/if}

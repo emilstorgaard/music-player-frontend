@@ -7,19 +7,18 @@
 	import { page } from '$app/stores';
 	import { selectedPlaylistStore, selectedPlaylistSongsStore } from '$lib/stores/playlistStore';
 
-	import { userStore } from '$lib/stores/auth';  // Importér din userStore
+	import { userStore } from '$lib/stores/auth';
 	import Toast from '$lib/components/Toast.svelte';
 	import { currentSong } from '$lib/stores/songStore';
 
-	// Whenever the page updates, check if the user is logged out
 	$: if (!$page.data.loggedInUser) {
 	    selectedPlaylistStore.set(null);
 	    selectedPlaylistSongsStore.set([]);
-		userStore.set(null); // Hvis ikke logget ind, sæt userStore til null
+		userStore.set(null);
 	}
 
 	$: if ($page.data.loggedInUser) {
-		userStore.set($page.data.loggedInUser); // Sætter brugerdata i store
+		userStore.set($page.data.loggedInUser);
     }
 
 	$: title = $currentSong ? `${$currentSong.title} - ${$currentSong.artist}` : 'BeatStream';

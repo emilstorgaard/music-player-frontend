@@ -16,9 +16,9 @@ export async function login(email: string, password: string) {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
+            "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: formData.toString() // Convert FormData to URL-encoded format
+        body: formData.toString()
     });
 
     if (!response.ok) {
@@ -50,9 +50,9 @@ export async function signup(email: string, password: string, confirmPassword: s
     const response = await fetch(`${API_BASE_URL}/users/register`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded" // Required for FormData
+            "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: formData.toString() // Convert FormData to URL-encoded format
+        body: formData.toString()
     });
 
     if (!response.ok) {

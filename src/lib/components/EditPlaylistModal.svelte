@@ -1,10 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import Modal from './Modal.svelte';
     import { userStore } from '$lib/stores/auth';
 	import { updatePlaylist } from '$lib/utils/playlists';
 	import { selectedPlaylistStore } from '$lib/stores/playlistStore';
 	import { triggerToast } from '$lib/stores/toastStore';
+    import Modal from './Modal.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -71,7 +71,7 @@
                 />
             </div>
 
-            <button type="submit" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Save Changes</button>
+            <button type="submit" title="Edit Playlist" class="w-full bg-green text-white hover:bg-light-green px-4 py-2 rounded-md font-semibold transition duration-300 ease-in-out">Save Changes</button>
         </div>
     </form>
 </Modal>

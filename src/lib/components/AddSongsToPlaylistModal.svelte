@@ -7,6 +7,8 @@
 	import { triggerToast } from '$lib/stores/toastStore';
 
     export let playlistId: number;
+	
+    let selectedSongId: number | null = null;
 
     const dispatch = createEventDispatcher();
 
@@ -22,8 +24,6 @@
             search.set({ songs: [], playlists: [] });
         }
     });
-
-    let selectedSongId: number | null = null;
 
     async function handleAddSongToPlaylist(event: SubmitEvent) {
         event.preventDefault();
@@ -43,19 +43,25 @@
     }
 
     function closeModal() {
+        searchQuery.set('');
+        search.set({ songs: [], playlists: [] });
         dispatch('close');
     }
 </script>
 
 <Modal title="Add Songs to Playlist" on:close={closeModal}>
-        <input
-            type="text"
-            placeholder="Search for a song..."
-            on:input={handleSearch}
-            class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
-        />
+    <input
+        type="text"
+        placeholder="Search for a song..."
+        on:input={handleSearch}
+        class="w-full bg-gray text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-green mb-2"
+    />
 
-        {#if $search.songs.length > 0}
+    {#if $search.songs.length > 0}
+        <div
+            class="overflow-y-auto pr-2 space-y-2"
+            style="max-height: calc(100vh - 20rem);"
+        >
             <ul class="space-y-2">
                 {#each $search.songs as song}
                     <li
@@ -75,9 +81,10 @@
                     </li>
                 {/each}
             </ul>
-        {:else}
-            <p class="text-light-gray text-center">No songs found</p>
-        {/if}
+        </div>
+    {:else}
+        <p class="text-light-gray text-center">No songs found</p>
+    {/if}
 </Modal>
 
 

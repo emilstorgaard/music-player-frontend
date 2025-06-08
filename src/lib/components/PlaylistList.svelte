@@ -1,11 +1,11 @@
 <script lang="ts">
     import { playlistsStore, selectedPlaylistStore } from '$lib/stores/playlistStore';
-    import { userStore } from '$lib/stores/auth'; // Assuming you have a userStore
+    import { userStore } from '$lib/stores/auth';
 	import { dislikePlaylist, fetchPlaylists, likePlaylist } from '$lib/utils/playlists';
 	import { onMount } from 'svelte';
 	import { API_BASE_URL } from '$lib/utils/config';
-	import type { Playlist } from '$lib/utils/types';
 	import { triggerToast } from '$lib/stores/toastStore';
+	import type { Playlist } from '$lib/utils/types';
 
     onMount(() => {
         const unsubscribe = userStore.subscribe(user => {
@@ -14,7 +14,7 @@
             }
         });
 
-        return () => unsubscribe(); // Cleanup to prevent memory leaks
+        return () => unsubscribe();
     });
 
     async function handleLikePlaylist(playlist: Playlist) {
@@ -28,7 +28,6 @@
                 await likePlaylist(playlist.id, jwt);
             }
 
-            // Refresh playlists after the change
             fetchPlaylists(jwt);
         } catch (error: any) {
             triggerToast(error.message, 'error');
@@ -37,17 +36,16 @@
 
 </script>
 
-<!-- Scrollable List -->
 <div class="flex-1 overflow-y-auto mt-2 space-y-2">
 
     {#each $playlistsStore as playlist}
     <div class="p-2 rounded-md flex items-center gap-4 justify-between hover:bg-gray hover:cursor-pointer transition">
-        <img src={`${API_BASE_URL}/songs/cover/${playlist.coverImagePath}`} alt="{playlist.name}" class="w-16 h-16 rounded-md object-cover" /> <!-- TODO: est Get image from playlist endpoint -->
-        <button on:click={() => selectedPlaylistStore.set(playlist)} class="text-left w-full">
+        <img src={`${API_BASE_URL}/songs/cover/${playlist.coverImagePath}`} alt="{playlist.name}" class="w-16 h-16 rounded-md object-cover" />
+        <button title="Select Playlist" on:click={() => selectedPlaylistStore.set(playlist)} class="text-left w-full">
             <p class="text-lg text-white font-medium line-clamp-1">{playlist.name}</p>
         </button>
 
-        <button on:click={() => handleLikePlaylist(playlist)}>
+        <button title={playlist.isLiked ? "Dislike" : "Like"} on:click={() => handleLikePlaylist(playlist)}>
             <svg xmlns="http://www.w3.org/2000/svg" 
                 fill={playlist.isLiked ? 'red' : 'none'} 
                 viewBox="0 0 24 24" 
@@ -63,4 +61,5 @@
         </button>
     </div>
     {/each}
+	
 </div>

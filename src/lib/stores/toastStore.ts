@@ -10,7 +10,6 @@ export const toastStore = writable<{
   type: 'error'
 });
 
-// Function to trigger toast
 export function triggerToast(message: string, type: 'success' | 'error' | 'info', duration: number = 3000) {
     console.log("her sætter jeg toastStore", true, message, type);
   toastStore.set({ visible: true, message, type });
