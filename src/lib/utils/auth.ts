@@ -30,7 +30,7 @@ export async function login(email: string, password: string) {
 
     const { token } = data
 
-    setCookie("jwt", token, { maxAge: 60 * 60, path: '/' })
+    setCookie("jwt", token, { "max-age": 60 * 60 * 24, path: '/' });
     return
 }
 
