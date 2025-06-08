@@ -1,6 +1,35 @@
 import { selectedPlaylistSongsStore } from "$lib/stores/playlistStore";
 import { API_BASE_URL } from "./config";
 
+function getAudioDuration(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const audio = document.createElement('audio');
+    audio.preload = 'metadata';
+
+    audio.onloadedmetadata = () => {
+      const durationSeconds = audio.duration;
+      if (isNaN(durationSeconds) || durationSeconds === Infinity) {
+        reject(new Error("Could not read audio duration"));
+        return;
+      }
+
+      const hours = Math.floor(durationSeconds / 3600);
+      const minutes = Math.floor((durationSeconds % 3600) / 60);
+      const seconds = Math.floor(durationSeconds % 60);
+
+      const formatted = `${hours.toString().padStart(2, '0')}:` +
+                        `${minutes.toString().padStart(2, '0')}:` +
+                        `${seconds.toString().padStart(2, '0')}`;
+
+      resolve(formatted);
+    };
+
+    audio.onerror = () => reject(new Error("Error loading audio metadata"));
+    audio.src = URL.createObjectURL(file);
+  });
+}
+
+
 export async function uploadSong(title: string, artist: string, image: File | null, audio: File | null, jwt: string) {
     if (typeof title !== 'string' || typeof artist !== 'string' || !title || !artist || !audio || !(audio instanceof File)) {
         throw new Error("Invalid data.");
@@ -17,6 +46,7 @@ export async function uploadSong(title: string, artist: string, image: File | nu
     const formData = new FormData();
     formData.append("title", title);
     formData.append("artist", artist);
+    formData.append("duration", "00:03:02");//await getAudioDuration(audio));
     formData.append("audioFile", audio);
 
     if (image) {
@@ -98,6 +128,7 @@ export const updateSong = async (songId: number, title: string, artist: string, 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("artist", artist);
+    formData.append("duration", await getAudioDuration(audio!));
 
     if (image) {
         formData.append("coverImageFile", image);
@@ -186,8 +217,6 @@ export const removeSongFromPlaylist = async (playlistId: number, songId: number,
             'Authorization': `Bearer ${jwt}`,
         },
     });
-
-    console.log(response);
 
     if (!response.ok) {
         const errorData = await response.json();
