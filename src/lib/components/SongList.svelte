@@ -9,6 +9,7 @@
 	import { triggerToast } from '$lib/stores/toastStore';
 	import EditSongModal from './EditSongModal.svelte';
 	import type { Song } from '$lib/utils/types';
+	import { formatDuration } from '$lib/utils/format';
 
 	let selectedSongId: number | null = null;
 
@@ -180,7 +181,7 @@
 						</svg>
 					</button>
 					<p class="text-sm text-light-gray">
-						{song.duration}
+						{formatDuration(song.duration)}
 					</p>
 				</div>
 			</div>

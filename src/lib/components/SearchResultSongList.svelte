@@ -3,6 +3,7 @@
     import { API_BASE_URL } from '$lib/utils/config';
     import { currentSongIndex, isPaused } from '$lib/stores/songStore';
     import { playSong, pauseContinue } from '$lib/utils/audioPlayer';
+    import { formatDuration } from '$lib/utils/format';
 
     export let songs: Song[] = [];
 </script>
@@ -45,7 +46,7 @@
                     <p class="text-sm text-light-gray">{song.artist}</p>
                 </div>
                 <div class="text-sm text-light-gray w-12 text-right tabular-nums">
-                    {song.duration}
+                    {formatDuration(song.duration)}
                 </div>
             </div>
 
