@@ -30,9 +30,11 @@ export const playSong = async (song: Song) => {
         };
 
         audio.onended = playNextSong;
-        isPaused.set(false);
         await audio.play();
+        isPaused.set(false);
         currentSong.set(song);
+
+        setupMediaSession(song);
     } catch (error) {
         console.error('Error fetching song:', error);
     }
@@ -178,4 +180,37 @@ export const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+};
+
+const setupMediaSession = (song: Song) => {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.title,
+            artist: song.artist,
+            album: '', // Optional
+            artwork: [
+                {
+                    src: song.coverImagePath ?? '/default-cover.png',
+                    sizes: '512x512',
+                    type: 'image/png'
+                }
+            ]
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            pauseContinue(); // resumes playback
+        });
+
+        navigator.mediaSession.setActionHandler('pause', () => {
+            pauseContinue(); // pauses playback
+        });
+
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+            playPreviousSong();
+        });
+
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+            playNextSong();
+        });
+    }
 };

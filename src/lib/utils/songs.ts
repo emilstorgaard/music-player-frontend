@@ -46,7 +46,7 @@ export async function uploadSong(title: string, artist: string, image: File | nu
     const formData = new FormData();
     formData.append("title", title);
     formData.append("artist", artist);
-    formData.append("duration", "00:03:02");//await getAudioDuration(audio));
+    formData.append("duration", await getAudioDuration(audio!));
     formData.append("audioFile", audio);
 
     if (image) {
