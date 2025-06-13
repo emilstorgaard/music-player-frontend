@@ -113,55 +113,55 @@ export const togglePauseContinue = async () => {
     }
 };
 
-export const playNextSong = () => {
-    currentSongIndex.update((currentIndex) => {
-        const shuffleEnabled = get(isShuffleEnabled);
-        const songs = get(selectedPlaylistSongsStore);
-        const order = get(shuffledOrder);
+export const playNextSong = async () => {
+    const shuffleEnabled = get(isShuffleEnabled);
+    const songs = get(selectedPlaylistSongsStore);
+    const order = get(shuffledOrder);
+    const currentIndex = get(currentSongIndex);
 
-        if (currentIndex === null) return null;
+    if (currentIndex === null) return;
 
-        if (shuffleEnabled) {
-            const currentShuffleIndex = order.indexOf(currentIndex);
-            if (currentShuffleIndex < order.length - 1) {
-                const nextIndex = order[currentShuffleIndex + 1];
-                playSong(songs[nextIndex]);
-                return nextIndex;
-            }
-        } else if (currentIndex < songs.length - 1) {
-            playSong(songs[currentIndex + 1]);
-            return currentIndex + 1;
+    if (shuffleEnabled) {
+        const currentShuffleIndex = order.indexOf(currentIndex);
+        if (currentShuffleIndex < order.length - 1) {
+            const nextIndex = order[currentShuffleIndex + 1];
+            await playSong(songs[nextIndex]);
+            currentSongIndex.set(nextIndex);
+            return;
         }
+    } else if (currentIndex < songs.length - 1) {
+        const nextIndex = currentIndex + 1;
+        await playSong(songs[nextIndex]);
+        currentSongIndex.set(nextIndex);
+        return;
+    }
 
-        stopSong();
-        return null;
-    });
+    stopSong();
 };
 
-export const playPreviousSong = () => {
-    currentSongIndex.update((currentIndex) => {
-        const shuffleEnabled = get(isShuffleEnabled);
-        const songs = get(selectedPlaylistSongsStore);
-        const order = get(shuffledOrder);
+export const playPreviousSong = async () => {
+    const shuffleEnabled = get(isShuffleEnabled);
+    const songs = get(selectedPlaylistSongsStore);
+    const order = get(shuffledOrder);
+    const currentIndex = get(currentSongIndex);
 
-        if (currentIndex === null) return null;
+    if (currentIndex === null) return;
 
-        if (shuffleEnabled) {
-            const currentShuffleIndex = order.indexOf(currentIndex);
-            if (currentShuffleIndex > 0) {
-                const prevIndex = order[currentShuffleIndex - 1];
-                playSong(songs[prevIndex]);
-                return prevIndex;
-            }
-        } else if (currentIndex > 0) {
-            playSong(songs[currentIndex - 1]);
-            return currentIndex - 1;
+    if (shuffleEnabled) {
+        const currentShuffleIndex = order.indexOf(currentIndex);
+        if (currentShuffleIndex > 0) {
+            const prevIndex = order[currentShuffleIndex - 1];
+            await playSong(songs[prevIndex]);
+            currentSongIndex.set(prevIndex);
+            return;
         }
-
-        return currentIndex;
-    });
+    } else if (currentIndex > 0) {
+        const prevIndex = currentIndex - 1;
+        await playSong(songs[prevIndex]);
+        currentSongIndex.set(prevIndex);
+        return;
+    }
 };
-
 export const adjustVolume = (value: number) => {
     volume.set(value);
     if (audio) {
