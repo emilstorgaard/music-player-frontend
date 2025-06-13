@@ -190,7 +190,7 @@ const setupMediaSession = (song: Song) => {
             album: '', // Optional
             artwork: [
                 {
-                    src: song.coverImagePath ?? '/default-cover.png',
+                    src: `${API_BASE_URL}/Songs/cover/${song.coverImagePath}`,
                     sizes: '512x512',
                     type: 'image/png'
                 }
