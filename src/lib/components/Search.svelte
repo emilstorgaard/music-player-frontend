@@ -1,18 +1,17 @@
 <script lang="ts">
-    import { searchQuery, search, searchResults } from '$lib/utils/search';
+    import { searchQuery, search, getSearchResults } from '$lib/utils/search';
+    import { showSearchResults } from '$lib/stores/searchStore';
 	import SearchResult from './SearchResult.svelte';
-
-    let showSearchResults = false;
 
     const handleSearchChange = async (event: Event) => {
         const target = event.target as HTMLInputElement;
         const value = target.value.trim();
 
         searchQuery.set(value);
-        showSearchResults = value !== "";
+        showSearchResults.set(value !== "");
 
         if (value !== "") {
-            await searchResults(value);
+            await getSearchResults(value);
         } else {
             search.set({ playlists: [], songs: [] });
         }
@@ -34,7 +33,7 @@
             on:input={handleSearchChange} />
     </div>
 
-    {#if showSearchResults && ($search.songs.length > 0 || $search.playlists.length > 0)}
+    {#if $showSearchResults && ($search.songs.length > 0 || $search.playlists.length > 0)}
         <div class="fixed left-1/2 transform -translate-x-1/2 w-3/4 max-w-[800px] z-50 flex items-center justify-center mt-1">
             <SearchResult songs={$search.songs} playlists={$search.playlists} />
         </div>

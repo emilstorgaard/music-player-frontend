@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { searchQuery, search, searchResults } from '$lib/utils/search';
+    import { searchQuery, search, getSearchResults } from '$lib/utils/search';
 	import { userStore } from '$lib/stores/auth';
 	import { addSongToPlaylist } from '$lib/utils/songs';
 	import Modal from './Modal.svelte';
@@ -19,7 +19,7 @@
 
     searchQuery.subscribe((query) => {
         if (query.trim()) {
-            searchResults(query);
+            getSearchResults(query);
         } else {
             search.set({ songs: [], playlists: [] });
         }

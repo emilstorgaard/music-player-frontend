@@ -37,7 +37,7 @@
 			if (!playlistId) throw new Error('Not selected playlist.');
 
 			// Call fetchPlaylists after creating a playlist to get the updated list
-			await fetchSongs(playlistId, jwt);
+			await fetchSongs(playlistId);
 		} catch (error: any) {
 			triggerToast(error.message, 'error');
 		}
@@ -47,14 +47,10 @@
 		try {
 			closeEditSongModal();
 
-			const jwt = $userStore?.jwt;
-
-			if (!jwt) throw new Error('Authentication token (JWT) is required.');
-
 			const playlistId = $selectedPlaylistStore?.id;
 			if (!playlistId) throw new Error('Not selected playlist.');
 
-			await fetchSongs(playlistId, jwt);
+			await fetchSongs(playlistId);
 		} catch (error: any) {
 			triggerToast(error.message, 'error');
 		}
@@ -63,11 +59,7 @@
 	onMount(() => {
 		const unsubscribe = selectedPlaylistStore.subscribe((selectedPlaylist) => {
 			if (selectedPlaylist) {
-				const jwt = $userStore?.jwt;
-
-				if (!jwt) throw new Error('Authentication token (JWT) is required.');
-
-				fetchSongs(selectedPlaylist.id, jwt);
+				fetchSongs(selectedPlaylist.id);
 			}
 		});
 
@@ -88,7 +80,7 @@
 			const playlistId = $selectedPlaylistStore?.id;
 			if (!playlistId) throw new Error('Failed to update songs no playlist selected.');
 
-			fetchSongs(playlistId, jwt);
+			fetchSongs(playlistId);
 		} catch (error: any) {
 			triggerToast(error.message, 'error');
 		}
@@ -105,7 +97,7 @@
 
 			await removeSongFromPlaylist(playlistId, songId, jwt);
 
-			await fetchSongs(playlistId, jwt);
+			await fetchSongs(playlistId);
 		} catch (error: any) {
 			triggerToast(error.message, 'error');
 		}

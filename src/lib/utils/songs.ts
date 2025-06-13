@@ -69,15 +69,9 @@ export async function uploadSong(title: string, artist: string, image: File | nu
     return;
 }
 
-export const fetchSongs = async (playlistId: number, jwt: string | undefined) => {
-    if (!jwt) {
-        throw new Error("Not logged in.");
-    }
-       
-
+export const fetchSongs = async (playlistId: number) => {
     const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs`, {
-        method: "GET",
-        headers: { 'Authorization': `Bearer ${jwt}` }
+        method: "GET"
     })
 
     if (!response.ok) {
