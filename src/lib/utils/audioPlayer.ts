@@ -30,11 +30,12 @@ export const playSong = async (song: Song) => {
         };
 
         audio.onended = playNextSong;
-        await audio.play();
-        isPaused.set(false);
-        currentSong.set(song);
 
+        currentSong.set(song);
         setupMediaSession(song);
+        await audio.play();
+
+        isPaused.set(false);
     } catch (error) {
         console.error('Error fetching song:', error);
     }
@@ -162,6 +163,7 @@ export const playPreviousSong = async () => {
         return;
     }
 };
+
 export const adjustVolume = (value: number) => {
     volume.set(value);
     if (audio) {
@@ -189,6 +191,16 @@ const setupMediaSession = (song: Song) => {
             artist: song.artist,
             album: '', // Optional
             artwork: [
+                {
+                    src: `${API_BASE_URL}/Songs/cover/${song.coverImagePath}`,
+                    sizes: '96x96',
+                    type: 'image/png'
+                },
+                {
+                    src: `${API_BASE_URL}/Songs/cover/${song.coverImagePath}`,
+                    sizes: '128x128',
+                    type: 'image/png'
+                },
                 {
                     src: `${API_BASE_URL}/Songs/cover/${song.coverImagePath}`,
                     sizes: '512x512',
