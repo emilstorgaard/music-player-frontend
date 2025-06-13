@@ -56,7 +56,7 @@
                 />
                 <span class="text-sm text-light-gray truncate">{$currentSong?.title} - {$currentSong?.artist}</span>
             {:else}
-                <span class="text-sm text-light-gray">No song playing</span>
+                <span class="text-sm h-12 text-light-gray">No song playing</span>
             {/if}
         </div>
 
