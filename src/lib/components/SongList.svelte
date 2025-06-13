@@ -187,7 +187,7 @@
 			</div>
 
 			<div
-				class="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition"
+				class="absolute right-2 top-1/4 opacity-0 group-hover:opacity-100 transition"
 			>
 				<button title="Settings"
 					on:click={() => (selectedSongId = selectedSongId === song.id ? null : song.id)}

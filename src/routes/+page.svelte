@@ -78,7 +78,7 @@
 </script>
 
 <div class="flex-grow flex flex-col lg:flex-row gap-4 px-4">
-    <div class="max-h-[75vh] sm:h-[calc(100vh-12rem)] sm:max-h-none sm:mb-0 lg:w-1/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4 overflow-y-auto">
+    <div class="max-h-[75vh] sm:h-[calc(100vh-14rem)] sm:max-h-none sm:mb-0 lg:w-1/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4 overflow-y-auto">
         <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray">
             <h2 class="text-xl font-semibold text-white text-left">Your Playlists</h2>
             <button class="p-2 rounded-full hover:bg-green transition" on:click={openModal} title="Create Playlist">
@@ -100,7 +100,7 @@
     </div>
 
     {#if $selectedPlaylistStore}
-    <div class="max-h-[75vh] mb-44 sm:h-[calc(100vh-12rem)] sm:max-h-none sm:mb-0 lg:w-3/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4 overflow-y-auto">
+    <div class="max-h-[75vh] mb-44 sm:h-[calc(100vh-14rem)] sm:max-h-none sm:mb-0 lg:w-3/4 w-full flex flex-col bg-dark-gray rounded-lg shadow-lg p-4 overflow-y-auto">
         <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray">
             <div class="flex items-center gap-4">
                 <img src="{API_BASE_URL}/songs/cover/{$selectedPlaylistStore?.coverImagePath}"  
