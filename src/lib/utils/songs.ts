@@ -69,20 +69,21 @@ export async function uploadSong(title: string, artist: string, image: File | nu
     return;
 }
 
-export const fetchSongs = async (playlistId: number) => {
-    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs`, {
-        method: "GET"
-    })
+export const fetchSongs = async (playlistId: number, jwt?: string) => {
+    const headers: HeadersInit = jwt ? { Authorization: `Bearer ${jwt}` } : {};
 
+    const response = await fetch(`${API_BASE_URL}/Playlists/${playlistId}/songs`, {
+        method: "GET",
+        headers
+    });
+    
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Get songs on playlist failed.");
     }
         
     const songs = await response.json();
-
     selectedPlaylistSongsStore.set(songs);
-    return;
 };
 
 export const addSongToPlaylist = async (playlistId: number, selectedSongId: number, jwt: string) => {
